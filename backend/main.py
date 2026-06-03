@@ -37,20 +37,20 @@ def get_profile():
         "primary_stack": "Python, JavaScript, C",
         "role": "System Engineer & Full-Stack Architect",
         "bio": (
-            "System Engineer & Full-Stack Architect specialized in building "
-            "high-performance distributed systems. Focused on code purity, "
+            "AI Automation Engineer and Full-Stack Architect with expertise in "
+            "designing and building high-performance systems. Focused on code purity, "
             "architectural integrity, and creating tools that empower other developers."
         ),
         "education": [
             {
                 "period": "2010-2024",
                 "institution": "Central Board of Secondary Education (CBSE)",
-                "details": "PCM"
+                "details": "Schooling (PCM) - Focus on science stream with Physics, Chemistry, and Mathematics (PCM)."
             },
             {
                 "period": "2024-2028",
                 "institution": "APJ Abdul Kalam Technological University (KTU)",
-                "details": "BTech Computer Science"
+                "details": "BTech in Computer Science - Specializing in software systems, algorithms, and full-stack computing."
             }
         ]
     }

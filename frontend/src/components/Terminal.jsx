@@ -46,12 +46,13 @@ export default function Terminal({ profileData, onNavigate, onContactClick }) {
 [STATUS]: Open_to_Collaborate
 [PRIMARY_STACK]: Rust, TypeScript, Go
 
-BIO: System Engineer & Full-Stack Architect specialized in building high-performance distributed systems. Focused on code purity, architectural integrity, and creating tools that empower other developers.
+BIO: AI Automation Engineer and Full-Stack Architect with expertise in designing and building high-performance systems. Focused on code purity, architectural integrity, and creating tools that empower other developers.
 
 [EDUCATION]:
-  - 2010-2024: Central Board of Secondary Education (CBSE), PCM
-  - 2024-2028: APJ Abdul Kalam Technological University (KTU)
-    Course: BTech Computer Science`;
+  - Central Board of Secondary Education (CBSE) (2010 - 2024)
+    Schooling (PCM) - Focus on science stream with Physics, Chemistry, and Mathematics (PCM).
+  - APJ Abdul Kalam Technological University (KTU) (2024 - 2028)
+    BTech in Computer Science - Specializing in software systems, algorithms, and full-stack computing.`;
       } else if (cmdLower === 'projects') {
         reply = `00. [PROJECT_OMNITHREAD] -> High-Concurrency Data Engine
     A custom runtime built in Rust to handle millions of simultaneous websocket connections.
@@ -125,7 +126,7 @@ BIO: System Engineer & Full-Stack Architect specialized in building high-perform
           </div>
 
           <p className="term-bio">
-            {profileData?.bio || "System Engineer & Full-Stack Architect specialized in building high-performance distributed systems. Focused on code purity, architectural integrity, and creating tools that empower other developers."}
+            {profileData?.bio || "AI Automation Engineer and Full-Stack Architect with expertise in designing and building high-performance systems. Focused on code purity, architectural integrity, and creating tools that empower other developers."}
           </p>
 
           <div className="term-grid">
