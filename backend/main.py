@@ -77,7 +77,7 @@ def get_skills():
         "languages": ["Python", "C", "C++", "JavaScript", "Java","Dart"],
         "frameworks": ["Flutter","Node.js","Express.js"],
         "tools_&_design":["Linux","Git","GitHub","Canva","Figma"],
-        "infrastructure": ["AWS"],
+        "infrastructure": ["AWS","Claude"],
         "databases": ["PostgreSQL", "Redis", "MySQL","SQLite","MongoDB"]
         #"protocols": ["gRPC", "HTTP/3", "WebSocket", "MQTT"]
     }

@@ -41,8 +41,8 @@ export default function Terminal({ profileData, onNavigate, onContactClick }) {
         setInputValue('');
         return;
       } else if (cmdLower === 'whoami') {
-        reply = `[NAME]: Alex_Reed
-[LOCATION]: Austin_TX
+        reply = `[NAME]: Renu_Alias
+[LOCATION]: Kochi
 [STATUS]: Open_to_Collaborate
 [PRIMARY_STACK]: Rust, TypeScript, Go
 
@@ -60,7 +60,7 @@ BIO: System Engineer & Full-Stack Architect specialized in building high-perform
   "languages": ["Python", "C", "C++", "JavaScript", "Java","Dart"],
   "frameworks": ["Flutter","Node.js","Express.js"],
   "tools_&_design":["Linux","Git","GitHub","Canva","Figma"],
-  "infrastructure": ["AWS"],
+  "infrastructure": ["AWS","Claude"],
   "databases": ["PostgreSQL", "Redis", "MySQL","SQLite","MongoDB"]
 }`;
       } else if (cmdLower === 'contact') {
@@ -69,7 +69,7 @@ BIO: System Engineer & Full-Stack Architect specialized in building high-perform
           onContactClick();
         }, 800);
       } else if (cmdLower === 'neofetch') {
-        reply = `   .-.      alex@reed-server
+        reply = `   .-.      renu@alias-server
   (o o)     ----------------
   | O |     OS: RustOS x86_64
    \\=/      Kernel: 5.14.0-custom-concurrency
@@ -125,16 +125,16 @@ BIO: System Engineer & Full-Stack Architect specialized in building high-perform
 
           <div className="term-grid">
             <div className="term-grid-item">
-              <span className="term-label">[NAME]:</span> <span className="term-val">{profileData?.name || "Alex_Reed"}</span>
+              <span className="term-label">[NAME]:</span> <span className="term-val">{profileData?.name || "Renu_Alias"}</span>
             </div>
             <div className="term-grid-item">
-              <span className="term-label">[LOCATION]:</span> <span className="term-val">{profileData?.location || "Austin_TX"}</span>
+              <span className="term-label">[LOCATION]:</span> <span className="term-val">{profileData?.location || "Kochi"}</span>
             </div>
             <div className="term-grid-item">
               <span className="term-label">[STATUS]:</span> <span className="term-val" style={{ color: 'var(--accent-green)' }}>{profileData?.status || "Open_to_Collaborate"}</span>
             </div>
             <div className="term-grid-item">
-              <span className="term-label">[PRIMARY_STACK]:</span> <span className="term-val">{profileData?.primary_stack || "Rust, TypeScript, Go"}</span>
+              <span className="term-label">[PRIMARY_STACK]:</span> <span className="term-val">{profileData?.primary_stack || ["Python", "C", "JavaScript", "Java"]}</span>
             </div>
           </div>
 
