@@ -74,10 +74,10 @@ def get_projects():
 @app.get("/api/skills")
 def get_skills():
     return {
-        "languages": ["Rust", "Go", "C++", "TypeScript", "Python"],
-        "infrastructure": ["Kubernetes", "Docker", "Terraform", "AWS"],
-        "databases": ["PostgreSQL", "Redis", "Elasticsearch", "ClickHouse"],
-        "protocols": ["gRPC", "HTTP/3", "WebSocket", "MQTT"]
+        "languages": ["Python", "C", "C++", "JavaScript", "Java","Dart"],
+        "infrastructure": ["AWS"],
+        "databases": ["PostgreSQL", "Redis", "MySQL","SQLite","MongoDB"],
+        #"protocols": ["gRPC", "HTTP/3", "WebSocket", "MQTT"]
     }
 
 @app.get("/api/health")
