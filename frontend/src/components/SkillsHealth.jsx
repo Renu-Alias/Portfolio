@@ -3,10 +3,11 @@ import React from 'react';
 export default function SkillsHealth({ skillsData, healthData }) {
   // Fallbacks matching screen.png
   const skills = skillsData || {
-    languages: ["Rust", "Go", "C++", "TypeScript", "Python"],
-    infrastructure: ["Kubernetes", "Docker", "Terraform", "AWS"],
-    databases: ["PostgreSQL", "Redis", "Elasticsearch", "ClickHouse"],
-    protocols: ["gRPC", "HTTP/3", "WebSocket", "MQTT"]
+    languages: ["Python", "C", "C++", "JavaScript", "Java", "Dart"],
+    frameworks: ["Flutter", "Node.js", "Express.js"],
+    "tools_&_design": ["Linux", "Git", "GitHub", "Canva", "Figma"],
+    infrastructure: ["AWS", "Claude"],
+    databases: ["PostgreSQL", "Redis", "MySQL", "SQLite", "MongoDB"]
   };
 
   const health = healthData || {
@@ -41,6 +42,20 @@ export default function SkillsHealth({ skillsData, healthData }) {
           </div>
 
           <div className="skill-card">
+            <div className="skill-title">.frameworks</div>
+            <div className="skill-list">
+              {JSON.stringify(skills.frameworks)}
+            </div>
+          </div>
+
+          <div className="skill-card">
+            <div className="skill-title">.tools_&_design</div>
+            <div className="skill-list">
+              {JSON.stringify(skills["tools_&_design"])}
+            </div>
+          </div>
+
+          <div className="skill-card">
             <div className="skill-title">.infrastructure</div>
             <div className="skill-list">
               {JSON.stringify(skills.infrastructure)}
@@ -51,13 +66,6 @@ export default function SkillsHealth({ skillsData, healthData }) {
             <div className="skill-title">.databases</div>
             <div className="skill-list">
               {JSON.stringify(skills.databases)}
-            </div>
-          </div>
-
-          <div className="skill-card">
-            <div className="skill-title">.protocols</div>
-            <div className="skill-list">
-              {JSON.stringify(skills.protocols)}
             </div>
           </div>
         </div>

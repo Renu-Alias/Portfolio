@@ -83,6 +83,11 @@ body {
   height: 100%;
   flex-shrink: 0;
   user-select: none;
+  transition: width var(--transition-normal);
+}
+
+.sidebar.minimized {
+  width: 60px;
 }
 
 .sidebar-header {

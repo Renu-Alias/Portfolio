@@ -42,11 +42,16 @@ export default function Terminal({ profileData, onNavigate, onContactClick }) {
         return;
       } else if (cmdLower === 'whoami') {
         reply = `[NAME]: Renu_Alias
-[LOCATION]: Kochi
+[LOCATION]: Kochi, Kerala, India
 [STATUS]: Open_to_Collaborate
 [PRIMARY_STACK]: Rust, TypeScript, Go
 
-BIO: System Engineer & Full-Stack Architect specialized in building high-performance distributed systems. Focused on code purity, architectural integrity, and creating tools that empower other developers.`;
+BIO: System Engineer & Full-Stack Architect specialized in building high-performance distributed systems. Focused on code purity, architectural integrity, and creating tools that empower other developers.
+
+[EDUCATION]:
+  - 2010-2024: Central Board of Secondary Education (CBSE), PCM
+  - 2024-2028: APJ Abdul Kalam Technological University (KTU)
+    Course: BTech Computer Science`;
       } else if (cmdLower === 'projects') {
         reply = `00. [PROJECT_OMNITHREAD] -> High-Concurrency Data Engine
     A custom runtime built in Rust to handle millions of simultaneous websocket connections.
@@ -128,7 +133,7 @@ BIO: System Engineer & Full-Stack Architect specialized in building high-perform
               <span className="term-label">[NAME]:</span> <span className="term-val">{profileData?.name || "Renu_Alias"}</span>
             </div>
             <div className="term-grid-item">
-              <span className="term-label">[LOCATION]:</span> <span className="term-val">{profileData?.location || "Kochi"}</span>
+              <span className="term-label">[LOCATION]:</span> <span className="term-val">{profileData?.location || "Kochi, Kerala, India"}</span>
             </div>
             <div className="term-grid-item">
               <span className="term-label">[STATUS]:</span> <span className="term-val" style={{ color: 'var(--accent-green)' }}>{profileData?.status || "Open_to_Collaborate"}</span>
@@ -137,6 +142,36 @@ BIO: System Engineer & Full-Stack Architect specialized in building high-perform
               <span className="term-label">[PRIMARY_STACK]:</span> <span className="term-val">{profileData?.primary_stack || ["Python", "C", "JavaScript", "Java"]}</span>
             </div>
           </div>
+
+          {profileData?.education ? (
+            <div style={{ marginTop: '16px' }}>
+              <span className="term-label">[EDUCATION]:</span>
+              <div style={{ marginLeft: '12px', marginTop: '6px', fontSize: '13px', lineHeight: '1.5' }}>
+                {profileData.education.map((edu, idx) => (
+                  <div key={idx} style={{ marginBottom: '8px' }}>
+                    <div>• {edu.period}: {edu.institution}</div>
+                    <div style={{ marginLeft: '12px', color: 'var(--text-muted)' }}>
+                      {edu.details.startsWith("Course") || edu.details === "PCM" ? edu.details : `Course: ${edu.details}`}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div style={{ marginTop: '16px' }}>
+              <span className="term-label">[EDUCATION]:</span>
+              <div style={{ marginLeft: '12px', marginTop: '6px', fontSize: '13px', lineHeight: '1.5' }}>
+                <div style={{ marginBottom: '8px' }}>
+                  <div>• 2010-2024: Central Board of Secondary Education (CBSE)</div>
+                  <div style={{ marginLeft: '12px', color: 'var(--text-muted)' }}>PCM</div>
+                </div>
+                <div style={{ marginBottom: '8px' }}>
+                  <div>• 2024-2028: APJ Abdul Kalam Technological University (KTU)</div>
+                  <div style={{ marginLeft: '12px', color: 'var(--text-muted)' }}>Course: BTech Computer Science</div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Terminal History */}
           <div style={{ marginTop: '12px' }}>

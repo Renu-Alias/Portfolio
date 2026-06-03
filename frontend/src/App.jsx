@@ -24,6 +24,7 @@ function App() {
   // Modals / Overlay triggers
   const [isPushOpen, setIsPushOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
 
   // Fetch initial profile/skills/projects info
   useEffect(() => {
@@ -148,6 +149,8 @@ function App() {
         onNavigate={handleNavigation}
         onPushClick={() => setIsPushOpen(true)}
         onContactClick={() => setIsContactOpen(true)}
+        isMinimized={isSidebarMinimized}
+        onToggleMinimize={() => setIsSidebarMinimized(!isSidebarMinimized)}
       />
 
       {/* Main Terminal and Portfolios Dashboard Content */}

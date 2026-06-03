@@ -32,7 +32,7 @@ class ContactMessage(BaseModel):
 def get_profile():
     return {
         "name": "Renu_Alias",
-        "location": "Kochi",
+        "location": "Kochi, Kerala, India",
         "status": "Open_to_Collaborate",
         "primary_stack": "Python, JavaScript, C",
         "role": "System Engineer & Full-Stack Architect",
@@ -40,7 +40,19 @@ def get_profile():
             "System Engineer & Full-Stack Architect specialized in building "
             "high-performance distributed systems. Focused on code purity, "
             "architectural integrity, and creating tools that empower other developers."
-        )
+        ),
+        "education": [
+            {
+                "period": "2010-2024",
+                "institution": "Central Board of Secondary Education (CBSE)",
+                "details": "PCM"
+            },
+            {
+                "period": "2024-2028",
+                "institution": "APJ Abdul Kalam Technological University (KTU)",
+                "details": "BTech Computer Science"
+            }
+        ]
     }
 
 @app.get("/api/projects")

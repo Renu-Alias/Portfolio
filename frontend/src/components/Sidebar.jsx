@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Sidebar({ activeSection, onNavigate, onPushClick, onContactClick }) {
+export default function Sidebar({ activeSection, onNavigate, onPushClick, onContactClick, isMinimized, onToggleMinimize }) {
   const fileItems = [
     { id: 'whoami', name: 'index.js', isDir: false, icon: 'JS' },
     { id: 'projects', name: 'projects.py', isDir: false, icon: 'PY' },
@@ -10,10 +10,18 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
   ];
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-header">
-        <h2 className="sidebar-title">SRC_EXPLORER</h2>
-        <div className="sidebar-version">v1.0.4-stable</div>
+    <aside className={`sidebar ${isMinimized ? 'minimized' : ''}`}>
+      <div className="sidebar-header" style={{ display: 'flex', flexDirection: 'column', alignItems: isMinimized ? 'center' : 'flex-start' }}>
+        {!isMinimized ? (
+          <>
+            <h2 className="sidebar-title">SRC_EXPLORER</h2>
+            <div className="sidebar-version">v1.0.4-stable</div>
+          </>
+        ) : (
+          <span className="tree-icon" title="Explorer" style={{ color: 'var(--text-primary)', margin: 0, fontSize: '16px' }}>
+            📁
+          </span>
+        )}
       </div>
 
       <nav className="sidebar-content">
@@ -25,8 +33,10 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
                 key={index}
                 className={`tree-item ${isActive ? 'active' : ''}`}
                 onClick={() => onNavigate(item.id)}
+                title={isMinimized ? item.name : undefined}
+                style={{ justifyContent: isMinimized ? 'center' : 'flex-start', padding: isMinimized ? '12px 0' : '8px 24px' }}
               >
-                <span className="tree-icon">
+                <span className="tree-icon" style={{ margin: isMinimized ? 0 : '0 10px 0 0' }}>
                   {item.icon === 'JS' && (
                     <span style={{ color: '#f7df1e', fontWeight: 'bold', fontSize: '11px' }}>JS</span>
                   )}
@@ -51,19 +61,34 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
                     <span style={{ color: '#8b949e', fontWeight: 'bold', fontSize: '11px' }}>MD</span>
                   )}
                 </span>
-                {item.name}
+                {!isMinimized && item.name}
               </li>
             );
           })}
         </ul>
       </nav>
 
-      <div className="sidebar-footer">
-        <button className="btn-push" onClick={onPushClick}>
-          git push
+      <div className="sidebar-footer" style={{ padding: isMinimized ? '16px 8px' : '20px' }}>
+        <button
+          className="btn-push"
+          onClick={onPushClick}
+          title="git push"
+          style={{
+            padding: isMinimized ? '8px 0' : '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: isMinimized ? '36px' : 'auto'
+          }}
+        >
+          {isMinimized ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+          ) : 'git push'}
         </button>
 
-        <div className="sidebar-controls">
+        <div className="sidebar-controls" style={{ flexDirection: isMinimized ? 'column' : 'row', gap: isMinimized ? '12px' : '0', alignItems: 'center', justifyContent: isMinimized ? 'center' : 'space-between' }}>
           <div className="control-icon" title="Settings" onClick={onContactClick}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" />
@@ -71,7 +96,7 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
             </svg>
           </div>
 
-          <div className="control-icon" title="Toggle Layout" onClick={() => onNavigate('whoami')}>
+          <div className="control-icon" title="Toggle Layout" onClick={onToggleMinimize}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               <line x1="9" y1="3" x2="9" y2="21" />
