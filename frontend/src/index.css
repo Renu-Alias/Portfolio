@@ -245,31 +245,6 @@ body {
   text-shadow: 0 0 4px rgba(0, 255, 102, 0.3);
 }
 
-.nav-actions {
-  display: flex;
-  gap: 12px;
-  color: var(--text-muted);
-}
-
-.nav-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
-
-.nav-icon-btn:hover {
-  color: var(--accent-green);
-  border-color: rgba(0, 255, 102, 0.25);
-  background: rgba(0, 255, 102, 0.05);
-}
-
 /* Workspace Panels */
 .workspace {
   padding: 32px;
