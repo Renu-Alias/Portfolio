@@ -8,7 +8,7 @@ from datetime import datetime
 
 app = FastAPI(
     title="Dev Portfolio API",
-    description="Backend services for Alex Reed's developer portfolio",
+    description="Backend services for Renu developer portfolio",
     version="1.0.4"
 )
 
@@ -31,10 +31,10 @@ class ContactMessage(BaseModel):
 @app.get("/api/profile")
 def get_profile():
     return {
-        "name": "Alex_Reed",
-        "location": "Austin_TX",
+        "name": "Renu_Alias",
+        "location": "Kochi",
         "status": "Open_to_Collaborate",
-        "primary_stack": "Rust, TypeScript, Go",
+        "primary_stack": "Python, JavaScript, C",
         "role": "System Engineer & Full-Stack Architect",
         "bio": (
             "System Engineer & Full-Stack Architect specialized in building "
