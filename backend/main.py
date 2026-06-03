@@ -1,16 +1,16 @@
 import random
 import logging
 import smtplib
+import json
+import os
 from email.message import EmailMessage
 from pathlib import Path
+from datetime import datetime
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-import json
-import os
-from datetime import datetime
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -37,6 +37,64 @@ class ContactMessage(BaseModel):
     name: str = Field(..., max_length=100)
     email: str = Field(..., max_length=150)
     message: str = Field(..., max_length=2000)
+
+
+def _build_email_message(msg: ContactMessage) -> EmailMessage:
+    receiver = os.getenv("RECEIVER_EMAIL", AUTHOR_EMAIL)
+    smtp_user = os.getenv("SMTP_USER", AUTHOR_EMAIL)
+
+    email_msg = EmailMessage()
+    email_msg["Subject"] = f"Portfolio contact from {msg.name}"
+    email_msg["From"] = smtp_user
+    email_msg["To"] = receiver
+    email_msg["Reply-To"] = msg.email
+    email_msg.set_content(
+        f"Name: {msg.name}\n"
+        f"Email: {msg.email}\n"
+        f"Message:\n{msg.message}\n\n"
+        f"Timestamp: {datetime.utcnow().isoformat()} UTC"
+    )
+    return email_msg
+
+
+def send_via_smtp(msg: ContactMessage) -> bool:
+    smtp_password = os.getenv("SMTP_PASSWORD")
+    if not smtp_password:
+        return False
+
+    smtp_user = os.getenv("SMTP_USER", AUTHOR_EMAIL)
+    email_msg = _build_email_message(msg)
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=20) as server:
+            server.login(smtp_user, smtp_password)
+            server.send_message(email_msg)
+        return True
+    except Exception as ssl_err:
+        logging.warning("SMTP SSL failed, trying STARTTLS: %s", ssl_err)
+
+    with smtplib.SMTP(os.getenv("SMTP_SERVER", "smtp.gmail.com"), int(os.getenv("SMTP_PORT", "587")), timeout=20) as server:
+        server.starttls()
+        server.login(smtp_user, smtp_password)
+        server.send_message(email_msg)
+    return True
+
+
+def send_contact_email(msg: ContactMessage) -> bool:
+    """Send via Gmail SMTP when SMTP_PASSWORD is set in backend/.env."""
+    if not os.getenv("SMTP_PASSWORD"):
+        return False
+    try:
+        return send_via_smtp(msg)
+    except Exception as smtp_err:
+        logging.error("SMTP delivery failed: %s", smtp_err)
+        return False
+
+
+@app.get("/api/contact/info")
+def get_contact_info():
+    return {"author_email": AUTHOR_EMAIL}
+
 
 @app.get("/api/profile")
 def get_profile():
@@ -139,20 +197,16 @@ def post_contact(msg: ContactMessage):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to record message: {str(e)}")
 
-    email_sent = False
-    try:
-        email_sent = send_contact_email(msg)
-    except Exception as email_err:
-        logging.error(f"Failed to send email notification: {email_err}")
+    email_sent = send_contact_email(msg)
 
     return {
         "status": "SUCCESS",
         "email_sent": email_sent,
         "author_email": AUTHOR_EMAIL,
         "message": (
-            f"Message delivered to {AUTHOR_EMAIL}."
+            f"Your message was delivered to {AUTHOR_EMAIL}."
             if email_sent
-            else f"Message saved. Configure SMTP in backend/.env to deliver to {AUTHOR_EMAIL} automatically."
+            else "Message saved. Completing email delivery…"
         ),
     }
 

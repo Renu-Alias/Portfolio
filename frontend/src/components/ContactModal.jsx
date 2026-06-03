@@ -2,12 +2,29 @@ import React, { useState } from 'react';
 
 const AUTHOR_EMAIL = 'renualiasmeleth@gmail.com';
 
-function buildMailtoUrl({ name, email, message }) {
-  const subject = encodeURIComponent(`Portfolio contact from ${name}`);
-  const body = encodeURIComponent(
-    `Name: ${name}\nEmail: ${email}\n\n${message}`
-  );
-  return `mailto:${AUTHOR_EMAIL}?subject=${subject}&body=${body}`;
+async function sendViaFormSubmit({ name, email, message }) {
+  const response = await fetch(`https://formsubmit.co/ajax/${AUTHOR_EMAIL}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      message,
+      _subject: `Portfolio contact from ${name}`,
+      _replyto: email,
+      _template: 'table',
+      _captcha: 'false',
+    }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.success) {
+    throw new Error('Email relay rejected the transmission.');
+  }
+  return true;
 }
 
 export default function ContactModal({ isOpen, onClose }) {
@@ -18,7 +35,7 @@ export default function ContactModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
       setStatus('error');
@@ -27,41 +44,44 @@ export default function ContactModal({ isOpen, onClose }) {
     }
 
     setStatus('sending');
+    setErrorMsg('');
     setSuccessDetail('');
 
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Response failure from connection socket.');
-        return res.json();
-      })
-      .then(data => {
-        if (data.status === 'SUCCESS') {
-          setStatus('success');
-          const savedForm = { ...formData };
-          setFormData({ name: '', email: '', message: '' });
+    const payload = { ...formData };
 
-          if (data.email_sent) {
-            setSuccessDetail(
-              `Your message was emailed to ${data.author_email || AUTHOR_EMAIL}.`
-            );
-          } else {
-            setSuccessDetail(
-              `Message saved locally. Opening your mail client to send to ${data.author_email || AUTHOR_EMAIL}…`
-            );
-            window.location.href = buildMailtoUrl(savedForm);
-          }
-        } else {
-          throw new Error(data.detail || 'Malformed status header.');
-        }
-      })
-      .catch(err => {
-        setStatus('error');
-        setErrorMsg(err.message || 'System transmission interruption.');
+    try {
+      const apiRes = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
+      const apiData = await apiRes.json().catch(() => ({}));
+
+      if (!apiRes.ok) {
+        throw new Error(
+          typeof apiData.detail === 'string'
+            ? apiData.detail
+            : 'Failed to save message on server.'
+        );
+      }
+
+      let emailDelivered = apiData.email_sent === true;
+
+      if (!emailDelivered) {
+        await sendViaFormSubmit(payload);
+        emailDelivered = true;
+      }
+
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      setSuccessDetail(`Your message was delivered to ${AUTHOR_EMAIL}.`);
+    } catch (err) {
+      setStatus('error');
+      setErrorMsg(
+        err.message ||
+          `Could not deliver to ${AUTHOR_EMAIL}. Check your connection and try again.`
+      );
+    }
   };
 
   const handleInputChange = (e) => {
