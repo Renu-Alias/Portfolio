@@ -1,10 +1,20 @@
 import random
+import logging
+import smtplib
+from email.message import EmailMessage
+from pathlib import Path
+
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import json
 import os
 from datetime import datetime
+
+load_dotenv(Path(__file__).parent / ".env")
+
+AUTHOR_EMAIL = os.getenv("AUTHOR_EMAIL", "renualiasmeleth@gmail.com")
 
 app = FastAPI(
     title="Dev Portfolio API",
@@ -129,33 +139,22 @@ def post_contact(msg: ContactMessage):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to record message: {str(e)}")
 
-    # Send email notification
+    email_sent = False
     try:
-        import os, smtplib
-        from email.message import EmailMessage
-
-        smtp_server = os.getenv('SMTP_SERVER')
-        smtp_port = int(os.getenv('SMTP_PORT', '587'))
-        smtp_user = os.getenv('SMTP_USER')
-        smtp_password = os.getenv('SMTP_PASSWORD')
-        receiver_email = os.getenv('RECEIVER_EMAIL')
-
-        if smtp_server and smtp_user and smtp_password and receiver_email:
-            email_msg = EmailMessage()
-            email_msg['Subject'] = f"New contact message from {msg.name}"
-            email_msg['From'] = smtp_user
-            email_msg['To'] = receiver_email
-            email_msg.set_content(f"Name: {msg.name}\nEmail: {msg.email}\nMessage:\n{msg.message}\nTimestamp: {datetime.utcnow().isoformat()}")
-            with smtplib.SMTP(smtp_server, smtp_port) as server:
-                server.starttls()
-                server.login(smtp_user, smtp_password)
-                server.send_message(email_msg)
+        email_sent = send_contact_email(msg)
     except Exception as email_err:
-        # Log the error but do not fail the request
-        import logging
         logging.error(f"Failed to send email notification: {email_err}")
 
-    return {"status": "SUCCESS", "message": "Message recorded and notification sent (if configured)."}
+    return {
+        "status": "SUCCESS",
+        "email_sent": email_sent,
+        "author_email": AUTHOR_EMAIL,
+        "message": (
+            f"Message delivered to {AUTHOR_EMAIL}."
+            if email_sent
+            else f"Message saved. Configure SMTP in backend/.env to deliver to {AUTHOR_EMAIL} automatically."
+        ),
+    }
 
 @app.get("/api/git-push-logs")
 def get_git_push_logs():

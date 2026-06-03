@@ -6,7 +6,6 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
     { id: 'projects', name: 'projects.py', isDir: false, icon: 'PY' },
     { id: 'logs', name: 'activity.log', isDir: false, icon: 'LOG' },
     { id: 'skills', name: 'skills/', isDir: true, icon: 'DIR' },
-    { id: 'whoami', name: 'README.md', isDir: false, icon: 'MD' }
   ];
 
   return (
@@ -26,11 +25,11 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
 
       <nav className="sidebar-content">
         <ul className="sidebar-tree">
-          {fileItems.map((item, index) => {
+          {fileItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
               <li
-                key={index}
+                key={item.name}
                 className={`tree-item ${isActive ? 'active' : ''}`}
                 onClick={() => onNavigate(item.id)}
                 title={isMinimized ? item.name : undefined}
@@ -56,9 +55,6 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: '#ff9e3b' }}>
                       <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                     </svg>
-                  )}
-                  {item.icon === 'MD' && (
-                    <span style={{ color: '#8b949e', fontWeight: 'bold', fontSize: '11px' }}>MD</span>
                   )}
                 </span>
                 {!isMinimized && item.name}

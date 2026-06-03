@@ -118,6 +118,10 @@ function App() {
     };
   }, []);
 
+  const openApiDocs = () => {
+    window.open('http://localhost:8000/docs', '_blank', 'noopener,noreferrer');
+  };
+
   // Viewport navigation scroll trigger
   const handleNavigation = (id) => {
     setActiveSection(id);
@@ -176,18 +180,31 @@ function App() {
           </ul>
 
           <div className="nav-actions">
-            {/* Monitor console SVG toggle icons */}
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ cursor: 'pointer' }}>
+            <button
+              type="button"
+              className="nav-icon-btn"
+              title="System health monitor"
+              aria-label="Open system health monitor"
+              onClick={() => handleNavigation('skills')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
                 <line x1="8" y1="21" x2="16" y2="21" />
                 <line x1="12" y1="17" x2="12" y2="21" />
               </svg>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ cursor: 'pointer' }}>
+            </button>
+            <button
+              type="button"
+              className="nav-icon-btn"
+              title="API documentation"
+              aria-label="Open API documentation"
+              onClick={openApiDocs}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="16 18 22 12 16 6" />
                 <polyline points="8 6 2 12 8 18" />
               </svg>
-            </div>
+            </button>
           </div>
         </header>
 

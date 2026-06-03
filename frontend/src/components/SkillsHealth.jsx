@@ -69,16 +69,11 @@ export default function SkillsHealth({ skillsData, healthData }) {
               {JSON.stringify(skills.databases)}
             </div>
           </div>
-        </div>
 
-        <div className="soft-skills-section">
-          <div className="soft-skills-header">Soft Skills</div>
-          <div className="skill-card soft-skills-card">
+          <div className="skill-card skill-card-full">
             <div className="skill-title">.soft_skills</div>
-            <div className="skill-list soft-skills-list">
-              {(skills.soft_skills || []).map((skill) => (
-                <span key={skill} className="soft-skill-tag">{skill}</span>
-              ))}
+            <div className="skill-list">
+              {JSON.stringify(skills.soft_skills || [])}
             </div>
           </div>
         </div>

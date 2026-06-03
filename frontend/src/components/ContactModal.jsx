@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 
+const AUTHOR_EMAIL = 'renualiasmeleth@gmail.com';
+
+function buildMailtoUrl({ name, email, message }) {
+  const subject = encodeURIComponent(`Portfolio contact from ${name}`);
+  const body = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\n\n${message}`
+  );
+  return `mailto:${AUTHOR_EMAIL}?subject=${subject}&body=${body}`;
+}
+
 export default function ContactModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(null); // 'sending' | 'success' | 'error'
   const [errorMsg, setErrorMsg] = useState('');
+  const [successDetail, setSuccessDetail] = useState('');
 
   if (!isOpen) return null;
 
@@ -16,6 +27,7 @@ export default function ContactModal({ isOpen, onClose }) {
     }
 
     setStatus('sending');
+    setSuccessDetail('');
 
     fetch('/api/contact', {
       method: 'POST',
@@ -29,7 +41,19 @@ export default function ContactModal({ isOpen, onClose }) {
       .then(data => {
         if (data.status === 'SUCCESS') {
           setStatus('success');
+          const savedForm = { ...formData };
           setFormData({ name: '', email: '', message: '' });
+
+          if (data.email_sent) {
+            setSuccessDetail(
+              `Your message was emailed to ${data.author_email || AUTHOR_EMAIL}.`
+            );
+          } else {
+            setSuccessDetail(
+              `Message saved locally. Opening your mail client to send to ${data.author_email || AUTHOR_EMAIL}…`
+            );
+            window.location.href = buildMailtoUrl(savedForm);
+          }
         } else {
           throw new Error(data.detail || 'Malformed status header.');
         }
@@ -60,7 +84,7 @@ export default function ContactModal({ isOpen, onClose }) {
                 TRANSMISSION SUCCESSFUL
               </div>
               <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
-                Your handshake was accepted. Connection saved in contact_messages.json.
+                {successDetail}
               </p>
               <button
                 type="button"
@@ -68,6 +92,7 @@ export default function ContactModal({ isOpen, onClose }) {
                 style={{ marginTop: '20px' }}
                 onClick={() => {
                   setStatus(null);
+                  setSuccessDetail('');
                   onClose();
                 }}
               >
@@ -115,6 +140,10 @@ export default function ContactModal({ isOpen, onClose }) {
                   disabled={status === 'sending'}
                 />
               </div>
+
+              <p style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '4px' }}>
+                Deliver to: {AUTHOR_EMAIL}
+              </p>
 
               {status === 'error' && (
                 <div style={{ color: 'var(--accent-orange)', fontSize: '12px', marginTop: '4px' }}>
