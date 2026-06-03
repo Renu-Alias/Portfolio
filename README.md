@@ -129,4 +129,4 @@ npm run build
 **Renu Alias**
 - **Location**: Kochi, India
 - **Status**: Open to Collaborate
-- **Specializations**: System Engineering & Full-Stack Architecture
+- **Specializations**: AI Automation and Engineering & Full-Stack Architecture
