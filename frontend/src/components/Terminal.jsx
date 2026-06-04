@@ -51,7 +51,7 @@ export default function Terminal({ profileData, onNavigate, onContactClick }) {
         reply = `[NAME]: Renu_Alias
 [LOCATION]: Kochi, Kerala, India
 [STATUS]: Open_to_Collaborate
-[PRIMARY_STACK]: Rust, TypeScript, Go
+[PRIMARY_STACK]: Python, JavaScript, C, Java
 [GITHUB]: ${GITHUB_URL}
 [LINKEDIN]: ${LINKEDIN_URL}
 

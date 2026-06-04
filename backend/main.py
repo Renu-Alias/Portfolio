@@ -102,7 +102,7 @@ def get_profile():
         "name": "Renu_Alias",
         "location": "Kochi, Kerala, India",
         "status": "Open_to_Collaborate",
-        "primary_stack": "Python, JavaScript, C",
+        "primary_stack": "Python, JavaScript, C, Java",
         "github": "https://github.com/Renu-Alias",
         "linkedin": "https://linkedin.com/in/renu-alias-0022a2329/",
         "role": "System Engineer & Full-Stack Architect",
