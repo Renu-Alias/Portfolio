@@ -10,26 +10,16 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
 
   return (
     <aside className={`sidebar ${isMinimized ? 'minimized' : ''}`}>
-      <div className="sidebar-header" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMinimized ? 'center' : 'flex-start' }}>
-          {!isMinimized ? (
-            <>
-              <h2 className="sidebar-title">SRC_EXPLORER</h2>
-              <div className="sidebar-version">v1.0.4-stable</div>
-            </>
-          ) : (
-            <span className="tree-icon" title="Explorer" style={{ color: 'var(--text-primary)', margin: 0, fontSize: '16px' }}>
-              📁
-            </span>
-          )}
-        </div>
-        {!isMinimized && (
-          <div className="control-icon" title="Contact" onClick={onContactClick} style={{ cursor: 'pointer' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-          </div>
+      <div className="sidebar-header" style={{ display: 'flex', flexDirection: 'column', alignItems: isMinimized ? 'center' : 'flex-start' }}>
+        {!isMinimized ? (
+          <>
+            <h2 className="sidebar-title">SRC_EXPLORER</h2>
+            <div className="sidebar-version">v1.0.4-stable</div>
+          </>
+        ) : (
+          <span className="tree-icon" title="Explorer" style={{ color: 'var(--text-primary)', margin: 0, fontSize: '16px' }}>
+            📁
+          </span>
         )}
       </div>
 

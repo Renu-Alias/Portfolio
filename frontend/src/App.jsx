@@ -128,7 +128,7 @@ function App() {
       {/* Main Terminal and Portfolios Dashboard Content */}
       <div className="main-content">
         {/* Navigation Navbar mimicking retro commands */}
-        <header className="navbar">
+        <header className="navbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <ul className="nav-links">
             <li>
               <span className="nav-link" onClick={() => handleNavigation('whoami')}>~/portfolio/root</span>
@@ -146,6 +146,12 @@ function App() {
               <span className="nav-link" onClick={() => setIsContactOpen(true)} style={{ color: 'var(--accent-orange)' }}>ssh contact</span>
             </li>
           </ul>
+          <div style={{ cursor: 'pointer', padding: '0 20px' }} title="Contact" onClick={() => setIsContactOpen(true)}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--accent-orange)' }}>
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          </div>
         </header>
 
         {/* Dashboard workspace grids */}
