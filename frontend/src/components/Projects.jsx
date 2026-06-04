@@ -5,27 +5,35 @@ export default function Projects({ projectsData }) {
   const projects = projectsData && projectsData.length > 0 ? projectsData : [
     {
       id: "00",
-      code: "PROJECT_OMNITHREAD",
-      title: "High-Concurrency Data Engine",
-      description: "A custom runtime built in Rust to handle millions of simultaneous websocket connections with sub-millisecond latency. Features an ASCII dashboard for real-time monitoring.",
-      tags: ["Rust", "Tokio", "gRPC"],
-      url: "#"
+      code: "CODESAGE",
+      title: "CodeSage",
+      description: "AI-powered code analysis and tutoring platform that helps beginner programmers debug, understand and improve their code through personalized feedback and learning insights.",
+      tags: ["AI", "Education"],
+      url: "https://github.com/Renu-Alias/CodeSage"
     },
     {
       id: "01",
-      code: "VIRTUAL_ENV",
-      title: "Terminal-UI Kit",
-      description: "React component library for building developer-focused interfaces with built-in command palette.",
-      tags: ["React", "TypeScript", "Monospace"],
-      url: "#"
+      code: "SENTINEL",
+      title: "Sentinel",
+      description: "Real-time automated piracy detection system with dual-mode fingerprinting.",
+      tags: ["Automation", "Detection"],
+      url: "https://github.com/Renu-Alias/Sentinel"
     },
     {
       id: "02",
-      code: "EDGE_DEPLOY",
-      title: "Edge CI/CD Observability",
-      description: "A cross-platform deployment dashboard that automates staging and production rollouts while surfacing real-time telemetry.",
-      tags: ["Docker", "Kubernetes", "CI/CD"],
-      url: "#"
+      code: "LITECPU16",
+      title: "LiteCPU16",
+      description: "A minimal embedded single cycle RISC-V processor.",
+      tags: ["RISC-V", "Embedded"],
+      url: "https://github.com/Renu-Alias/LiteCPU16"
+    },
+    {
+      id: "03",
+      code: "HMS",
+      title: "HMS",
+      description: "Hospital management system.",
+      tags: ["Healthcare", "Management"],
+      url: "https://github.com/Renu-Alias/HMS"
     }
   ];
 

@@ -66,17 +66,21 @@ BIO: AI Automation Engineer and Full-Stack Architect with expertise in designing
     Central Board of Secondary Education (CBSE)
     Physics • Chemistry • Mathematics`;
       } else if (cmdLower === 'projects') {
-        reply = `00. [PROJECT_OMNITHREAD] -> High-Concurrency Data Engine
-    A custom runtime built in Rust to handle millions of simultaneous websocket connections.
-    Tech: Rust, Tokio, gRPC
+        reply = `00. [CODESAGE] -> CodeSage
+    AI-powered code analysis and tutoring platform for beginner programmers.
+    Repo: https://github.com/Renu-Alias/CodeSage
     
-01. [VIRTUAL_ENV] -> Terminal-UI Kit
-    React component library for building developer-focused interfaces.
-    Tech: React, TypeScript, Monospace
+01. [SENTINEL] -> Sentinel
+    Real-time automated piracy detection system with dual-mode fingerprinting.
+    Repo: https://github.com/Renu-Alias/Sentinel
     
-02. [EDGE_DEPLOY] -> Edge CI/CD Observability
-    A cross-platform deployment dashboard automating staging and production rollouts.
-    Tech: Docker, Kubernetes, CI/CD`;
+02. [LITECPU16] -> LiteCPU16
+    A minimal embedded single cycle RISC-V processor.
+    Repo: https://github.com/Renu-Alias/LiteCPU16
+
+03. [HMS] -> HMS
+    Hospital management system.
+    Repo: https://github.com/Renu-Alias/HMS`;
       } else if (cmdLower === 'skills') {
         reply = `{
   "languages": ["Python", "C", "C++", "JavaScript", "Java","Dart"],

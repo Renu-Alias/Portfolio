@@ -131,37 +131,42 @@ def get_projects():
     return [
         {
             "id": "00",
-            "code": "PROJECT_OMNITHREAD",
-            "title": "High-Concurrency Data Engine",
+            "code": "CODESAGE",
+            "title": "CodeSage",
             "description": (
-                "A custom runtime built in Rust to handle millions of simultaneous "
-                "websocket connections with sub-millisecond latency. Features an ASCII "
-                "dashboard for real-time monitoring."
+                "AI-powered code analysis and tutoring platform that helps beginner "
+                "programmers debug, understand and improve their code through "
+                "personalized feedback and learning insights."
             ),
-            "tags": ["Rust", "Tokio", "gRPC"],
-            "url": "https://github.com/renualias/omnithread"
+            "tags": ["AI", "Education"],
+            "url": "https://github.com/Renu-Alias/CodeSage"
         },
         {
             "id": "01",
-            "code": "VIRTUAL_ENV",
-            "title": "Terminal-UI Kit",
+            "code": "SENTINEL",
+            "title": "Sentinel",
             "description": (
-                "React component library for building developer-focused interfaces "
-                "with built-in command palette."
+                "Real-time automated piracy detection system with dual-mode "
+                "fingerprinting."
             ),
-            "tags": ["React", "TypeScript", "Monospace"],
-            "url": "https://github.com/renualias/terminal-ui"
+            "tags": ["Automation", "Detection"],
+            "url": "https://github.com/Renu-Alias/Sentinel"
         },
         {
             "id": "02",
-            "code": "EDGE_DEPLOY",
-            "title": "Edge CI/CD Observability",
-            "description": (
-                "A cross-platform deployment dashboard that automates staging and "
-                "production rollouts while surfacing real-time telemetry."
-            ),
-            "tags": ["Docker", "Kubernetes", "CI/CD"],
-            "url": "https://github.com/renualias/edge-deploy"
+            "code": "LITECPU16",
+            "title": "LiteCPU16",
+            "description": "A minimal embedded single cycle RISC-V processor.",
+            "tags": ["RISC-V", "Embedded"],
+            "url": "https://github.com/Renu-Alias/LiteCPU16"
+        },
+        {
+            "id": "03",
+            "code": "HMS",
+            "title": "HMS",
+            "description": "Hospital management system.",
+            "tags": ["Healthcare", "Management"],
+            "url": "https://github.com/Renu-Alias/HMS"
         }
     ]
 
