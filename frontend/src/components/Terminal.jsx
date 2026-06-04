@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import profilePhoto from '../assets/me.jpeg';
 
 export default function Terminal({ profileData, onNavigate, onContactClick }) {
   const [history, setHistory] = useState([]);
@@ -119,10 +120,7 @@ BIO: AI Automation Engineer and Full-Stack Architect with expertise in designing
         {/* Live Feed Silhouette Avatar */}
         <div className="terminal-feed-col">
           <div className="live-feed-box">
-            <svg className="feed-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
+            <img className="feed-photo" src={profilePhoto} alt="Renu Alias profile" />
             <div className="live-feed-label">LIVE_FEED</div>
           </div>
         </div>

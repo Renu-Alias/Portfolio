@@ -373,6 +373,13 @@ body {
   filter: drop-shadow(0 0 2px rgba(0, 255, 102, 0.2));
 }
 
+.feed-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.8) contrast(1.08);
+}
+
 .live-feed-label {
   position: absolute;
   bottom: 8px;
