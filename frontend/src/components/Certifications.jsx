@@ -3,26 +3,27 @@ import React from 'react';
 export default function Certifications() {
   const certifications = [
     {
-      title: 'AWS Certified Solutions Architect – Associate',
+      title: 'Claude 101',
+      issuer: 'Anthropic',
+      year: 'May 2026'
+    },
+    {
+      title: 'Claude Code 101',
+      issuer: 'Anthropic',
+      year: 'June 2026'
+    },
+    {
+      title: 'AWS Cloud Essentials',
       issuer: 'Amazon Web Services',
-      year: '2025'
-    },
-    {
-      title: 'Certified Kubernetes Administrator (CKA)',
-      issuer: 'Cloud Native Computing Foundation',
-      year: '2024'
-    },
-    {
-      title: 'Google Cloud Professional Data Engineer',
-      issuer: 'Google Cloud',
-      year: '2024'
+      year: 'June 2026'
     }
   ];
 
   const achievements = [
-    'Built a multi-tenant event streaming pipeline serving 120k queries/sec',
-    'Ranked top 1% in a global competitive programming challenge',
-    'Led automation of hybrid cloud release workflows for edge deployments'
+    'Nexus AI Hackathon third prize winner',
+    "CEFR C2 level on Cambridge LinguaSkill Business examination ",
+    "GirlScript Summer of Code (GSSoC) '26 contributor under Open Source Track",
+    "Social Summer of Code (SSoC) '26 contributor"
   ];
 
   return (
