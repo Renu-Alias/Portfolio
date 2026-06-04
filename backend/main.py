@@ -149,6 +149,17 @@ def get_projects():
             ),
             "tags": ["React", "TypeScript", "Monospace"],
             "url": "https://github.com/renualias/terminal-ui"
+        },
+        {
+            "id": "02",
+            "code": "EDGE_DEPLOY",
+            "title": "Edge CI/CD Observability",
+            "description": (
+                "A cross-platform deployment dashboard that automates staging and "
+                "production rollouts while surfacing real-time telemetry."
+            ),
+            "tags": ["Docker", "Kubernetes", "CI/CD"],
+            "url": "https://github.com/renualias/edge-deploy"
         }
     ]
 

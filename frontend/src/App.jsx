@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Terminal from './components/Terminal';
 import Projects from './components/Projects';
-import SystemLogs from './components/SystemLogs';
+import Certifications from './components/Certifications';
 import SkillsHealth from './components/SkillsHealth';
 import GitPushOverlay from './components/GitPushOverlay';
 import ContactModal from './components/ContactModal';
@@ -14,11 +14,6 @@ function App() {
   const [skillsData, setSkillsData] = useState(null);
   
   // Real-time ticking system parameters
-  const [healthData, setHealthData] = useState({
-    backend_perf: 98,
-    ui_arch: 85,
-    ops_automation: 92
-  });
   const [currentTime, setCurrentTime] = useState('');
   
   // Modals / Overlay triggers
@@ -47,29 +42,6 @@ function App() {
       .catch(err => console.error("Skills API unreachable. Details: ", err));
   }, []);
 
-  // Poll for fluctuating performance metrics mimicking active cloud server nodes
-  useEffect(() => {
-    const fetchHealth = () => {
-      fetch('/api/health')
-        .then(res => res.json())
-        .then(data => {
-          if (data) setHealthData(data);
-        })
-        .catch(err => {
-          // If backend isn't up yet or network drops, slightly fluctuate locally to stay alive!
-          setHealthData(prev => ({
-            backend_perf: Math.min(100, Math.max(90, prev.backend_perf + (Math.random() > 0.5 ? 1 : -1))),
-            ui_arch: Math.min(100, Math.max(80, prev.ui_arch + (Math.random() > 0.5 ? 1 : -1))),
-            ops_automation: Math.min(100, Math.max(85, prev.ops_automation + (Math.random() > 0.5 ? 1 : -1)))
-          }));
-        });
-    };
-
-    fetchHealth();
-    const interval = setInterval(fetchHealth, 3500);
-    return () => clearInterval(interval);
-  }, []);
-
   // Update clock footer every second matching visual timezone ticks
   useEffect(() => {
     const tickTime = () => {
@@ -95,13 +67,13 @@ function App() {
       
       const whoamiEl = document.getElementById('whoami-section');
       const projectsEl = document.getElementById('projects');
-      const logsEl = document.getElementById('logs');
+      const certificationsEl = document.getElementById('certifications');
       const skillsEl = document.getElementById('skills');
 
       if (skillsEl && scrollPos >= skillsEl.offsetTop) {
         setActiveSection('skills');
-      } else if (logsEl && scrollPos >= logsEl.offsetTop) {
-        setActiveSection('logs');
+      } else if (certificationsEl && scrollPos >= certificationsEl.offsetTop) {
+        setActiveSection('certifications');
       } else if (projectsEl && scrollPos >= projectsEl.offsetTop) {
         setActiveSection('projects');
       } else if (whoamiEl) {
@@ -125,7 +97,7 @@ function App() {
     
     if (id === 'whoami') targetId = 'whoami-section';
     else if (id === 'projects') targetId = 'projects';
-    else if (id === 'logs') targetId = 'logs';
+    else if (id === 'certifications') targetId = 'certifications';
     else if (id === 'skills') targetId = 'skills';
 
     const targetEl = document.getElementById(targetId);
@@ -165,10 +137,10 @@ function App() {
               <span className="nav-link" onClick={() => handleNavigation('projects')}>cd /projects</span>
             </li>
             <li>
-              <span className="nav-link" onClick={() => handleNavigation('skills')}>ls /skills</span>
+              <span className="nav-link" onClick={() => handleNavigation('certifications')}>cat certifications.md</span>
             </li>
             <li>
-              <span className="nav-link" onClick={() => handleNavigation('whoami')}>cat about.md</span>
+              <span className="nav-link" onClick={() => handleNavigation('skills')}>ls /skills</span>
             </li>
             <li>
               <span className="nav-link" onClick={() => setIsContactOpen(true)} style={{ color: 'var(--accent-orange)' }}>ssh contact</span>
@@ -190,11 +162,11 @@ function App() {
           {/* Section: Project repository cards list */}
           <Projects projectsData={projectsData} />
 
-          {/* Section: Activity Git Logs */}
-          <SystemLogs />
+          {/* Section: Certifications and achievements */}
+          <Certifications />
 
-          {/* Section: Skills grid & System Health monitor */}
-          <SkillsHealth skillsData={skillsData} healthData={healthData} />
+          {/* Section: Skills grid */}
+          <SkillsHealth skillsData={skillsData} />
         </main>
 
         {/* Footer info bars */}
@@ -205,7 +177,7 @@ function App() {
           </div>
 
           <div className="footer-right">
-            <span className="footer-link" onClick={() => handleNavigation('logs')}>commit history</span>
+            <span className="footer-link" onClick={() => handleNavigation('certifications')}>certifications</span>
             <span className="footer-link" onClick={() => handleNavigation('skills')}>system_status</span>
             <a
               href="http://localhost:8000/docs"

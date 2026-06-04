@@ -4,7 +4,7 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
   const fileItems = [
     { id: 'whoami', name: 'index.js', isDir: false, icon: 'JS' },
     { id: 'projects', name: 'projects.py', isDir: false, icon: 'PY' },
-    { id: 'logs', name: 'activity.log', isDir: false, icon: 'LOG' },
+    { id: 'certifications', name: 'certifications.md', isDir: false, icon: 'DOC' },
     { id: 'skills', name: 'skills/', isDir: true, icon: 'DIR' },
   ];
 
@@ -54,6 +54,14 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
                   {item.icon === 'DIR' && (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: '#ff9e3b' }}>
                       <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                    </svg>
+                  )}
+                  {item.icon === 'DOC' && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: '#8ecae6' }}>
+                      <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="8" y1="13" x2="16" y2="13" />
+                      <line x1="8" y1="17" x2="16" y2="17" />
                     </svg>
                   )}
                 </span>

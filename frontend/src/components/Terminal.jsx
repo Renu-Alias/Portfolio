@@ -65,7 +65,11 @@ BIO: AI Automation Engineer and Full-Stack Architect with expertise in designing
     
 01. [VIRTUAL_ENV] -> Terminal-UI Kit
     React component library for building developer-focused interfaces.
-    Tech: React, TypeScript, Monospace`;
+    Tech: React, TypeScript, Monospace
+    
+02. [EDGE_DEPLOY] -> Edge CI/CD Observability
+    A cross-platform deployment dashboard automating staging and production rollouts.
+    Tech: Docker, Kubernetes, CI/CD`;
       } else if (cmdLower === 'skills') {
         reply = `{
   "languages": ["Python", "C", "C++", "JavaScript", "Java","Dart"],

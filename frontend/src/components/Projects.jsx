@@ -18,6 +18,14 @@ export default function Projects({ projectsData }) {
       description: "React component library for building developer-focused interfaces with built-in command palette.",
       tags: ["React", "TypeScript", "Monospace"],
       url: "#"
+    },
+    {
+      id: "02",
+      code: "EDGE_DEPLOY",
+      title: "Edge CI/CD Observability",
+      description: "A cross-platform deployment dashboard that automates staging and production rollouts while surfacing real-time telemetry.",
+      tags: ["Docker", "Kubernetes", "CI/CD"],
+      url: "#"
     }
   ];
 
@@ -46,31 +54,25 @@ export default function Projects({ projectsData }) {
             </div>
 
             <div className="card-footer-row">
-              {project.id === "00" ? (
-                <div className="project-tags">
-                  {project.tags.map((tag, tIdx) => (
-                    <span key={tIdx} className="tag">&lt;{tag} /&gt;</span>
-                  ))}
-                </div>
-              ) : (
-                <>
-                  <div></div> {/* Spacing spacer */}
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="view-repo-link"
-                    onClick={(e) => {
-                      if (project.url === '#') {
-                        e.preventDefault();
-                        alert(`Opening Terminal-UI repository connection simulation!`);
-                      }
-                    }}
-                  >
-                    view_repository()
-                  </a>
-                </>
-              )}
+              <div className="project-tags">
+                {project.tags.map((tag, tIdx) => (
+                  <span key={tIdx} className="tag">&lt;{tag} /&gt;</span>
+                ))}
+              </div>
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="view-repo-link"
+                onClick={(e) => {
+                  if (project.url === '#') {
+                    e.preventDefault();
+                    alert(`Opening repository simulation for ${project.code}!`);
+                  }
+                }}
+              >
+                view_repository()
+              </a>
             </div>
           </div>
         ))}
