@@ -113,9 +113,6 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Visual scanline raster filter */}
-      <div className="crt-effect"></div>
-
       {/* Navigation Sidebar */}
       <Sidebar
         activeSection={activeSection}
