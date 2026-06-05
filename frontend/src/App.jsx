@@ -61,10 +61,7 @@ function App() {
   // Scroll spy mechanism to auto-select sidebar file explorer nodes as user scrolls
   useEffect(() => {
     const handleScroll = () => {
-      const mainEl = document.querySelector('.main-content');
-      if (!mainEl) return;
-
-      const scrollPos = mainEl.scrollTop + 180;
+      const scrollPos = window.scrollY + 180;
       
       const whoamiEl = document.getElementById('whoami-section');
       const projectsEl = document.getElementById('projects');
@@ -82,12 +79,9 @@ function App() {
       }
     };
 
-    const mainEl = document.querySelector('.main-content');
-    if (mainEl) {
-      mainEl.addEventListener('scroll', handleScroll);
-    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      if (mainEl) mainEl.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -102,10 +96,9 @@ function App() {
     else if (id === 'skills') targetId = 'skills';
 
     const targetEl = document.getElementById(targetId);
-    const mainEl = document.querySelector('.main-content');
-    if (targetEl && mainEl) {
-      mainEl.scrollTo({
-        top: targetEl.offsetTop - 30,
+    if (targetEl) {
+      window.scrollTo({
+        top: targetEl.getBoundingClientRect().top + window.scrollY - 80,
         behavior: 'smooth'
       });
     }
