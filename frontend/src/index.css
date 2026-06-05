@@ -25,7 +25,6 @@
 /* Reset and Global Base Styles */
 html {
   height: 100%;
-  overflow: hidden;
 }
 
 * {
@@ -40,8 +39,7 @@ body {
   font-family: var(--font-mono);
   font-size: 15px;
   line-height: 1.6;
-  overflow: hidden;
-  height: 100%;
+  min-height: 100%;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -71,10 +69,9 @@ body {
 /* Main Layout Structure */
 .app-container {
   display: flex;
-  height: 100%;
   width: 100vw;
+  min-height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 
 /* Sidebar Styling */
@@ -85,8 +82,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  min-height: 100vh;
+  height: auto;
   flex-shrink: 0;
+  align-self: stretch;
   user-select: none;
   transition: width var(--transition-normal);
 }
@@ -213,9 +212,6 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   background-color: var(--bg-primary);
 }
 
@@ -351,15 +347,13 @@ body {
 .live-feed-box {
   width: 220px;
   height: 220px;
-  border: 1px solid var(--accent-green-border);
+  border: none;
   position: relative;
   overflow: hidden;
-  transition: border-color var(--transition-fast);
 }
 
 .live-feed-box:hover {
-  border-color: var(--accent-green);
-  border-width: 2px;
+  border: 2px solid var(--accent-green);
 }
 
 .feed-photo-btn {
@@ -380,39 +374,30 @@ body {
   display: block;
 }
 
-.live-feed-box::before {
+.live-feed-box:hover::before {
   content: '';
   position: absolute;
   top: 4px;
   left: 4px;
-  width: 12px;
-  height: 12px;
-  border-top: 2px solid var(--accent-green-border);
-  border-left: 2px solid var(--accent-green-border);
-  transition: border-color var(--transition-fast), width var(--transition-fast), height var(--transition-fast);
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid var(--accent-green);
+  border-left: 2px solid var(--accent-green);
   pointer-events: none;
   z-index: 1;
 }
 
-.live-feed-box::after {
+.live-feed-box:hover::after {
   content: '';
   position: absolute;
   bottom: 4px;
   right: 4px;
-  width: 12px;
-  height: 12px;
-  border-bottom: 2px solid var(--accent-green-border);
-  border-right: 2px solid var(--accent-green-border);
-  transition: border-color var(--transition-fast), width var(--transition-fast), height var(--transition-fast);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.live-feed-box:hover::before,
-.live-feed-box:hover::after {
-  border-color: var(--accent-green);
   width: 16px;
   height: 16px;
+  border-bottom: 2px solid var(--accent-green);
+  border-right: 2px solid var(--accent-green);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .live-feed-label {
@@ -1148,19 +1133,14 @@ body {
 
 /* Mobile Responsive Adapters */
 @media (max-width: 900px) {
-  html, body {
-    overflow: auto;
-    height: auto;
-  }
-
   .app-container {
     flex-direction: column;
-    overflow: visible;
-    height: auto;
+    min-height: auto;
   }
   
   .sidebar {
     width: 100%;
+    min-height: auto;
     height: auto;
     flex-shrink: 0;
     border-right: none;
@@ -1185,8 +1165,6 @@ body {
   }
   
   .main-content {
-    overflow-y: visible;
-    height: auto;
     flex-shrink: 0;
   }
   
