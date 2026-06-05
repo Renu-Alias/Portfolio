@@ -23,6 +23,11 @@
 }
 
 /* Reset and Global Base Styles */
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -36,7 +41,7 @@ body {
   font-size: 15px;
   line-height: 1.6;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -66,7 +71,7 @@ body {
 /* Main Layout Structure */
 .app-container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   position: relative;
   overflow: hidden;
@@ -210,6 +215,7 @@ body {
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--bg-primary);
 }
 
@@ -380,7 +386,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.8) contrast(1.08);
 }
 
 .feed-photo-button {
@@ -1140,19 +1145,20 @@ body {
   }
   
   .sidebar-content {
-    display: none; /* Hide tree nav on mobile, use navbar instead */
+    display: none;
   }
   
   .sidebar-footer {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
+    padding: 12px 16px;
   }
   
   .btn-push {
     width: auto;
-    padding: 8px 20px;
+    padding: 6px 16px;
+    font-size: 14px;
   }
   
   .main-content {
@@ -1161,16 +1167,19 @@ body {
   }
   
   .navbar {
-    padding: 16px 24px;
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   
   .nav-links {
-    gap: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
   
   .workspace {
-    padding: 24px 16px;
-    gap: 32px;
+    padding: 16px 12px;
+    gap: 24px;
   }
   
   .terminal-body {
@@ -1182,8 +1191,26 @@ body {
     align-self: center;
   }
   
+  .section-header {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .project-card {
+    min-height: 180px;
+    padding: 16px;
+  }
+  
+  .project-title {
+    font-size: 18px;
+  }
+  
+  .project-desc {
+    font-size: 14px;
   }
   
   .skills-health-split {
@@ -1193,8 +1220,8 @@ body {
   
   .footer {
     flex-direction: column;
-    gap: 16px;
-    padding: 24px 16px;
+    gap: 12px;
+    padding: 16px;
     text-align: center;
   }
   
@@ -1207,13 +1234,14 @@ body {
 @media (max-width: 600px) {
   .navbar {
     flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+    gap: 10px;
+    align-items: stretch;
   }
   
   .nav-links {
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    align-items: flex-start;
   }
   
   .term-grid {
@@ -1223,5 +1251,36 @@ body {
   
   .skills-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .terminal-window {
+    border-radius: 4px;
+  }
+  
+  .terminal-body {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .terminal-title {
+    font-size: 12px;
+  }
+  
+  .project-card {
+    min-height: 160px;
+    padding: 14px;
+  }
+  
+  .card-footer-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .project-tags {
+    flex-wrap: wrap;
+  }
+  
+  .section-header {
+    font-size: 15px;
   }
 }
