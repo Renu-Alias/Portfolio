@@ -1246,10 +1246,6 @@ body {
 }
 
 @media (max-width: 600px) {
-  .nav-contact-icon {
-    display: none;
-  }
-
   .sidebar {
     width: 160px;
   }
@@ -1304,15 +1300,35 @@ body {
   .navbar {
     position: static;
     padding: 8px 10px;
-    gap: 6px;
+    gap: 0;
+    overflow: hidden;
   }
 
   .nav-links {
-    gap: 6px;
+    gap: 4px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-link {
-    font-size: 12px;
+    font-size: 11px;
+  }
+
+  .nav-contact-icon {
+    flex-shrink: 0;
+    padding: 0 4px;
+  }
+
+  .nav-contact-icon svg {
+    width: 18px;
+    height: 18px;
   }
 
   .workspace {

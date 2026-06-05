@@ -39,18 +39,7 @@ export default function SkillsHealth({ skillsData }) {
 
         <div className="skill-card">
           <div className="skill-title">.databases</div>
-          <div className="skill-list">
-            {skills.databases.map((db, i) => (
-              <span key={i} className="db-item" style={{ marginRight: '8px' }}>
-                {(() => {
-                  const parts = db.split("*");
-                  return (
-                    <>{parts[0]}{parts.length > 1 && <sup>*</sup>}{parts[1] || ""}</>
-                  );
-                })()}
-              </span>
-            ))}
-          </div>
+          <div className="skill-list">{JSON.stringify(skills.databases)}</div>
         </div>
 
         <div className="skill-card skill-card-full">
