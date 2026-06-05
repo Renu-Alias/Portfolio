@@ -23,14 +23,15 @@
 }
 
 /* Reset and Global Base Styles */
-html {
-  height: 100%;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -39,7 +40,6 @@ body {
   font-family: var(--font-mono);
   font-size: 15px;
   line-height: 1.6;
-  min-height: 100%;
   width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -70,8 +70,8 @@ body {
 .app-container {
   display: flex;
   width: 100vw;
-  min-height: 100vh;
-  position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Sidebar Styling */
@@ -82,10 +82,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100vh;
-  height: auto;
+  height: 100%;
   flex-shrink: 0;
-  align-self: stretch;
   user-select: none;
   transition: width var(--transition-normal);
 }
@@ -212,6 +210,9 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--bg-primary);
 }
 
@@ -1133,16 +1134,20 @@ body {
 
 /* Mobile Responsive Adapters */
 @media (max-width: 900px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+
   .app-container {
     flex-direction: column;
-    min-height: auto;
+    height: auto;
+    overflow: visible;
   }
   
   .sidebar {
     width: 100%;
-    min-height: auto;
     height: auto;
-    flex-shrink: 0;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
@@ -1165,7 +1170,8 @@ body {
   }
   
   .main-content {
-    flex-shrink: 0;
+    overflow: visible;
+    height: auto;
   }
   
   .navbar {
