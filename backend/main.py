@@ -27,8 +27,7 @@ origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://portfolio-bj06.onrender.com",
-    # Add your Netlify URL below before deploying:
-    # "https://your-site.netlify.app",
+    "https://renualias.netlify.app/",
 ]
 
 app.add_middleware(
