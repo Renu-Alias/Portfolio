@@ -98,7 +98,7 @@ function App() {
     const targetEl = document.getElementById(targetId);
     if (targetEl) {
       window.scrollTo({
-        top: targetEl.getBoundingClientRect().top + window.scrollY - 80,
+        top: targetEl.getBoundingClientRect().top + window.scrollY - 20,
         behavior: 'smooth'
       });
     }
@@ -118,27 +118,6 @@ function App() {
 
       {/* Main Terminal and Portfolios Dashboard Content */}
       <div className="main-content">
-        {/* Navigation Navbar mimicking retro commands */}
-        <header className="navbar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <ul className="nav-links">
-            <li>
-              <span className="nav-link" onClick={() => handleNavigation('whoami')}>~/portfolio/root</span>
-            </li>
-            <li>
-              <span className="nav-link" onClick={() => handleNavigation('projects')}>cd /projects</span>
-            </li>
-            <li>
-              <span className="nav-link" onClick={() => handleNavigation('certifications')}>cat certifications.md</span>
-            </li>
-            <li>
-              <span className="nav-link" onClick={() => handleNavigation('skills')}>ls /skills</span>
-            </li>
-            <li>
-              <span className="nav-link" onClick={() => setIsContactOpen(true)} style={{ color: 'var(--accent-orange)' }}>ssh contact</span>
-            </li>
-          </ul>
-        </header>
-
         {/* Dashboard workspace grids */}
         <main className="workspace">
           {/* Section: Terminal zsh Window */}

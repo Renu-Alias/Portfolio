@@ -10,19 +10,11 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
 
   return (
     <aside className={`sidebar ${isMinimized ? 'minimized' : ''}`}>
-      <div className="sidebar-header" style={{ display: 'flex', flexDirection: isMinimized ? 'column' : 'row', alignItems: isMinimized ? 'center' : 'center', justifyContent: 'space-between' }}>
+      <div className="sidebar-header">
         {!isMinimized ? (
           <>
-            <div>
-              <h2 className="sidebar-title">SRC_EXPLORER</h2>
-              <div className="sidebar-version">v1.0.4-stable</div>
-            </div>
-            <div className="control-icon" title="Contact" onClick={onContactClick}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--accent-orange)' }}>
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-            </div>
+            <h2 className="sidebar-title">SRC_EXPLORER</h2>
+            <div className="sidebar-version">v1.0.4-stable</div>
           </>
         ) : (
           <span className="tree-icon" title="Explorer" style={{ color: 'var(--text-primary)', margin: 0, fontSize: '16px' }}>
@@ -80,18 +72,32 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
         </ul>
       </nav>
 
-      <div className="sidebar-footer" style={{ padding: isMinimized ? '16px 8px' : '20px' }}>
+      <div className="sidebar-divider" />
+
+      <div className="sidebar-actions">
+        <div
+          className="ssh-contact"
+          onClick={onContactClick}
+          title={isMinimized ? 'ssh contact' : undefined}
+        >
+          {isMinimized ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--accent-orange)' }}>
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          ) : (
+            <><span className="ssh-prompt">&gt;</span> ssh contact</>
+          )}
+        </div>
+      </div>
+
+      <div className="sidebar-divider" />
+
+      <div className="sidebar-footer">
         <button
           className="btn-push"
           onClick={onPushClick}
           title="git push"
-          style={{
-            padding: isMinimized ? '8px 0' : '10px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: isMinimized ? '36px' : 'auto'
-          }}
         >
           {isMinimized ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -100,7 +106,7 @@ export default function Sidebar({ activeSection, onNavigate, onPushClick, onCont
           ) : 'git push'}
         </button>
 
-        <div className="sidebar-controls" style={{ flexDirection: isMinimized ? 'column' : 'row', gap: isMinimized ? '12px' : '0', alignItems: 'center', justifyContent: isMinimized ? 'center' : 'center' }}>
+        <div className="sidebar-controls">
           <div className="control-icon" title="Toggle Layout" onClick={onToggleMinimize}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
