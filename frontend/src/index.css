@@ -199,6 +199,11 @@ body {
   gap: 16px;
 }
 
+.sidebar.minimized .sidebar-footer {
+  padding: 16px 8px;
+  gap: 12px;
+}
+
 .btn-push {
   width: 100%;
   padding: 10px;
@@ -212,8 +217,9 @@ body {
   text-align: center;
   text-transform: lowercase;
   transition: var(--transition-normal);
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-shadow: 0 0 0 transparent;
 }
 
@@ -1261,6 +1267,11 @@ body {
   .sidebar-footer {
     padding: 12px;
     gap: 10px;
+  }
+
+  .sidebar.minimized .sidebar-footer {
+    padding: 10px 6px;
+    gap: 8px;
   }
 
   .btn-push {
