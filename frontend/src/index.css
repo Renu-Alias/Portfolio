@@ -173,7 +173,7 @@ body {
 }
 
 .ssh-contact {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-muted);
   cursor: pointer;
   transition: var(--transition-fast);
@@ -225,7 +225,7 @@ body {
 
 .sidebar-controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   color: var(--text-muted);
 }
