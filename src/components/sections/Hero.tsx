@@ -51,7 +51,7 @@ const Hero = () => (
       src="cutout.png"
       alt=""
       className="absolute inset-0 z-30 h-full w-full object-cover object-bottom pointer-events-none select-none"
-      style={{ transform: 'scale(0.85)' }}
+      style={{ transform: 'scale(0.85)', transformOrigin: 'bottom center' }}
       draggable={false}
     />
 
