@@ -22,7 +22,7 @@ const Hero = () => (
     {/* Portrait — clearly visible, grayscale, dark gradient overlay for legibility */}
     <div className="absolute inset-0">
       <img
-        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1920&q=80"
+        src="Me.jpeg"
         alt=""
         className="h-full w-full object-cover object-[center_30%]"
         style={{ filter: 'grayscale(100%) contrast(1.08)' }}
