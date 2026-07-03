@@ -19,26 +19,15 @@ const Hero = () => (
     id="hero"
     className="relative flex min-h-screen items-center justify-center overflow-hidden bg-pitch"
   >
-    {/* Portrait — clearly visible, grayscale, dark gradient overlay for legibility */}
-    <div className="absolute inset-0">
-      <img
-        src="Me.jpeg"
-        alt=""
-        className="h-full w-full object-cover object-[center_30%]"
-        style={{ filter: 'grayscale(100%) contrast(1.08)' }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-pitch/80 via-pitch/30 to-pitch/90" />
-      <div className="absolute inset-0 bg-gradient-to-r from-pitch/40 to-transparent" />
-    </div>
 
-    {/* Content — name absolutely centered, tagline + CTA independently positioned below */}
+
+    {/* Layer 2: Name — behind cutout */}
     <div className="absolute inset-0 z-20">
       <div className="relative h-full mx-auto w-full max-w-container px-6">
-        {/* Name — fixed at viewport center */}
         <div className="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2">
           <motion.h1
             className="font-display font-bold text-stone-300 leading-[0.9] tracking-[-0.04em] text-center whitespace-nowrap"
-            style={{ fontSize: 'clamp(4rem, 14vw, 13.75rem)' }}
+            style={{ fontSize: 'clamp(3.125rem, 10.5vw, 10.125rem)' }}
             variants={container}
             initial="hidden"
             animate="show"
@@ -54,8 +43,21 @@ const Hero = () => (
             )}
           </motion.h1>
         </div>
+      </div>
+    </div>
 
-        {/* Tagline + CTA — positioned below name */}
+    {/* Layer 3: Cutout — centered, covers viewport, tightly cropped */}
+    <img
+      src="cutout.png"
+      alt=""
+      className="absolute inset-0 z-30 h-full w-full object-cover object-bottom pointer-events-none select-none"
+      style={{ transform: 'scale(0.85)' }}
+      draggable={false}
+    />
+
+    {/* Layer 4: Tagline + CTA — above cutout */}
+    <div className="absolute inset-0 z-[35]">
+      <div className="relative h-full mx-auto w-full max-w-container px-6">
         <div className="absolute left-1/2 -translate-x-1/2 text-center" style={{ top: 'calc(50% + 14rem)' }}>
           <motion.p
             className="font-mono text-sm uppercase tracking-[0.3em] text-muted"
@@ -84,7 +86,7 @@ const Hero = () => (
     </div>
 
     {/* Bottom metadata */}
-    <div className="pointer-events-none absolute inset-x-0 bottom-12 z-20 mx-auto flex items-end justify-between max-w-container px-6">
+    <div className="pointer-events-none absolute inset-x-0 bottom-12 z-40 mx-auto flex items-end justify-between max-w-container px-6">
       <motion.div
         className="space-y-1"
         initial={{ opacity: 0 }}
@@ -111,7 +113,7 @@ const Hero = () => (
 
     {/* Scroll indicator */}
     <motion.div
-      className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2"
+      className="absolute bottom-4 left-1/2 z-40 -translate-x-1/2"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 2.2 }}
