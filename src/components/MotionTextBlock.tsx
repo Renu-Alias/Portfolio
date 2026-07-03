@@ -13,10 +13,10 @@ const MotionTextBlock = ({ text }: MotionTextBlockProps) => {
         <motion.span
           key={`${word}-${index}`}
           className="inline-block mr-[0.35em]"
-          initial={{ opacity: 0.08, y: 8, color: 'rgba(255,255,255,0.2)' }}
+          initial={{ opacity: 0.08, y: 6, color: 'rgba(255,255,255,0.25)' }}
           whileInView={{ opacity: 1, y: 0, color: 'rgba(255,255,255,0.92)' }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, delay: index * 0.035, ease: 'easeOut' }}
+          transition={{ duration: 0.4, delay: index * 0.025, ease: 'easeOut' }}
         >
           {word}
         </motion.span>

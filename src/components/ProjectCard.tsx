@@ -17,17 +17,17 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
   return (
     <motion.article
-      className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0B0B0C]/90 p-8 shadow-soft transition duration-500 hover:-translate-y-1.5 hover:border-[#E50914] hover:bg-[#121214] hover:shadow-[0_0_50px_rgba(229,9,20,0.12)]"
-      initial={{ opacity: 0, y: 50, clipPath: 'inset(0 100% 0 0)' }}
-      whileInView={{ opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)' }}
+      className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0B0B0C]/90 p-8 shadow-soft transition duration-500 hover:-translate-y-1.5 hover:border-crimson hover:bg-[#121214] hover:shadow-[0_0_50px_rgba(229,9,20,0.12)]"
+      initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
     >
       <span className="text-sm uppercase tracking-[0.4em] text-white/40">0{index + 1}</span>
       <div className="mt-4 overflow-hidden">
         <motion.h3
           className="font-display text-3xl font-semibold tracking-tight text-white transition"
-          whileHover={{ letterSpacing: '0.18em', scale: 1.01, color: '#ffffff' }}
+          whileHover={{ letterSpacing: '0.12em', scale: 1.005 }}
         >
           {project.name}
         </motion.h3>
@@ -38,7 +38,7 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
           href={project.link}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.34em] text-[#E50914] transition hover:text-white"
+          className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.34em] text-crimson transition hover:text-white"
         >
           GitHub
           <span className="text-[0.65rem] text-white/50 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
@@ -46,7 +46,7 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="rounded-full border border-white/10 px-4 py-2 text-[0.65rem] font-mono uppercase tracking-[0.3em] text-white/70 transition hover:border-[#E50914] hover:text-[#E50914]"
+          className="rounded-full border border-white/10 px-4 py-2 text-[0.65rem] font-mono uppercase tracking-[0.3em] text-white/70 transition hover:border-crimson hover:text-crimson"
         >
           {open ? 'Close' : 'View Architecture'}
         </button>

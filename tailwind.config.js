@@ -10,6 +10,7 @@ export default {
         platinum: '#A1A1AA'
       },
       fontFamily: {
+        heading: ['Syne', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
         display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
         body: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']

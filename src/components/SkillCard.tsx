@@ -46,7 +46,7 @@ const SkillCard = ({ category, items }: SkillCardProps) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={reset}
       style={{ rotateX, rotateY, perspective: 900 }}
-      className="group rounded-[1.75rem] border border-white/5 bg-[#0B0B0C] p-7 shadow-soft transition duration-300 hover:border-[#E50914] hover:bg-[#111114] hover:shadow-[0_0_40px_rgba(229,9,20,0.08)]"
+      className="group rounded-[1.75rem] border border-white/[0.03] bg-[#09090B] p-7 backdrop-blur-md shadow-soft transition duration-300 hover:border-crimson hover:bg-[#111114] hover:shadow-[0_0_40px_rgba(229,9,20,0.08)]"
     >
       <h3 className="font-mono text-sm uppercase tracking-[0.35em] text-white/50">{category}</h3>
       <motion.div
@@ -60,7 +60,7 @@ const SkillCard = ({ category, items }: SkillCardProps) => {
           <motion.span
             key={item}
             variants={itemVariants}
-            className="rounded-xl border border-white/5 bg-[#09090B] px-3 py-2 text-center font-mono text-xs transition duration-300 group-hover:border-[#E50914] group-hover:text-white group-hover:shadow-[0_0_20px_rgba(229,9,20,0.15)]"
+            className="rounded-xl border border-white/5 bg-[#09090B] px-3 py-2 text-center font-mono text-xs transition duration-300 group-hover:border-crimson group-hover:text-white group-hover:shadow-[0_0_20px_rgba(229,9,20,0.15)]"
           >
             {item}
           </motion.span>

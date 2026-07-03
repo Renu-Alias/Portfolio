@@ -12,7 +12,7 @@ interface Particle {
 
 const InteractiveBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const pointer = useRef({ x: 0, y: 0, vx: 0, vy: 0 });
+  const pointer = useRef({ x: 0, y: 0 });
   const prevPointer = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -26,7 +26,8 @@ const InteractiveBackground = () => {
     let height = 0;
     let rafId = 0;
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 80;
+    const PARTICLE_COUNT = 60;
+    const MAGNETIC_RADIUS = 150;
 
     const resize = () => {
       width = canvas.clientWidth * window.devicePixelRatio;
@@ -43,11 +44,11 @@ const InteractiveBackground = () => {
         particles.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 2 + 0.5,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2,
+          size: Math.random() * 1.5 + 0.5,
           alpha: 0,
-          baseAlpha: Math.random() * 0.35 + 0.08
+          baseAlpha: Math.random() * 0.25 + 0.05
         });
       }
     };
@@ -68,34 +69,36 @@ const InteractiveBackground = () => {
       const speed = Math.sqrt(dx * dx + dy * dy);
       prevPointer.current = { x: px, y: py };
 
-      const vortexStrength = Math.min(speed * 0.15, 3);
-
+      /* ---- Magnetic distortion field (150px radius) ---- */
       for (const p of particles) {
         const distX = p.x - px;
         const distY = p.y - py;
         const dist = Math.sqrt(distX * distX + distY * distY);
-        const maxDist = 180;
 
-        if (dist < maxDist && dist > 0) {
-          const force = (1 - dist / maxDist) * 0.06;
+        if (dist < MAGNETIC_RADIUS && dist > 1) {
+          const normalizedForce = 1 - dist / MAGNETIC_RADIUS;
           const angle = Math.atan2(distY, distX);
-          p.vx += Math.cos(angle) * force;
-          p.vy += Math.sin(angle) * force;
 
-          const perpX = -distY / dist;
-          const perpY = distX / dist;
-          p.vx += perpX * vortexStrength * (1 - dist / maxDist) * 0.012;
-          p.vy += perpY * vortexStrength * (1 - dist / maxDist) * 0.012;
+          /* Repulsion force — pushes particles away */
+          const repel = normalizedForce * 0.04;
+          p.vx += Math.cos(angle) * repel;
+          p.vy += Math.sin(angle) * repel;
 
-          p.alpha = p.baseAlpha + (1 - dist / maxDist) * 0.4;
+          /* Vortex spin — perpendicular orbital motion */
+          const spin = normalizedForce * Math.min(speed * 0.008, 0.5);
+          p.vx += (-distY / dist) * spin;
+          p.vy += (distX / dist) * spin;
+
+          /* Brighten within field */
+          p.alpha = p.baseAlpha + normalizedForce * 0.35;
         } else {
           p.alpha += (p.baseAlpha - p.alpha) * 0.03;
         }
 
-        p.vx += (Math.random() - 0.5) * 0.01;
-        p.vy += (Math.random() - 0.5) * 0.01;
-        p.vx *= 0.98;
-        p.vy *= 0.98;
+        p.vx += (Math.random() - 0.5) * 0.008;
+        p.vy += (Math.random() - 0.5) * 0.008;
+        p.vx *= 0.97;
+        p.vy *= 0.97;
         p.x += p.vx;
         p.y += p.vy;
 
@@ -106,51 +109,54 @@ const InteractiveBackground = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${Math.max(0, Math.min(p.alpha, 0.5))})`;
+        ctx.fillStyle = `rgba(255,255,255,${Math.max(0, Math.min(p.alpha, 0.4))})`;
         ctx.fill();
       }
 
-      const grid = 72;
-      const gridOffsetX = ((px / w) - 0.5) * 18;
-      const gridOffsetY = ((py / h) - 0.5) * 18;
+      /* ---- Subtle grid ---- */
+      const grid = 80;
+      const gridOffsetX = ((px / w) - 0.5) * 12;
+      const gridOffsetY = ((py / h) - 0.5) * 12;
 
-      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.03)';
       ctx.lineWidth = 0.5;
 
       for (let x = 0; x <= w; x += grid) {
         ctx.beginPath();
-        const waveAmp = 6 + speed * 0.04;
-        ctx.moveTo(x + Math.sin((x + px) * 0.008) * waveAmp + gridOffsetX, 0);
-        ctx.lineTo(x + Math.sin((x + px) * 0.008) * waveAmp + gridOffsetX, h);
+        const waveAmp = 4 + speed * 0.03;
+        ctx.moveTo(x + Math.sin((x + px) * 0.007) * waveAmp + gridOffsetX, 0);
+        ctx.lineTo(x + Math.sin((x + px) * 0.007) * waveAmp + gridOffsetX, h);
         ctx.stroke();
       }
 
       for (let y = 0; y <= h; y += grid) {
         ctx.beginPath();
-        const waveAmp2 = 6 + speed * 0.04;
-        ctx.moveTo(0, y + Math.cos((y + py) * 0.008) * waveAmp2 + gridOffsetY);
-        ctx.lineTo(w, y + Math.cos((y + py) * 0.008) * waveAmp2 + gridOffsetY);
+        const waveAmp2 = 4 + speed * 0.03;
+        ctx.moveTo(0, y + Math.cos((y + py) * 0.007) * waveAmp2 + gridOffsetY);
+        ctx.lineTo(w, y + Math.cos((y + py) * 0.007) * waveAmp2 + gridOffsetY);
         ctx.stroke();
       }
 
-      const glow1 = ctx.createRadialGradient(px - 30, py - 30, 0, px, py, 280);
-      glow1.addColorStop(0, `rgba(229, 9, 20, ${0.08 + speed * 0.003})`);
-      glow1.addColorStop(0.5, `rgba(229, 9, 20, ${0.04 + speed * 0.001})`);
-      glow1.addColorStop(1, 'rgba(229, 9, 20, 0)');
-      ctx.fillStyle = glow1;
+      /* ---- 150px crimson distortion field ---- */
+      const distortionGlow = ctx.createRadialGradient(px, py, 0, px, py, MAGNETIC_RADIUS);
+      distortionGlow.addColorStop(0, `rgba(229, 9, 20, ${0.06 + speed * 0.0015})`);
+      distortionGlow.addColorStop(0.6, `rgba(229, 9, 20, ${0.03 + speed * 0.0008})`);
+      distortionGlow.addColorStop(1, 'rgba(229, 9, 20, 0)');
+      ctx.fillStyle = distortionGlow;
       ctx.fillRect(0, 0, w, h);
 
-      const glow2 = ctx.createRadialGradient(px, py, 0, px, py, 120);
-      glow2.addColorStop(0, `rgba(255,255,255,${0.02 + speed * 0.002})`);
-      glow2.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glow2;
+      /* ---- Wider ambient glow ---- */
+      const ambientGlow = ctx.createRadialGradient(px, py, 0, px, py, MAGNETIC_RADIUS * 2);
+      ambientGlow.addColorStop(0, `rgba(229, 9, 20, ${0.02 + speed * 0.0005})`);
+      ambientGlow.addColorStop(1, 'rgba(229, 9, 20, 0)');
+      ctx.fillStyle = ambientGlow;
       ctx.fillRect(0, 0, w, h);
 
       rafId = requestAnimationFrame(draw);
     };
 
     const handleMove = (event: MouseEvent) => {
-      pointer.current = { x: event.clientX, y: event.clientY, vx: 0, vy: 0 };
+      pointer.current = { x: event.clientX, y: event.clientY };
     };
 
     resize();
@@ -166,7 +172,7 @@ const InteractiveBackground = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-90" />;
+  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 -z-10 h-full w-full opacity-80" />;
 };
 
 export default InteractiveBackground;
