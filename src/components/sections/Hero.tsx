@@ -66,7 +66,7 @@ const Hero = () => (
       src="cutout.png"
       alt=""
       className="absolute bottom-0 left-1/2 z-30 h-auto w-auto pointer-events-none select-none"
-      style={{ maxHeight: '75vh', width: 'auto', transform: 'translateX(calc(-50% - 2rem))' }}
+      style={{ maxHeight: '75vh', width: 'auto', transform: 'translateX(calc(-50% - 2rem)) scale(0.92)' }}
       draggable={false}
     />
 
