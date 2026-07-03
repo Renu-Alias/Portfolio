@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import SectionHeader from '../shared/SectionHeader';
 import Card from '../shared/Card';
+import SectionDecoration from '../shared/SectionDecoration';
 
 const certs = [
   { id: '1', title: 'AWS Certified Cloud Practitioner', issuer: 'Amazon Web Services' },
@@ -19,7 +20,8 @@ const Certifications = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   return (
-    <section id="certifications" className="mx-auto max-w-container px-6 py-section">
+    <section id="certifications" className="relative mx-auto max-w-container px-6 py-section">
+      <SectionDecoration className="bottom-24 left-4" />
       <SectionHeader num="04" title="Certifications" />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

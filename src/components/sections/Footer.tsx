@@ -12,7 +12,12 @@ const Footer = () => (
     id="contact"
     className="relative overflow-hidden mx-auto max-w-container px-6 py-section"
   >
-    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(230,57,70,0.12)_0%,transparent_60%)]" />
+    <motion.div
+      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full"
+      style={{ background: 'radial-gradient(circle,rgba(230,57,70,0.12)_0%,transparent_60%)' }}
+      animate={{ scale: [1, 1.06, 1], opacity: [0.8, 1, 0.8] }}
+      transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+    />
 
     <div className="relative z-10 mx-auto max-w-4xl text-center">
       <motion.h2

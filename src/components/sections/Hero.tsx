@@ -19,21 +19,21 @@ const Hero = () => (
     id="hero"
     className="relative flex min-h-screen items-center justify-center overflow-hidden bg-pitch"
   >
-    {/* Background portrait — more receded */}
-    <div className="absolute inset-0 opacity-60">
+    {/* Portrait — clearly visible, grayscale, dark gradient overlay for legibility */}
+    <div className="absolute inset-0">
       <img
         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1920&q=80"
         alt=""
-        className="h-full w-full object-cover"
-        style={{ filter: 'grayscale(100%) contrast(1.05) brightness(0.5)' }}
+        className="h-full w-full object-cover object-[center_30%]"
+        style={{ filter: 'grayscale(100%) contrast(1.08)' }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-pitch/90 via-pitch/60 to-pitch/95" />
-      <div className="absolute inset-0 bg-gradient-to-r from-pitch/70 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-pitch/80 via-pitch/30 to-pitch/90" />
+      <div className="absolute inset-0 bg-gradient-to-r from-pitch/40 to-transparent" />
     </div>
 
     {/* Content */}
     <div className="relative z-20 mx-auto w-full max-w-container px-6">
-      <div className="flex flex-col items-center justify-center min-h-screen -mt-16">
+      <div className="flex min-h-screen flex-col items-center justify-center">
         <motion.h1
           className="font-display font-bold text-primary leading-[0.9] tracking-[-0.04em] text-center"
           style={{ fontSize: 'clamp(4rem, 14vw, 13.75rem)' }}

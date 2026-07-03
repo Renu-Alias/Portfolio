@@ -44,9 +44,12 @@ const Achievements = () => {
           {milestones.map((m, i) => (
             <div key={m.title} className="relative">
               <motion.div
-                className="absolute -left-[2.05rem] top-7 h-4 w-4 rounded-full bg-accent"
-                animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
+                className="absolute -left-[2.05rem] top-7 h-4 w-4 rounded-full bg-accent shadow-[0_0_12px_rgba(230,57,70,0.5)] node-pulse"
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                style={{ animationDelay: `${i * 0.4}s` }}
               />
               <Card delay={i * 0.15}>
                 <p className="font-mono text-label text-accent">{m.date}</p>

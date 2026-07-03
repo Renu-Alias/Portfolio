@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import SectionHeader from '../shared/SectionHeader';
 import Card from '../shared/Card';
+import SectionDecoration from '../shared/SectionDecoration';
 
 const categories = [
   {
@@ -51,7 +52,8 @@ const itemVariants = {
 };
 
 const Skills = () => (
-  <section id="skills" className="mx-auto max-w-container px-6 py-section">
+  <section id="skills" className="relative mx-auto max-w-container px-6 py-section">
+    <SectionDecoration className="top-12 right-4" />
     <SectionHeader num="02" title="Skills" />
 
     <div className="grid gap-4 lg:grid-cols-4">
