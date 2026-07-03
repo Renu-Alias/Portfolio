@@ -1,104 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
+:root { color-scheme: dark; }
 
 html {
   scroll-behavior: smooth;
-  background: #000000;
+  background: #050505;
 }
 
 body {
-  @apply bg-pitch text-white overflow-x-hidden font-body;
+  background: linear-gradient(to bottom, #050505, #0a0a0a);
+  color: #F5F5F5;
   cursor: none;
-  background: #000000;
   min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.scrolla {
-  opacity: 0;
-  transform: translate3d(0, 32px, 0);
-  transition: opacity var(--scrolla-duration, 0.8s) ease, transform var(--scrolla-duration, 0.8s) cubic-bezier(0.25, 1, 0.5, 1);
-  transition-delay: var(--scrolla-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-.scrolla.is-in-view {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.scrolla-left {
-  transform: translate3d(-40px, 0, 0);
-}
-
-.scrolla-left.is-in-view {
-  transform: translate3d(0, 0, 0);
-}
-
-.scrolla-right {
-  transform: translate3d(40px, 0, 0);
-}
-
-.scrolla-right.is-in-view {
-  transform: translate3d(0, 0, 0);
-}
-
-.scrolla-down {
-  transform: translate3d(0, 40px, 0);
-}
-
-.scrolla-down.is-in-view {
-  transform: translate3d(0, 0, 0);
-}
-
-.scrolla-scale {
-  transform: scale(0.95);
-}
-
-.scrolla-scale.is-in-view {
-  transform: scale(1);
-}
-
-.scrolla-fade {
-  transform: none;
-}
-
-.font-display {
-  font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-}
-
-.font-mono {
-  font-family: 'JetBrains Mono', 'SFMono-Regular', monospace;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-main {
-  scroll-snap-type: y mandatory;
-}
-
-section {
-  scroll-snap-align: start;
-}
-
-* {
-  box-sizing: border-box;
-}
+#root { min-height: 100vh; }
 
 ::selection {
-  background: rgba(229, 9, 20, 0.7);
+  background: rgba(230, 57, 70, 0.7);
   color: #ffffff;
 }
 
-button,
-a {
-  cursor: none;
+button, a { cursor: none; }
+
+.scroll-indicator-pulse {
+  animation: pulse-line 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-line {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(0.5); }
 }

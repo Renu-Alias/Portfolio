@@ -1,27 +1,59 @@
-import { AnimatePresence } from 'framer-motion';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import Navbar from './components/Navbar';
 import Cursor from './components/Cursor';
 import HomePage from './pages/HomePage';
-import CertificatePage from './pages/CertificatePage';
-import InteractiveBackground from './components/InteractiveBackground';
-import ScrollProgress from './components/ScrollProgress';
+import ScrollProgress from './components/shared/ScrollProgress';
+import AnimatedGrain from './components/shared/AnimatedGrain';
+import { scrollState } from './components/threed/shared';
+
+/* Lazy-load the heavy 3D canvas */
+const PersistentScene = React.lazy(
+  () => import('./components/threed/PersistentScene')
+);
 
 function App() {
-  const location = useLocation();
+  const [show3d, setShow3d] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    /* Defer 3D mount until after first paint */
+    const id = requestAnimationFrame(() => setShow3d(true));
+
+    /* Mobile detection */
+    const checkWidth = () => setIsMobile(window.innerWidth < 768);
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+
+    /* Scroll tracking for 3D scene */
+    const handleScroll = () => {
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      scrollState.progress = docHeight > 0 ? window.scrollY / docHeight : 0;
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener('resize', checkWidth);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#000000] text-white overflow-hidden">
-      <InteractiveBackground />
-      <Cursor />
+    <>
+      <AnimatedGrain />
       <ScrollProgress />
-      <div className="pointer-events-none fixed inset-0 z-[1] opacity-[0.035]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")', backgroundRepeat: 'repeat', backgroundSize: '300px 300px' }} />
-      <AnimatePresence mode="wait" initial={false}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/certificate/:id" element={<CertificatePage />} />
-        </Routes>
-      </AnimatePresence>
-    </div>
+      <Cursor />
+      <Navbar />
+
+      {/* 3D background — only on desktop, loaded after paint */}
+      {show3d && !isMobile && (
+        <React.Suspense fallback={null}>
+          <PersistentScene />
+        </React.Suspense>
+      )}
+
+      <HomePage />
+    </>
   );
 }
 

@@ -21,35 +21,31 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/5 px-8 py-4 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? 'bg-black/60 shadow-[0_0_60px_rgba(0,0,0,0.5)]' : 'bg-black/40'
+      className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b px-6 py-4 backdrop-blur-md transition-all duration-300 ${
+        scrolled
+          ? 'border-white/10 bg-pitch/80 shadow-[0_0_40px_rgba(0,0,0,0.5)]'
+          : 'border-transparent bg-transparent'
       }`}
       initial={{ y: -48, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="text-base font-bold uppercase tracking-[0.3em] text-white/90 transition hover:text-white"
-        >
-          Renu Alias
-        </button>
-        <span className="hidden h-3 w-px bg-white/10 sm:block" />
-        <span className="hidden text-[0.6rem] uppercase tracking-[0.4em] text-white/40 sm:block">
-          Full-Stack / Systems / AI
-        </span>
-      </div>
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="font-mono text-xs uppercase tracking-[0.25em] text-primary/90 transition hover:text-primary"
+      >
+        Renu Alias
+      </button>
 
-      <div className="flex items-center gap-8 text-xs uppercase tracking-[0.35em] text-white/50">
+      <div className="hidden items-center gap-8 md:flex">
         {navItems.map((item) => (
           <a
             key={item.href}
             href={item.href}
-            className="group relative overflow-hidden transition hover:text-white"
+            className="group relative font-mono text-[0.65rem] uppercase tracking-[0.25em] text-muted transition hover:text-primary"
           >
             {item.label}
-            <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-[#E50914] transition-all duration-300 group-hover:w-full" />
+            <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
           </a>
         ))}
       </div>
