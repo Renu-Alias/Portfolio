@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
+import { Suspense, lazy } from 'react';
 
-const nameLetters = ' RENU  ALIAS'.split('');
+const HeroScene = lazy(() => import('../threed/HeroScene'));
+
+const nameLetters = 'RENU  ALIAS'.split('');
 
 const container = {
   hidden: {},
@@ -17,9 +20,21 @@ const letterItem = {
 const Hero = () => (
   <section
     id="hero"
-    className="relative flex min-h-screen items-center justify-center overflow-hidden bg-pitch"
+    className="relative flex min-h-screen items-center justify-center overflow-hidden"
+    style={{ backgroundColor: '#050505' }}
   >
+    {/* Background atmosphere — CSS gradients + grid */}
+    <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 120% 60% at 50% 100%, rgba(230,57,70,0.06) 0%, transparent 60%)' }} />
+      <div className="absolute inset-0 opacity-[0.035]" style={{ backgroundImage: 'linear-gradient(rgba(245,245,245,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(245,245,245,0.08) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+    </div>
 
+    {/* 3D animated background */}
+    <div className="absolute inset-0 z-[1]">
+      <Suspense fallback={null}>
+        <HeroScene />
+      </Suspense>
+    </div>
 
     {/* Layer 2: Name — behind cutout */}
     <div className="absolute inset-0 z-20">
@@ -50,7 +65,7 @@ const Hero = () => (
     <img
       src="cutout.png"
       alt=""
-      className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 h-auto w-auto pointer-events-none select-none"
+      className="absolute bottom-0 left-1/2 -translate-x-[40%] z-30 h-auto w-auto pointer-events-none select-none"
       style={{ maxHeight: '75vh', width: 'auto' }}
       draggable={false}
     />
