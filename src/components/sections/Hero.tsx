@@ -20,7 +20,7 @@ const letterItem = {
 const Hero = () => (
   <section
     id="hero"
-    className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden"
+    className="relative flex h-[100dvh] items-center justify-center overflow-hidden"
     style={{ backgroundColor: '#050505' }}
   >
     {/* Background atmosphere — CSS gradients + grid */}
