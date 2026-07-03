@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const nameLetters = 'RENU ALIAS'.split('');
+const nameLetters = ' RENU  ALIAS'.split('');
 
 const container = {
   hidden: {},
