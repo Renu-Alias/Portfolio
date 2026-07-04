@@ -1,36 +1,67 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-const LERP = 0.28;
-const RING_SIZE = 36;
-const TICK_LENGTH = 6;
-const TICK_GAP = 3;
-const interactiveSelectors = ['a', 'button', 'input', 'textarea', 'select', '[role="button"]'];
+const LERP = 0.1;
+const MAGNET_STRENGTH = 0.35;
+const MAX_PULL = 12;
+const interactiveSelectors = ['a', 'button', 'input', 'textarea', 'select', '[role="button"]', '[data-cursor-text]'];
 
-const TorusCursor = () => {
-  const cursorRef = useRef<HTMLDivElement>(null);
+const MagneticCursor = () => {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const labelTextRef = useRef<HTMLSpanElement>(null);
+  const labelStateRef = useRef<'hidden' | 'enter' | 'exit'>('hidden');
   const rafRef = useRef(0);
-  const rafCoordRef = useRef(0);
+
   const mouseX = useRef(-100);
   const mouseY = useRef(-100);
-  const posX = useRef(-100);
-  const posY = useRef(-100);
-  const coordRef = useRef<HTMLSpanElement>(null);
-  const [state, setState] = useState<'idle' | 'hover' | 'click'>('idle');
-  const stateRef = useRef<'idle' | 'hover' | 'click'>('idle');
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const dotX = useRef(-100);
+  const dotY = useRef(-100);
+  const ringX = useRef(-100);
+  const ringY = useRef(-100);
+
+  const [showLabel, setShowLabel] = useState(false);
+  const [labelText, setLabelText] = useState('');
+  const labelTarget = useRef('');
+  const hoverTarget = useRef<HTMLElement | null>(null);
+  const magnetOffset = useRef({ x: 0, y: 0 });
+  const isHover = useRef(false);
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       mouseX.current = e.clientX;
       mouseY.current = e.clientY;
+
+      const el = hoverTarget.current;
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = cx - e.clientX;
+        const dy = cy - e.clientY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const pull = Math.min(dist, MAX_PULL) * MAGNET_STRENGTH;
+        const angle = Math.atan2(dy, dx);
+        magnetOffset.current = {
+          x: Math.cos(angle) * pull,
+          y: Math.sin(angle) * pull,
+        };
+
+        // Magnetic element shift (subtle pull on the target element itself)
+        const elPull = Math.min(dist, 6) * 0.3;
+        el.style.setProperty('--mx', `${Math.cos(angle) * elPull}px`);
+        el.style.setProperty('--my', `${Math.sin(angle) * elPull}px`);
+        el.classList.add('magnet-active');
+      } else {
+        magnetOffset.current = { x: 0, y: 0 };
+      }
     };
+
     const onMouseDown = () => {
-      stateRef.current = 'click';
-      setState('click');
+      if (ringRef.current) ringRef.current.style.borderWidth = '2px';
     };
     const onMouseUp = () => {
-      stateRef.current = stateRef.current === 'hover' ? 'hover' : 'idle';
-      setState(stateRef.current);
+      if (ringRef.current) ringRef.current.style.borderWidth = '';
     };
 
     window.addEventListener('mousemove', onMouseMove);
@@ -38,11 +69,33 @@ const TorusCursor = () => {
     window.addEventListener('mouseup', onMouseUp);
 
     const loop = () => {
-      posX.current += (mouseX.current - posX.current) * LERP;
-      posY.current += (mouseY.current - posY.current) * LERP;
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${posX.current}px, ${posY.current}px)`;
+      const mx = mouseX.current + magnetOffset.current.x;
+      const my = mouseY.current + magnetOffset.current.y;
+
+      dotX.current += (mx - dotX.current) * 0.35;
+      dotY.current += (my - dotY.current) * 0.35;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${dotX.current}px, ${dotY.current}px)`;
+        dotRef.current.style.opacity = labelTarget.current ? '0' : '1';
       }
+
+      ringX.current += (mx - ringX.current) * LERP;
+      ringY.current += (my - ringY.current) * LERP;
+
+      const activeText = labelTarget.current;
+      const ringScale = activeText ? 0.88 : 1;
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate(${ringX.current}px, ${ringY.current}px) translate(-50%, -50%) scale(${ringScale})`;
+        ringRef.current.style.borderColor = activeText ? '#E63946' : 'rgba(230,57,70,0.6)';
+        ringRef.current.style.opacity = activeText ? '0.6' : '1';
+      }
+
+      // Label follows ring position
+      if (labelRef.current && activeText) {
+        labelRef.current.style.transform = `translate(${ringX.current}px, ${ringY.current}px) translate(-50%, -50%)`;
+        if (labelTextRef.current) labelTextRef.current.textContent = activeText;
+      }
+
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
@@ -56,26 +109,22 @@ const TorusCursor = () => {
   }, []);
 
   useEffect(() => {
-    const loop = () => {
-      setCoords({ x: Math.round(mouseX.current), y: Math.round(mouseY.current) });
-      rafCoordRef.current = requestAnimationFrame(loop);
+    const onOver = (e: Event) => {
+      const el = e.currentTarget as HTMLElement;
+      const text = el.getAttribute('data-cursor-text') || 'GO';
+      labelTarget.current = text;
+      hoverTarget.current = el;
+      isHover.current = true;
+      setLabelText(text);
+      setShowLabel(true);
     };
-    rafCoordRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafCoordRef.current);
-  }, []);
-
-  useEffect(() => {
-    const onOver = () => {
-      if (stateRef.current !== 'click') {
-        stateRef.current = 'hover';
-        setState('hover');
-      }
-    };
-    const onOut = () => {
-      if (stateRef.current !== 'click') {
-        stateRef.current = 'idle';
-        setState('idle');
-      }
+    const onOut = (e: Event) => {
+      const el = e.currentTarget as HTMLElement;
+      el.classList.remove('magnet-active');
+      labelTarget.current = '';
+      hoverTarget.current = null;
+      isHover.current = false;
+      setShowLabel(false);
     };
 
     const attach = () => {
@@ -87,7 +136,6 @@ const TorusCursor = () => {
     attach();
     const observer = new MutationObserver(attach);
     observer.observe(document.body, { childList: true, subtree: true });
-
     return () => {
       observer.disconnect();
       document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
@@ -97,156 +145,87 @@ const TorusCursor = () => {
     };
   }, []);
 
-  const isHover = state === 'hover';
-  const isClick = state === 'click';
-  const ringR = isClick ? 14 : isHover ? 12 : RING_SIZE / 2;
-  const tickOffset = ringR + TICK_GAP;
-  const tickLen = isHover ? 5 : TICK_LENGTH;
-  const innerTickLen = 3;
-
   return (
     <>
       <style>{`
-        .reticle-wrap {
+        .magnetic-wrap {
           position: fixed; left: 0; top: 0;
+          width: 0; height: 0;
           z-index: 9999; pointer-events: none;
-          will-change: transform;
         }
-        .reticle-svg {
-          display: block;
-          transition: filter 0.25s ease;
+        .magnetic-dot {
+          position: fixed; left: 0; top: 0;
+          width: 6px; height: 6px;
+          margin-left: -3px; margin-top: -3px;
+          border-radius: 50%;
+          background: #E63946;
+          will-change: transform, opacity;
         }
-        .reticle-ring {
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        .magnetic-ring {
+          position: fixed; left: 0; top: 0;
+          width: 36px; height: 36px;
+          border-radius: 50%;
+          border: 1px solid rgba(230,57,70,0.6);
+          will-change: transform, opacity, border-color;
+          transition: border-width 0.15s ease;
         }
-        .reticle-tick {
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reticle-dot {
-          transition: transform 0.15s ease;
-        }
-        .reticle-corner {
-          opacity: 0;
-          transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .reticle-corner.show {
-          opacity: 0.8;
-        }
-
-        .reticle-coords {
-          position: absolute;
+        .magnetic-label {
+          position: fixed; left: 0; top: 0;
+          padding: 1px 10px;
           font-family: 'JetBrains Mono', 'Consolas', monospace;
           font-size: 10px;
+          font-weight: 500;
           letter-spacing: 0.12em;
+          text-transform: uppercase;
           color: #E63946;
+          border: 1px solid rgba(230,57,70,0.6);
+          border-radius: 999px;
+          background: rgba(5,5,5,0.75);
+          backdrop-filter: blur(4px);
           white-space: nowrap;
+          will-change: transform, opacity;
           pointer-events: none;
           user-select: none;
-          transition: opacity 0.2s;
+          line-height: 1.8;
+        }
+        .magnetic-label.in  { animation: label-in 0.15s ease-out forwards; }
+        .magnetic-label.out { animation: label-out 0.12s ease-in forwards; }
+
+        @keyframes label-in {
+          0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.82); }
+          100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        @keyframes label-out {
+          0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(0.82); }
         }
 
-        @keyframes shutter-flash {
-          0%   { transform: scale(1); opacity: 1; }
-          30%  { transform: scale(0.85); opacity: 0.6; }
-          100% { transform: scale(1); opacity: 1; }
+        [data-cursor-text] {
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform;
         }
-        .reticle-svg.click {
-          animation: shutter-flash 0.3s ease-out;
-        }
-
-        @keyframes af-lock {
-          0%   { transform: rotate(0deg); }
-          100% { transform: rotate(90deg); }
-        }
-        .reticle-corner.animate {
-          animation: af-lock 0.4s ease-out;
+        [data-cursor-text].magnet-active {
+          transform: translate(var(--mx, 0), var(--my, 0));
         }
 
         @media (hover: none) and (pointer: coarse) {
-          .reticle-wrap { display: none; }
+          .magnetic-wrap { display: none; }
         }
       `}</style>
 
-      <div
-        ref={cursorRef}
-        className="reticle-wrap"
-        style={{ transform: 'translate(-100px, -100px)' }}
-      >
-        <svg
-          className={`reticle-svg ${isClick ? 'click' : ''}`}
-          viewBox="-24 -24 48 48"
-          width={48}
-          height={48}
-          style={{ filter: isHover ? 'drop-shadow(0 0 6px rgba(230,57,70,0.45))' : 'none' }}
-        >
-          <g fill="none" stroke="#E63946" strokeLinecap="round">
-
-            {/* Outer ring */}
-            <circle
-              className="reticle-ring"
-              cx="0" cy="0" r={ringR}
-              strokeWidth={isHover ? 1.2 : 1}
-              opacity={isHover ? 1 : 0.85}
-            />
-
-            {/* Tick marks — outer */}
-            <line className="reticle-tick" x1="0" y1={-tickOffset} x2="0" y2={-tickOffset - tickLen} strokeWidth={1.2} />
-            <line className="reticle-tick" x1="0" y1={tickOffset} x2="0" y2={tickOffset + tickLen} strokeWidth={1.2} />
-            <line className="reticle-tick" x1={-tickOffset} y1="0" x2={-tickOffset - tickLen} y2="0" strokeWidth={1.2} />
-            <line className="reticle-tick" x1={tickOffset} y1="0" x2={tickOffset + tickLen} y2="0" strokeWidth={1.2} />
-
-            {/* Inner tick marks — extend inward from ring */}
-            <line className="reticle-tick" x1="0" y1={-ringR} x2="0" y2={-ringR + innerTickLen} strokeWidth={0.8} opacity={0.5} />
-            <line className="reticle-tick" x1="0" y1={ringR} x2="0" y2={ringR - innerTickLen} strokeWidth={0.8} opacity={0.5} />
-            <line className="reticle-tick" x1={-ringR} y1="0" x2={-ringR + innerTickLen} y2="0" strokeWidth={0.8} opacity={0.5} />
-            <line className="reticle-tick" x1={ringR} y1="0" x2={ringR - innerTickLen} y2="0" strokeWidth={0.8} opacity={0.5} />
-
-            {/* Corner brackets — appear on hover (AF "focus lock" boxes) */}
-            <g className={`reticle-corner ${isHover ? 'show' : ''}`}>
-              {/* Top-left */}
-              <path d={`M ${-ringR - 4} ${-ringR - 2} L ${-ringR - 4} ${-ringR - 6} L ${-ringR} ${-ringR - 6}`} strokeWidth={1.2} />
-              <path d={`M ${-ringR - 4} ${-ringR + 4} L ${-ringR - 4} ${-ringR + 8} L ${-ringR} ${-ringR + 8}`} strokeWidth={1.2} />
-              {/* Top-right */}
-              <path d={`M ${ringR + 4} ${-ringR - 2} L ${ringR + 4} ${-ringR - 6} L ${ringR} ${-ringR - 6}`} strokeWidth={1.2} />
-              <path d={`M ${ringR + 4} ${-ringR + 4} L ${ringR + 4} ${-ringR + 8} L ${ringR} ${-ringR + 8}`} strokeWidth={1.2} />
-              {/* Bottom-left */}
-              <path d={`M ${-ringR - 4} ${ringR + 2} L ${-ringR - 4} ${ringR + 6} L ${-ringR} ${ringR + 6}`} strokeWidth={1.2} />
-              <path d={`M ${-ringR - 4} ${ringR - 4} L ${-ringR - 4} ${ringR - 8} L ${-ringR} ${ringR - 8}`} strokeWidth={1.2} />
-              {/* Bottom-right */}
-              <path d={`M ${ringR + 4} ${ringR + 2} L ${ringR + 4} ${ringR + 6} L ${ringR} ${ringR + 6}`} strokeWidth={1.2} />
-              <path d={`M ${ringR + 4} ${ringR - 4} L ${ringR + 4} ${ringR - 8} L ${ringR} ${ringR - 8}`} strokeWidth={1.2} />
-            </g>
-
-          </g>
-        </svg>
-
-        {/* Center dot */}
+      <div className="magnetic-wrap">
+        <div ref={dotRef} className="magnetic-dot" />
+        <div ref={ringRef} className="magnetic-ring" style={{ transform: 'translate(-50%, -50%)' }} />
         <div
-          className="reticle-dot"
-          style={{
-            position: 'absolute', left: '50%', top: '50%',
-            width: '3px', height: '3px',
-            background: '#E63946', borderRadius: '50%',
-            transform: `translate(-50%, -50%) scale(${isClick ? 0.6 : isHover ? 0.8 : 1})`,
-            transition: 'transform 0.15s ease',
-          }}
-        />
-
-        {/* Coordinate text */}
-        <span
-          ref={coordRef}
-          className="reticle-coords"
-          style={{
-            left: `${RING_SIZE / 2 + 12}px`,
-            top: `${RING_SIZE / 2 + 4}px`,
-            opacity: isHover ? 0.9 : 0.5,
-          }}
+          ref={labelRef}
+          className={`magnetic-label ${showLabel ? 'in' : 'out'}`}
+          style={{ opacity: 0, transform: 'translate(-50%, -50%)' }}
         >
-          X: {coords.x} Y: {coords.y}
-        </span>
+          <span ref={labelTextRef}>{labelText}</span>
+        </div>
       </div>
     </>
   );
 };
 
-export default TorusCursor;
+export default MagneticCursor;
