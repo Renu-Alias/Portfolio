@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Cursor from './components/Cursor';
+import Spotlight from './components/Spotlight';
 import HomePage from './pages/HomePage';
 import ScrollProgress from './components/shared/ScrollProgress';
 import AnimatedGrain from './components/shared/AnimatedGrain';
@@ -43,6 +44,7 @@ function App() {
       <AnimatedGrain />
       <ScrollProgress />
       <Cursor />
+      <Spotlight />
       <Navbar />
 
       {/* 3D background — only on desktop, loaded after paint */}
