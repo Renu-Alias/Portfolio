@@ -7,10 +7,19 @@ const links = [
   { label: 'LinkedIn', value: '/in/renu-alias', href: 'https://www.linkedin.com/in/renu-alias-0022a2329/' }
 ];
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
 const Footer = () => (
-  <section
+  <motion.section
     id="contact"
     className="relative overflow-hidden mx-auto max-w-container px-6 py-section"
+    variants={sectionVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.15 }}
   >
     <motion.div
       className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full"
@@ -20,31 +29,19 @@ const Footer = () => (
     />
 
     <div className="relative z-10 mx-auto max-w-4xl text-center">
-      <motion.h2
-        className="font-display text-display-section font-bold text-primary"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      >
+      <h2 className="font-display text-display-section font-bold text-primary">
         LET&apos;S ARCHITECT
         <br />
         THE FUTURE.
-      </motion.h2>
+      </h2>
 
-      <motion.p
-        className="mt-4 font-mono text-sm text-muted"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
+      <p className="mt-4 font-mono text-sm text-muted">
         Based in Kochi, India
-      </motion.p>
+      </p>
 
       <div className="mt-12 grid gap-4 sm:grid-cols-3">
         {links.map((link) => (
-          <Card key={link.label} delay={0.1}>
+          <Card key={link.label}>
             <a href={link.href} target="_blank" rel="noreferrer" className="block text-left">
               <p className="font-mono text-label text-accent">{link.label}</p>
               <p className="mt-2 font-mono text-sm text-accent transition break-all">
@@ -55,17 +52,11 @@ const Footer = () => (
         ))}
       </div>
 
-      <motion.p
-        className="mt-16 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-muted"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-      >
+      <p className="mt-16 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-muted">
         &copy; {new Date().getFullYear()} Renu Alias
-      </motion.p>
+      </p>
     </div>
-  </section>
+  </motion.section>
 );
 
 export default Footer;

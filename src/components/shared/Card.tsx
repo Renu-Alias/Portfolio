@@ -4,10 +4,9 @@ import { useRef, type ReactNode, type MouseEvent } from 'react';
 interface CardProps {
   children: ReactNode;
   className?: string;
-  delay?: number;
 }
 
-const Card = ({ children, className = '', delay = 0 }: CardProps) => {
+const Card = ({ children, className = '' }: CardProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -42,10 +41,6 @@ const Card = ({ children, className = '', delay = 0 }: CardProps) => {
       onMouseLeave={reset}
       style={{ rotateX, rotateY, perspective: 800, boxShadow }}
       className={`group rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm transition-all duration-400 hover:-translate-y-1 hover:border-accent hover:shadow-card-hover ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
       whileTap={{ scale: 0.97 }}
     >
       {children}

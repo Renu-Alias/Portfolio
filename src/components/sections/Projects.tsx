@@ -42,32 +42,40 @@ const projectData = [
   }
 ];
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
 const Projects = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="projects" className="mx-auto max-w-container px-6 py-section">
+    <motion.section
+      id="projects"
+      className="mx-auto max-w-container px-6 py-section"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+    >
       <SectionHeader num="03" title="Projects" />
 
       <div className="space-y-6">
         {projectData.map((project, i) => (
-          <Card key={project.name} delay={i * 0.1}>
+          <Card key={project.name}>
             <div className="grid gap-6 lg:grid-cols-5">
-              {/* 3D visual header */}
               <div className="relative h-40 overflow-hidden rounded-xl border border-white/10 bg-pitch lg:col-span-2 lg:h-auto">
                 <ProjectScene index={i} />
               </div>
 
-              {/* Content */}
               <div className="lg:col-span-3">
                 <span className="font-mono text-label text-accent">
                   Project 0{i + 1}
                 </span>
-                <motion.h3
-                  className="mt-2 font-display text-display-card font-bold text-primary transition-all duration-400 hover:tracking-wider"
-                >
+                <h3 className="mt-2 font-display text-display-card font-bold text-primary transition-all duration-400 hover:tracking-wider">
                   {project.name}
-                </motion.h3>
+                </h3>
                 <p className="mt-4 font-mono text-body text-muted leading-relaxed">
                   {project.description}
                 </p>
@@ -131,7 +139,7 @@ const Projects = () => {
           </Card>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

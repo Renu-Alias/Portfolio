@@ -24,17 +24,29 @@ const certImages: Record<string, string> = {
   '7': 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=800&q=80'
 };
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
 const Certifications = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   return (
-    <section id="certifications" className="relative mx-auto max-w-container px-6 py-section">
+    <motion.section
+      id="certifications"
+      className="relative mx-auto max-w-container px-6 py-section"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+    >
       <SectionDecoration className="bottom-24 left-4" />
       <SectionHeader num="04" title="Certifications" />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {certs.map((cert) => (
-          <Card key={cert.id} delay={0.05}>
+          <Card key={cert.id}>
             <button
               onClick={() => setExpandedId(expandedId === cert.id ? null : cert.id)}
               className="w-full text-left"
@@ -73,7 +85,7 @@ const Certifications = () => {
           </Card>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

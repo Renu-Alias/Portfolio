@@ -6,35 +6,44 @@ interface SectionHeaderProps {
 }
 
 const SectionHeader = ({ num, title }: SectionHeaderProps) => (
-  <div className="mb-16">
+  <motion.div
+    className="mb-16"
+    variants={{
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+    }}
+  >
     <div className="mb-4 flex items-center gap-6">
       <motion.span
         className="font-mono text-xs uppercase tracking-[0.2em] text-accent"
-        initial={{ opacity: 0, x: -8 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
+        variants={{
+          hidden: { opacity: 0, x: -8 },
+          visible: { opacity: 1, x: 0 }
+        }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
       >
         // {num}.
       </motion.span>
       <motion.span
         className="h-px flex-1 bg-white/10"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true, margin: '-80px' }}
+        variants={{
+          hidden: { scaleX: 0 },
+          visible: { scaleX: 1 }
+        }}
         transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
       />
     </div>
     <motion.h2
       className="font-display text-display-section font-bold text-primary"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
+      variants={{
+        hidden: { opacity: 0, y: 24 },
+        visible: { opacity: 1, y: 0 }
+      }}
       transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
     >
       {title}
     </motion.h2>
-  </div>
+  </motion.div>
 );
 
 export default SectionHeader;

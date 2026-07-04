@@ -21,6 +21,11 @@ const milestones = [
   }
 ];
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
 const Achievements = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -30,7 +35,14 @@ const Achievements = () => {
   const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="achievements" className="mx-auto max-w-container px-6 py-section">
+    <motion.section
+      id="achievements"
+      className="mx-auto max-w-container px-6 py-section"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+    >
       <SectionHeader num="05" title="Achievements" />
 
       <div ref={ref} className="relative">
@@ -43,15 +55,11 @@ const Achievements = () => {
         <div className="relative space-y-12 pl-12">
           {milestones.map((m, i) => (
             <div key={m.title} className="relative">
-              <motion.div
+              <div
                 className="absolute -left-[2.05rem] top-7 h-4 w-4 rounded-full bg-accent shadow-[0_0_12px_rgba(230,57,70,0.5)] node-pulse"
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.5, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
                 style={{ animationDelay: `${i * 0.4}s` }}
               />
-              <Card delay={i * 0.15}>
+              <Card>
                 <p className="font-mono text-label text-accent">{m.date}</p>
                 <h3 className="mt-2 font-display text-display-card font-bold text-primary">
                   {m.title}
@@ -64,7 +72,7 @@ const Achievements = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
