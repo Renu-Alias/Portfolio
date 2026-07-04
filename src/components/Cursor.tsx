@@ -1,190 +1,153 @@
-import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
-const DISTANCE = 18;
-const COLLAPSED = 3;
+const LERP = 0.085;
 const interactiveSelectors = ['a', 'button', 'input', 'textarea', 'select', '[role="button"]'];
 
-const Cursor = () => {
-  const [isHovering, setIsHovering] = useState(false);
-  const hoveringRef = useRef(false);
-  const rafRef = useRef<number>(0);
-
-  const mouseX = useMotionValue(-100);
-  const mouseY = useMotionValue(-100);
-
-  const topX = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const topY = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const bottomX = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const bottomY = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const leftX = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const leftY = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const rightX = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-  const rightY = useSpring(useMotionValue(-100), { stiffness: 160, damping: 14 });
-
-  const targetTopX = useRef(-100);
-  const targetTopY = useRef(-100);
-  const targetBottomX = useRef(-100);
-  const targetBottomY = useRef(-100);
-  const targetLeftX = useRef(-100);
-  const targetLeftY = useRef(-100);
-  const targetRightX = useRef(-100);
-  const targetRightY = useRef(-100);
+const TorusCursor = () => {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef(0);
+  const mouseX = useRef(-100);
+  const mouseY = useRef(-100);
+  const posX = useRef(-100);
+  const posY = useRef(-100);
+  const [state, setState] = useState<'idle' | 'hover' | 'click'>('idle');
+  const stateRef = useRef<'idle' | 'hover' | 'click'>('idle');
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-
-      const dist = hoveringRef.current ? COLLAPSED : DISTANCE;
-
-      targetTopX.current = e.clientX;
-      targetTopY.current = e.clientY - dist;
-      targetBottomX.current = e.clientX;
-      targetBottomY.current = e.clientY + dist;
-      targetLeftX.current = e.clientX - dist;
-      targetLeftY.current = e.clientY;
-      targetRightX.current = e.clientX + dist;
-      targetRightY.current = e.clientY;
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX.current = e.clientX;
+      mouseY.current = e.clientY;
     };
-    window.addEventListener('mousemove', move);
-    return () => window.removeEventListener('mousemove', move);
-  }, []);
+    const onMouseDown = () => {
+      stateRef.current = 'click';
+      setState('click');
+    };
+    const onMouseUp = () => {
+      stateRef.current = stateRef.current === 'hover' ? 'hover' : 'idle';
+      setState(stateRef.current);
+    };
 
-  useEffect(() => {
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mouseup', onMouseUp);
+
     const loop = () => {
-      topX.set(targetTopX.current);
-      topY.set(targetTopY.current);
-      bottomX.set(targetBottomX.current);
-      bottomY.set(targetBottomY.current);
-      leftX.set(targetLeftX.current);
-      leftY.set(targetLeftY.current);
-      rightX.set(targetRightX.current);
-      rightY.set(targetRightY.current);
+      posX.current += (mouseX.current - posX.current) * LERP;
+      posY.current += (mouseY.current - posY.current) * LERP;
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${posX.current}px, ${posY.current}px)`;
+      }
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mouseup', onMouseUp);
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    hoveringRef.current = isHovering;
-  }, [isHovering]);
-
-  useEffect(() => {
-    const handleMouseOver = () => setIsHovering(true);
-    const handleMouseOut = () => setIsHovering(false);
-
-    const updateListeners = () => {
-      document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
-        el.addEventListener('mouseover', handleMouseOver);
-        el.addEventListener('mouseout', handleMouseOut);
-      });
+    const onOver = () => {
+      if (stateRef.current !== 'click') {
+        stateRef.current = 'hover';
+        setState('hover');
+      }
+    };
+    const onOut = () => {
+      if (stateRef.current !== 'click') {
+        stateRef.current = 'idle';
+        setState('idle');
+      }
     };
 
-    updateListeners();
-    const observer = new MutationObserver(updateListeners);
+    const attach = () => {
+      document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
+        el.addEventListener('mouseover', onOver);
+        el.addEventListener('mouseout', onOut);
+      });
+    };
+    attach();
+    const observer = new MutationObserver(attach);
     observer.observe(document.body, { childList: true, subtree: true });
+
     return () => {
       observer.disconnect();
       document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
-        el.removeEventListener('mouseover', handleMouseOver);
-        el.removeEventListener('mouseout', handleMouseOut);
+        el.removeEventListener('mouseover', onOver);
+        el.removeEventListener('mouseout', onOut);
       });
     };
   }, []);
 
+  const scale = state === 'click' ? 0.85 : state === 'hover' ? 1.4 : 1;
+
   return (
     <>
-      <motion.svg
-        className="pointer-events-none fixed inset-0 z-[9999]"
-        style={{ width: '100%', height: '100%' }}
-      >
-        <motion.line
-          x1={mouseX}
-          y1={mouseY}
-          x2={topX}
-          y2={topY}
-          stroke={isHovering ? '#E63946' : 'rgba(245,245,245,0.4)'}
-          strokeWidth={1}
-          strokeLinecap="round"
-        />
-        <motion.line
-          x1={mouseX}
-          y1={mouseY}
-          x2={bottomX}
-          y2={bottomY}
-          stroke={isHovering ? '#E63946' : 'rgba(245,245,245,0.4)'}
-          strokeWidth={1}
-          strokeLinecap="round"
-        />
-        <motion.line
-          x1={mouseX}
-          y1={mouseY}
-          x2={leftX}
-          y2={leftY}
-          stroke={isHovering ? '#E63946' : 'rgba(245,245,245,0.4)'}
-          strokeWidth={1}
-          strokeLinecap="round"
-        />
-        <motion.line
-          x1={mouseX}
-          y1={mouseY}
-          x2={rightX}
-          y2={rightY}
-          stroke={isHovering ? '#E63946' : 'rgba(245,245,245,0.4)'}
-          strokeWidth={1}
-          strokeLinecap="round"
-        />
-      </motion.svg>
+      <style>{`
+        .torus-wrap {
+          position: fixed; left: 0; top: 0;
+          z-index: 9999; pointer-events: none;
+          will-change: transform;
+        }
+        .torus-scale {
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .torus-svg {
+          display: block;
+          animation: torus-rotate 7s linear infinite;
+          filter: drop-shadow(0 0 5px rgba(196,30,58,0.5));
+        }
+        .torus-svg.hover {
+          animation-duration: 2.2s;
+        }
+        @keyframes torus-rotate {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        @media (hover: none) and (pointer: coarse) {
+          .torus-wrap { display: none; }
+        }
+      `}</style>
 
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999]"
-        style={{ x: topX, y: topY }}
+      <div
+        ref={cursorRef}
+        className="torus-wrap"
+        style={{ transform: 'translate(-100px, -100px)' }}
       >
-        <div
-          className={`-translate-x-1/2 -translate-y-1/2 h-2 w-2 border transition-colors duration-300 ${
-            isHovering ? 'border-accent bg-accent/20' : 'border-white/70'
-          }`}
-        />
-      </motion.div>
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999]"
-        style={{ x: bottomX, y: bottomY }}
-      >
-        <div
-          className={`-translate-x-1/2 -translate-y-1/2 h-2 w-2 border transition-colors duration-300 ${
-            isHovering ? 'border-accent bg-accent/20' : 'border-white/70'
-          }`}
-        />
-      </motion.div>
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999]"
-        style={{ x: leftX, y: leftY }}
-      >
-        <div
-          className={`-translate-x-1/2 -translate-y-1/2 h-2 w-2 border transition-colors duration-300 ${
-            isHovering ? 'border-accent bg-accent/20' : 'border-white/70'
-          }`}
-        />
-      </motion.div>
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999]"
-        style={{ x: rightX, y: rightY }}
-      >
-        <div
-          className={`-translate-x-1/2 -translate-y-1/2 h-2 w-2 border transition-colors duration-300 ${
-            isHovering ? 'border-accent bg-accent/20' : 'border-white/70'
-          }`}
-        />
-      </motion.div>
+        <div className="torus-scale" style={{ transform: `scale(${scale})` }}>
+          <svg
+            className={`torus-svg ${state === 'hover' ? 'hover' : ''}`}
+            viewBox="-16 -16 32 32"
+            width="32"
+            height="32"
+          >
+            <g fill="none" stroke="#E63946" strokeLinecap="round" strokeLinejoin="round">
+              {/* Outer ring silhouette */}
+              <ellipse cx="0" cy="0" rx="14" ry="9" strokeWidth="1.2" />
 
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999] h-[3px] w-[3px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent"
-        style={{ x: mouseX, y: mouseY }}
-      />
+              {/* Inner hole — shifted up for 3D perspective */}
+              <ellipse cx="0" cy="-2.5" rx="7.5" ry="4" strokeWidth="1" opacity="0.9" />
+
+              {/* Top meridian arc */}
+              <path d="M -14 0 Q -7 -7 0 -7.5 Q 7 -7 14 0" strokeWidth="0.65" opacity="0.5" />
+
+              {/* Bottom meridian arc (behind, dimmer) */}
+              <path d="M -14 0 Q -7 7 0 7.5 Q 7 7 14 0" strokeWidth="0.65" opacity="0.25" />
+
+              {/* Spokes — connect inner hole to outer edge */}
+              <line x1="-7.5" y1="-4.5" x2="-14" y2="0" strokeWidth="0.6" opacity="0.55" />
+              <line x1="7.5" y1="-4.5" x2="14" y2="0" strokeWidth="0.6" opacity="0.55" />
+              <line x1="0" y1="-7.5" x2="0" y2="-9" strokeWidth="0.6" opacity="0.45" />
+              <line x1="0" y1="1.5" x2="0" y2="9" strokeWidth="0.6" opacity="0.25" />
+            </g>
+          </svg>
+        </div>
+      </div>
     </>
   );
 };
 
-export default Cursor;
+export default TorusCursor;
