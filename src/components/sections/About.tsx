@@ -7,7 +7,6 @@ const About = () => (
     <SectionHeader num="01" title="About Me" />
 
     <div className="grid gap-10 lg:grid-cols-5">
-      {/* Body copy */}
       <div className="lg:col-span-3">
         <motion.p
           className="font-mono text-body text-primary/85"
@@ -16,9 +15,10 @@ const About = () => (
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-          A Kochi-based engineer combining full-stack development discipline with
-          production-grade system thinking and AI-first innovation. Every product
-          I build is designed for resilience, speed, and intuitive digital narratives.
+          A BTech CS student who spends most of my time understanding how software
+          systems work behind the scenes. While I&apos;ve worked across different
+          areas of development, I naturally gravitate toward backend engineering,
+          system design, and AI-powered applications.
         </motion.p>
         <motion.p
           className="mt-6 font-mono text-body text-primary/70"
@@ -27,31 +27,34 @@ const About = () => (
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          From cloud-native services to generative AI workflows, I create engineering
-          experiences that feel cinematic and deliver measurable impact. Currently
-          pursuing BTech in Computer Science at Kochi.
+          My toolkit spans Python, Java, JavaScript, and C. I build full-stack web
+          applications, explore mobile development, and actively learn AI/ML concepts
+          including RAG, LLMs, and scalable AI systems. I&apos;m driven by understanding
+          not just how to build, but why systems are architected the way they are —
+          from API design and databases to distributed backends and AI pipelines.
         </motion.p>
       </div>
 
-      {/* Callout card */}
       <div className="lg:col-span-2">
         <Card>
-          <p className="font-mono text-label text-accent">Studio Creed</p>
-          <p className="mt-4 font-mono text-sm italic leading-relaxed text-primary/80">
-            &ldquo;Architecture is not about software. It is about the people who use it,
-            the systems that sustain it, and the future it enables.&rdquo;
-          </p>
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <p className="font-mono text-label text-accent">Areas of Interest</p>
+          <div className="mt-4 grid grid-cols-1 gap-3">
             <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
-              <p className="font-mono text-label text-accent">Focus</p>
+              <p className="font-mono text-label text-accent">01</p>
               <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-primary/70">
-                Full-Stack / AI Systems
+                Full-Stack Development
               </p>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
-              <p className="font-mono text-label text-accent">Approach</p>
+              <p className="font-mono text-label text-accent">02</p>
               <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-primary/70">
-                Product-First Engineering
+                System Design
+              </p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+              <p className="font-mono text-label text-accent">03</p>
+              <p className="mt-1 font-mono text-xs uppercase tracking-[0.15em] text-primary/70">
+                AI / Machine Learning
               </p>
             </div>
           </div>

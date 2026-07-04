@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import Card from '../shared/Card';
 
 const links = [
-  { label: 'Email', value: 'renu.alias@example.com', href: 'mailto:renu.alias@example.com' },
-  { label: 'GitHub', value: '/renualias', href: 'https://github.com/renualias' },
-  { label: 'LinkedIn', value: '/in/renualias', href: 'https://linkedin.com/in/renualias' }
+  { label: 'Email', value: 'renualiasmeleth@gmail.com', href: 'mailto:renualiasmeleth@gmail.com' },
+  { label: 'GitHub', value: '/Renu-Alias', href: 'https://github.com/Renu-Alias' },
+  { label: 'LinkedIn', value: '/in/renu-alias', href: 'https://www.linkedin.com/in/renu-alias-0022a2329/' }
 ];
 
 const Footer = () => (
@@ -47,7 +47,7 @@ const Footer = () => (
           <Card key={link.label} delay={0.1}>
             <a href={link.href} target="_blank" rel="noreferrer" className="block text-left">
               <p className="font-mono text-label text-accent">{link.label}</p>
-              <p className="mt-2 font-mono text-sm text-accent transition">
+              <p className="mt-2 font-mono text-sm text-accent transition break-all">
                 {link.value}
               </p>
             </a>

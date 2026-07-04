@@ -3,7 +3,7 @@ import { Suspense, lazy } from 'react';
 
 const HeroScene = lazy(() => import('../threed/HeroScene'));
 
-const nameLetters = 'RENU  ALIAS'.split('');
+const nameLetters = 'RENU ALIAS'.split('');
 
 const container = {
   hidden: {},
@@ -44,10 +44,10 @@ const Hero = () => (
     {/* Content — flex column, no stacking context */}
     <div className="mx-auto flex w-full max-w-container flex-1 flex-col px-6">
       {/* Name — behind cutout (z-index works because this is a flex item) */}
-      <div className="flex flex-1 items-center justify-center" style={{ zIndex: 20 }}>
+      <div className="flex flex-1 items-center justify-center pt-[4cm]" style={{ zIndex: 20 }}>
         <motion.h1
           className="font-display font-bold text-stone-300 leading-[0.9] tracking-[-0.04em] text-center whitespace-nowrap"
-          style={{ fontSize: 'clamp(4.5rem, 15vw, 13.5rem)' }}
+          style={{ fontSize: 'clamp(3.7rem, 14.8vw, 14.4rem)' }}
           variants={container}
           initial="hidden"
           animate="show"
@@ -65,7 +65,7 @@ const Hero = () => (
       </div>
 
       {/* Tagline + CTA — above cutout */}
-      <div className="flex flex-col items-center pb-4 pt-8" style={{ zIndex: 35 }}>
+      <div className="flex flex-col items-center pb-4 pt-[calc(2rem+4cm)]" style={{ zIndex: 35 }}>
         <motion.p
           className="font-mono text-sm uppercase tracking-[0.3em] text-muted"
           initial={{ opacity: 0, y: 16 }}
@@ -121,8 +121,8 @@ const Hero = () => (
     <motion.img
       src="/cutout.png"
       alt=""
-      className="absolute bottom-0 left-1/2 z-30 h-auto w-auto pointer-events-none select-none"
-      style={{ maxHeight: '75dvh', width: 'auto', transform: 'translateX(calc(-50% - 2rem)) scale(0.92)' }}
+      className="absolute bottom-0 left-1/2 z-30 pointer-events-none select-none"
+      style={{ height: 'auto', width: 'auto', maxHeight: '68dvh', transform: 'translateX(calc(-50% - 2rem))', transformOrigin: 'bottom center' }}
       draggable={false}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
