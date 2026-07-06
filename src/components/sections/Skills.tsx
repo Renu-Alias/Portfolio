@@ -7,7 +7,7 @@ const categories = [
   {
     name: 'Languages',
     icon: '{ }',
-    items: ['Python', 'C', 'C++', 'JavaScript', 'Java', 'Dart'],
+    items: ['Python', 'C', 'C++', 'JavaScript', 'Java', 'Dart', 'HTML', 'CSS'],
     span: 'lg:col-span-2'
   },
   {
@@ -25,7 +25,7 @@ const categories = [
   {
     name: 'Tools & Design',
     icon: '⚙',
-    items: ['Linux', 'Git', 'GitHub', 'Canva', 'Figma'],
+    items: ['Linux', 'Git', 'GitHub', 'Google AI Studio', 'Canva', 'Figma'],
     span: 'lg:col-span-2'
   },
   {
