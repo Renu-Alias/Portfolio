@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
-import type { Group, Mesh } from 'three';
+import type { Mesh } from 'three';
 
 interface ProjectSceneProps {
   index: number;
@@ -52,7 +52,37 @@ function SphereWireframe() {
   );
 }
 
-const shapes = [TorusKnot, Octahedron, SphereWireframe];
+function HeavyCage() {
+  const ref = useRef<Mesh>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    ref.current.rotation.x = clock.getElapsedTime() * 0.06;
+    ref.current.rotation.y = clock.getElapsedTime() * 0.1;
+  });
+  return (
+    <mesh ref={ref}>
+      <boxGeometry args={[1.5, 1.5, 1.5, 5, 5, 5]} />
+      <meshBasicMaterial color="#E63946" wireframe transparent opacity={0.3} />
+    </mesh>
+  );
+}
+
+function HeavyTorus() {
+  const ref = useRef<Mesh>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    ref.current.rotation.x = clock.getElapsedTime() * 0.08;
+    ref.current.rotation.y = clock.getElapsedTime() * 0.12;
+  });
+  return (
+    <mesh ref={ref}>
+      <torusGeometry args={[0.8, 0.35, 24, 20]} />
+      <meshBasicMaterial color="#E63946" wireframe transparent opacity={0.25} />
+    </mesh>
+  );
+}
+
+const shapes = [TorusKnot, Octahedron, SphereWireframe, HeavyCage, HeavyTorus];
 
 const ProjectScene = ({ index = 0 }: ProjectSceneProps) => {
   const Shape = shapes[index % shapes.length];

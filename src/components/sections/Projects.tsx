@@ -41,12 +41,15 @@ const projectData = [
   }
 ];
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-};
+const cardVariant = (i: number) => ({
+  hidden: { opacity: 0, x: i % 2 === 0 ? -40 : 40, y: 20 },
+  visible: {
+    opacity: 1, x: 0, y: 0,
+    transition: { duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }
+  }
+});
 
-const shapeForIndex = [0, 1, 2, 0, 0]; // same TorusKnot for project 01 & 05
+const shapeForIndex = [0, 1, 2, 3, 4];
 
 const Projects = () => {
 
@@ -54,56 +57,64 @@ const Projects = () => {
     <motion.section
       id="projects"
       className="mx-auto max-w-container px-6 py-section"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true, amount: 0.15 }}
     >
       <SectionHeader num="03" title="Projects" />
 
       <div className="space-y-6">
         {projectData.map((project, i) => (
-          <Card key={project.name}>
-            <div className="grid gap-6 lg:grid-cols-5">
-              <div className="relative h-40 overflow-hidden rounded-xl border border-white/10 bg-pitch lg:col-span-2 lg:h-auto">
-                <ProjectScene index={shapeForIndex[i]} />
-              </div>
+          <motion.div
+            key={project.name}
+            variants={cardVariant(i)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
+            <Card>
+              <div className="grid gap-6 lg:grid-cols-5">
+                <div className="relative h-40 overflow-hidden rounded-xl border border-white/10 bg-pitch lg:col-span-2 lg:h-auto">
+                  <ProjectScene index={shapeForIndex[i]} />
+                </div>
 
-              <div className="lg:col-span-3">
-                <span className="font-mono text-label text-accent">
-                  Project 0{i + 1}
-                </span>
-                <h3 className="mt-2 font-display text-display-card font-bold text-primary transition-all duration-400 hover:tracking-wider">
-                  {project.name}
-                </h3>
-                <p className="mt-4 font-mono text-body text-muted leading-relaxed">
-                  {project.description}
-                </p>
+                <div className="lg:col-span-3">
+                  <span className="font-mono text-label text-accent">
+                    Project 0{i + 1}
+                  </span>
+                  <h3 className="mt-2 font-display text-display-card font-bold text-primary transition-all duration-400 hover:tracking-wider">
+                    {project.name}
+                  </h3>
+                  <p className="mt-4 font-mono text-body text-muted leading-relaxed">
+                    {project.description}
+                  </p>
 
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted transition-all duration-300 hover:border-accent hover:text-primary hover:shadow-[0_0_12px_rgba(230,57,70,0.08)]"
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted transition-all duration-300 hover:border-accent hover:text-primary hover:shadow-[0_0_12px_rgba(230,57,70,0.08)]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 flex items-center gap-4">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-mono text-xs uppercase tracking-[0.25em] text-accent transition hover:text-primary"
                     >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex items-center gap-4">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-mono text-xs uppercase tracking-[0.25em] text-accent transition hover:text-primary"
-                  >
-                    View on GitHub →
-                  </a>
+                      View on GitHub →
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </motion.section>

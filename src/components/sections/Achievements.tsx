@@ -21,10 +21,13 @@ const milestones = [
   }
 ];
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-};
+const itemVariant = (i: number) => ({
+  hidden: { opacity: 0, y: 50, scale: 0.97 },
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { duration: 0.7, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }
+  }
+});
 
 const Achievements = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -38,9 +41,9 @@ const Achievements = () => {
     <motion.section
       id="achievements"
       className="mx-auto max-w-container px-6 py-section"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true, amount: 0.15 }}
     >
       <SectionHeader num="05" title="Achievements" />
@@ -54,7 +57,14 @@ const Achievements = () => {
 
         <div className="relative space-y-12 pl-12">
           {milestones.map((m, i) => (
-            <div key={m.title} className="relative">
+            <motion.div
+              key={m.title}
+              className="relative"
+              variants={itemVariant(i)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+            >
               <div
                 className="absolute -left-[2.05rem] top-7 h-4 w-4 rounded-full bg-accent shadow-[0_0_12px_rgba(230,57,70,0.5)] node-pulse"
                 style={{ animationDelay: `${i * 0.4}s` }}
@@ -68,7 +78,7 @@ const Achievements = () => {
                   {m.description}
                 </p>
               </Card>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
