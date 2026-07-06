@@ -1,44 +1,43 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
 import SectionHeader from '../shared/SectionHeader';
 import Card from '../shared/Card';
 import ProjectScene from '../threed/ProjectScene';
 
 const projectData = [
   {
-    name: 'Quantum CLI Marketplace',
+    name: 'Meridian',
     description:
-      'Built a high-performance Node.js marketplace with PostgreSQL, GitOps deployment, and reusable API modules for secure developer tooling.',
-    link: 'https://github.com/renualias/quantum-cli',
-    tags: ['Node.js', 'PostgreSQL', 'GitOps', 'REST']
+      'A peer-driven blogging platform for engineers and tech enthusiasts with stack-matched discovery, living posts and impact-based global ranking.',
+    link: 'https://github.com/Renu-Alias/Meridian.git',
+    tags: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis']
   },
   {
-    name: 'Synapse Automation Engine',
+    name: 'CodeSage',
     description:
-      'Designed a React-driven enterprise automation dashboard with microservices-ready backend integration and adaptive UX flows.',
-    link: 'https://github.com/renualias/synapse-automation',
-    tags: ['React', 'Node.js', 'Microservices', 'Tailwind']
+      'AI-powered code analysis and tutoring platform that helps beginner programmers debug, understand and improve their code through personalized feedback and learning insights.',
+    link: 'https://github.com/Renu-Alias/CodeSage.git',
+    tags: ['Python', 'React', 'OpenAI', 'FastAPI']
   },
   {
-    name: 'Pulse Analytics Dashboard',
+    name: 'Sentinel',
     description:
-      'Built a real-time analytics dashboard with streaming data pipelines, interactive charts, and role-based access control for product teams.',
-    link: 'https://github.com/renualias/pulse-analytics',
-    tags: ['React', 'WebSockets', 'D3.js', 'RBAC']
+      'Real-time automated piracy detection system with hashing and dual-mode fingerprinting.',
+    link: 'https://github.com/Renu-Alias/Sentinel.git',
+    tags: ['Python', 'OpenCV', 'FFmpeg', 'FastAPI']
   },
   {
-    name: 'Echo RAG Pipeline',
+    name: 'LiteCPU16',
     description:
-      'Developed a retrieval-augmented generation pipeline for enterprise document search, combining vector embeddings with re-ranking for high-precision answers.',
-    link: 'https://github.com/renualias/echo-rag',
-    tags: ['Python', 'LangChain', 'Pinecone', 'FastAPI']
+      'A minimal embedded 16-bit single cycle RISC-V processor.',
+    link: 'https://github.com/Renu-Alias/LiteCPU16.git',
+    tags: ['Verilog', 'RISC-V', 'FPGA', 'Embedded']
   },
   {
-    name: 'ZeroDeploy CLI',
+    name: 'DormShare',
     description:
-      'Created a serverless deployment CLI with multi-cloud support, infrastructure-as-code generation, and one-command rollback for rapid prototyping.',
-    link: 'https://github.com/renualias/zerodeploy-cli',
-    tags: ['TypeScript', 'AWS CDK', 'Docker', 'CLI']
+      'A hyper-local, peer-to-peer micro-leasing marketplace, designed exclusively for college campuses.',
+    link: 'https://github.com/Renu-Alias/DormShare.git',
+    tags: ['React', 'Node.js', 'MongoDB', 'Tailwind']
   }
 ];
 
@@ -47,8 +46,9 @@ const sectionVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
 };
 
+const shapeForIndex = [0, 1, 2, 0, 0]; // same TorusKnot for project 01 & 05
+
 const Projects = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <motion.section
@@ -66,7 +66,7 @@ const Projects = () => {
           <Card key={project.name}>
             <div className="grid gap-6 lg:grid-cols-5">
               <div className="relative h-40 overflow-hidden rounded-xl border border-white/10 bg-pitch lg:col-span-2 lg:h-auto">
-                <ProjectScene index={i} />
+                <ProjectScene index={shapeForIndex[i]} />
               </div>
 
               <div className="lg:col-span-3">
@@ -100,40 +100,7 @@ const Projects = () => {
                   >
                     View on GitHub →
                   </a>
-                  <button
-                    onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                    className="rounded-full border border-accent px-4 py-2 font-mono text-xs uppercase tracking-[0.25em] text-accent transition hover:bg-accent hover:text-white"
-                  >
-                    {openIndex === i ? 'Close' : 'Architecture'}
-                  </button>
                 </div>
-
-                <AnimatePresence>
-                  {openIndex === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-                      className="mt-5 overflow-hidden"
-                    >
-                      <div className="rounded-xl border border-white/10 bg-pitch p-4">
-                        <svg viewBox="0 0 320 120" className="h-28 w-full">
-                          <rect x="20" y="24" width="70" height="30" rx="6" fill="none" stroke="#E63946" strokeWidth="1.2" />
-                          <rect x="125" y="24" width="70" height="30" rx="6" fill="none" stroke="#E63946" strokeWidth="1.2" />
-                          <rect x="230" y="24" width="70" height="30" rx="6" fill="none" stroke="#E63946" strokeWidth="1.2" />
-                          <rect x="125" y="76" width="70" height="30" rx="6" fill="none" stroke="#E63946" strokeWidth="1.2" />
-                          <path d="M90 39h35M195 39h35M160 54v22" stroke="#E63946" strokeWidth="1.2" strokeLinecap="round" />
-                          <circle cx="160" cy="39" r="4" fill="#E63946" />
-                          <path d="M125 91h-34V56" stroke="#E63946" strokeWidth="1.2" strokeLinecap="round" />
-                        </svg>
-                        <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.25em] text-muted">
-                          Load Balancer / API Gateway / Replicated DB / RAG Pipeline
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             </div>
           </Card>
