@@ -5,9 +5,14 @@ import Card from '../shared/Card';
 
 const milestones = [
   {
-    title: 'Kochi Hackathon Champion',
-    date: '2025',
-    description: 'Led a team to build a production-ready web app that won Best System Architecture.'
+    title: 'Nexus AI Hackathon Winner',
+    date: 'March 2026',
+    description: 'Won third place in a 16-hour hackathon focused on shipping production-ready applications with real-time collaboration and cross-functional team building.'
+  },
+  {
+    title: 'CEFR C2 — Cambridge LinguaSkill Business',
+    date: '2024',
+    description: 'Attested CEFR C2 level on the Cambridge LinguaSkill Business examination, demonstrating mastery-level proficiency in professional English communication.'
   },
   {
     title: 'AI Systems Sprint',

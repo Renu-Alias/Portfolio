@@ -30,7 +30,9 @@ const About = () => (
     whileInView="visible"
     viewport={{ once: true, amount: 0.15 }}
   >
-    <SectionHeader num="01" title="About Me" />
+    <div className="relative z-10">
+      <SectionHeader num="01" title="About Me" />
+    </div>
 
     <motion.div
       className="grid gap-10 lg:grid-cols-5"

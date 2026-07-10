@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../shared/SectionHeader';
 
 const events = [
@@ -45,7 +45,6 @@ const events = [
     description: 'Deep-dive workshop on transformer architectures, fine-tuning LLMs, and deploying models to production endpoints.',
     hasCert: true
   }
-  
 ];
 
 const cardVariant = {
@@ -56,30 +55,44 @@ const cardVariant = {
   })
 };
 
+const allEvents = [...events, ...events];
+const setSize = events.length;
+
 const EventsContests = () => {
-  const [openCert, setOpenCert] = useState<number | null>(null);
+  const [openCert, setOpenCert] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const rafRef = useRef<number>(0);
+  const speedRef = useRef(0.5);
 
-  const updateScrollState = () => {
+  /* Continuous smooth auto-scroll with seamless loop */
+  useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  };
 
-  const scroll = (dir: 'left' | 'right') => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const amount = el.clientWidth * 0.6;
-    el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
-  };
+    const tick = () => {
+      if (!isHovered) {
+        const card = el.querySelector('.event-card') as HTMLElement | null;
+        const cardWidth = card?.offsetWidth || 320;
+        const singleWidth = (cardWidth + 20) * setSize;
+
+        let next = el.scrollLeft + speedRef.current;
+        if (singleWidth > 0 && next >= singleWidth - 4) {
+          next -= singleWidth;
+        }
+        el.scrollLeft = next;
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [isHovered]);
 
   return (
     <motion.section
       id="events"
-      className="mx-auto max-w-container px-6 py-section overflow-hidden"
+      className="mx-auto max-w-container px-6 py-section"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}
@@ -91,57 +104,33 @@ const EventsContests = () => {
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-pitch to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-pitch to-transparent" />
 
-        {/* Scroll buttons */}
-        {canScrollLeft && (
-          <button
-            onClick={() => scroll('left')}
-            className="absolute left-2 top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-pitch/80 text-muted backdrop-blur-sm transition hover:border-accent/50 hover:text-accent"
-            aria-label="Scroll left"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M10 3l-5 5 5 5" />
-            </svg>
-          </button>
-        )}
-        {canScrollRight && (
-          <button
-            onClick={() => scroll('right')}
-            className="absolute right-2 top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-pitch/80 text-muted backdrop-blur-sm transition hover:border-accent/50 hover:text-accent"
-            aria-label="Scroll right"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M6 3l5 5-5 5" />
-            </svg>
-          </button>
-        )}
-
         {/* Carousel track */}
         <div
           ref={scrollRef}
-          onScroll={updateScrollState}
-          className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+          className="flex gap-5 overflow-x-auto py-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {events.map((event, i) => (
+          {allEvents.map((event, i) => (
             <motion.div
-              key={event.name}
+              key={`${event.name}-${i}`}
               custom={i}
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
-              className="snap-start flex-shrink-0 w-[85vw] max-w-[380px]"
+              className="event-card flex-shrink-0 w-[85vw] max-w-[380px]"
             >
               <div className="group relative h-full rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-white/[0.04] hover:-translate-y-1">
-                {/* Large year watermark */}
-                <span className="absolute right-5 top-4 font-mono text-[3rem] font-bold leading-none text-white/[0.04] select-none pointer-events-none">
+                <span className="absolute right-5 top-4 font-mono text-[3rem] font-bold leading-none text-white/[0.07] select-none pointer-events-none">
                   {event.date}
                 </span>
 
-                {/* Type label */}
                 <span className="font-mono text-label text-accent">{event.type}</span>
 
-                {/* Content */}
                 <h3 className="mt-4 font-display text-display-card font-bold text-primary">
                   {event.name}
                 </h3>
@@ -149,19 +138,18 @@ const EventsContests = () => {
                   {event.description}
                 </p>
 
-                {/* Certificate toggle */}
                 {event.hasCert && (
                   <div className="mt-5">
                     <button
-                      onClick={() => setOpenCert(openCert === i ? null : i)}
+                      onClick={() => setOpenCert(openCert === `${event.name}-${i}` ? null : `${event.name}-${i}`)}
                       className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-accent transition hover:text-primary"
                     >
                       <span className="h-px w-4 bg-accent/50" />
-                      {openCert === i ? 'Hide' : 'Certificate'}
+                      {openCert === `${event.name}-${i}` ? 'Hide' : 'Certificate'}
                     </button>
 
                     <AnimatePresence>
-                      {openCert === i && (
+                      {openCert === `${event.name}-${i}` && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
