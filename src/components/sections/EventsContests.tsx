@@ -5,29 +5,36 @@ import SectionHeader from '../shared/SectionHeader';
 const events = [
   {
     type: 'Hackathon',
-    name: 'Build & Ship',
-    date: '2025',
-    description: 'A 36-hour hackathon focused on shipping production-ready applications with real-time collaboration and cross-functional team building.',
+    name: 'Nexus AI Hackathon',
+    date: '2026',
+    description: 'A 16-hour hackathon focused on shipping production-ready applications with real-time collaboration and cross-functional team building.',
     hasCert: true
   },
   {
-    type: 'Conference',
-    name: 'Tech Summit Kerala',
-    date: '2025',
+    type: 'Open Source Contribution',
+    name: 'GirlScript Summer of Code',
+    date: '2026',
     description: 'Attended talks on distributed systems, edge computing, and AI infrastructure from industry leaders across India.',
     hasCert: false
   },
   {
-    type: 'Workshop',
-    name: 'Cloud Native Bootcamp',
-    date: '2024',
+    type: 'Event',
+    name: 'IEDC Techxcel',
+    date: '2025',
     description: 'Hands-on workshop covering Docker orchestration, Kubernetes cluster management, and CI/CD pipeline deployment strategies.',
     hasCert: true
   },
   {
-    type: 'Competition',
-    name: 'Code Debug Championship',
-    date: '2024',
+    type: 'Coding Contest',
+    name: 'DSArena Coding Contest',
+    date: '2025',
+    description: 'Competitive debugging event with real-world codebase scenarios, time-constrained regression fixes, and peer review rounds.',
+    hasCert: false
+  },
+  {
+    type: 'Coding Contest',
+    name: 'Ode to Code',
+    date: '2025',
     description: 'Competitive debugging event with real-world codebase scenarios, time-constrained regression fixes, and peer review rounds.',
     hasCert: false
   },
@@ -37,14 +44,8 @@ const events = [
     date: '2024',
     description: 'Deep-dive workshop on transformer architectures, fine-tuning LLMs, and deploying models to production endpoints.',
     hasCert: true
-  },
-  {
-    type: 'Meetup',
-    name: 'Open Source Day',
-    date: '2023',
-    description: 'Community meetup focused on open-source contributions, live coding sprints, and project showcases from local maintainers.',
-    hasCert: false
   }
+  
 ];
 
 const cardVariant = {

@@ -26,12 +26,23 @@ const Hero = () => (
     className="relative flex h-[100dvh] flex-col overflow-hidden"
     style={{ backgroundColor: '#050505' }}
   >
-    {/* 3D animated background */}
+    {/* Sparse dot field background */}
     <div className="absolute inset-0 z-[1]">
       <Suspense fallback={null}>
         <HeroScene />
       </Suspense>
     </div>
+
+    {/* Radial glow behind the portrait */}
+    <div
+      className="absolute bottom-0 left-1/2 z-[40] -translate-x-1/2 pointer-events-none select-none"
+      style={{
+        width: 'min(75vw, 650px)',
+        height: 'min(60vh, 550px)',
+        background: 'radial-gradient(ellipse at bottom center, rgba(230,57,70,0.5) 0%, rgba(230,57,70,0.15) 40%, transparent 65%)',
+        transform: 'translateX(calc(-50% - 2rem))'
+      }}
+    />
 
     {/* Flex content: name + bottom row — no tagline here */}
     <div className="mx-auto flex w-full max-w-container flex-1 flex-col px-6">
