@@ -53,6 +53,23 @@ const About = () => (
           not just how to build, but why systems are architected the way they are —
           from API design and databases to distributed backends and AI pipelines.
         </p>
+
+        {/* Education — compact */}
+        <div className="mt-8 border-t border-white/5 pt-6">
+          <p className="font-mono text-label text-accent">Education</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">2024 – 2028</p>
+              <p className="mt-1 font-mono text-sm text-primary/85">B.Tech CSE</p>
+              <p className="font-mono text-[0.65rem] text-muted">APJ Abdul Kalam Technological University</p>
+            </div>
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">2022 – 2024</p>
+              <p className="mt-1 font-mono text-sm text-primary/85">Higher Secondary (PCM)</p>
+              <p className="font-mono text-[0.65rem] text-muted">Central Board of Secondary Education</p>
+            </div>
+          </div>
+        </div>
       </motion.div>
 
       <motion.div className="lg:col-span-2" variants={itemRight}>

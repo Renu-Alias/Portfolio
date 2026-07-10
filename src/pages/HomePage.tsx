@@ -4,6 +4,7 @@ import Skills from '../components/sections/Skills';
 import Projects from '../components/sections/Projects';
 import Certifications from '../components/sections/Certifications';
 import Achievements from '../components/sections/Achievements';
+import EventsContests from '../components/sections/EventsContests';
 import Footer from '../components/sections/Footer';
 
 const HomePage = () => (
@@ -15,6 +16,7 @@ const HomePage = () => (
       <Projects />
       <Certifications />
       <Achievements />
+      <EventsContests />
       <Footer />
     </main>
   </>
