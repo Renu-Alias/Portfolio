@@ -7,7 +7,7 @@ interface SectionHeaderProps {
 
 const SectionHeader = ({ num, title }: SectionHeaderProps) => (
   <motion.div
-    className="mb-16"
+    className="mb-8 sm:mb-12 lg:mb-16"
     variants={{
       hidden: { opacity: 0, y: 20 },
       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }

@@ -1,10 +1,7 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, useMemo, useEffect, type RefObject } from 'react';
 import * as THREE from 'three';
-import { mouse } from './shared';
-
-/* ---- Scroll state ---- */
-export const scrollState = { progress: 0 };
+import { mouse, scrollState } from './shared';
 
 const WHITE_COUNT = 2500;
 const RED_COUNT = 500;

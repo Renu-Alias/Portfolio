@@ -25,7 +25,7 @@ const interestItem = {
 const About = () => (
   <motion.section
     id="about"
-    className="mx-auto max-w-container px-6 py-section"
+    className="mx-auto max-w-container px-4 sm:px-6 py-section"
     initial="hidden"
     whileInView="visible"
     viewport={{ once: true, amount: 0.15 }}
@@ -35,7 +35,7 @@ const About = () => (
     </div>
 
     <motion.div
-      className="grid gap-10 lg:grid-cols-5"
+      className="grid gap-6 sm:gap-8 lg:gap-10 lg:grid-cols-5"
       variants={container}
       initial="hidden"
       whileInView="visible"

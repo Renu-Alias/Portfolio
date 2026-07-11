@@ -1,7 +1,9 @@
+import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import SectionHeader from '../shared/SectionHeader';
 import Card from '../shared/Card';
-import ProjectScene from '../threed/ProjectScene';
+
+const ProjectScene = React.lazy(() => import('../threed/ProjectScene'));
 
 const projectData = [
   {
@@ -56,7 +58,7 @@ const Projects = () => {
   return (
     <motion.section
       id="projects"
-      className="mx-auto max-w-container px-6 py-section"
+      className="mx-auto max-w-container px-4 sm:px-6 py-section"
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -74,9 +76,11 @@ const Projects = () => {
             viewport={{ once: true, amount: 0.15 }}
           >
             <Card>
-              <div className="grid gap-6 lg:grid-cols-5">
-                <div className="relative h-40 overflow-hidden rounded-xl border border-white/10 bg-pitch lg:col-span-2 lg:h-auto">
-                  <ProjectScene index={shapeForIndex[i]} />
+              <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-5">
+                <div className="relative h-32 sm:h-40 overflow-hidden rounded-xl border border-white/10 bg-pitch lg:col-span-2 lg:h-auto">
+                  <Suspense fallback={null}>
+                    <ProjectScene index={shapeForIndex[i]} />
+                  </Suspense>
                 </div>
 
                 <div className="lg:col-span-3">

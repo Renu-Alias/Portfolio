@@ -103,14 +103,14 @@ const Certifications = () => {
   return (
     <motion.section
       id="certifications"
-      className="relative mx-auto max-w-container px-6 py-section"
+      className="relative mx-auto max-w-container px-4 sm:px-6 py-section"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}
     >
       <SectionHeader num="04" title="Certifications" />
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {certs.map((cert, i) => (
           <motion.div
             key={cert.id}

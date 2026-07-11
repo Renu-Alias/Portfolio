@@ -85,7 +85,7 @@ const Footer = () => {
   return (
     <motion.section
       id="contact"
-      className="relative overflow-hidden mx-auto max-w-container px-6 py-section"
+      className="relative overflow-hidden mx-auto max-w-container px-4 sm:px-6 py-section"
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
@@ -206,7 +206,7 @@ const Footer = () => {
               <line x1="15" y1="17" x2="15" y2="83" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" />
             </svg>
 
-            <div className="flex flex-col items-center justify-center gap-14 relative">
+            <div className="flex flex-col items-center justify-center gap-10 sm:gap-14 relative">
               {contacts.map((item) => (
                 <div
                   key={item.label}

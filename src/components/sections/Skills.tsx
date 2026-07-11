@@ -8,37 +8,37 @@ const categories = [
     name: 'Languages',
     icon: '{ }',
     items: ['Python', 'C', 'C++', 'JavaScript', 'Java', 'Dart', 'HTML', 'CSS'],
-    span: 'lg:col-span-2'
+    span: 'sm:col-span-1 lg:col-span-2'
   },
   {
     name: 'Frameworks & Backend',
     icon: '</>',
     items: ['React', 'Flutter', 'Node.js', 'Express.js'],
-    span: 'lg:col-span-2'
+    span: 'sm:col-span-1 lg:col-span-2'
   },
   {
     name: 'Databases',
     icon: '🗄',
     items: ['PostgreSQL', 'Oracle', 'MySQL', 'MongoDB'],
-    span: 'lg:col-span-1'
+    span: 'sm:col-span-1 lg:col-span-1'
   },
   {
     name: 'Tools & Design',
     icon: '⚙',
     items: ['Linux', 'Git', 'GitHub', 'Google AI Studio', 'Canva', 'Figma'],
-    span: 'lg:col-span-2'
+    span: 'sm:col-span-1 lg:col-span-2'
   },
   {
     name: 'Infrastructure',
     icon: '☁',
     items: ['AWS', 'GCP', 'Vercel', 'Claude'],
-    span: 'lg:col-span-1'
+    span: 'sm:col-span-1 lg:col-span-1'
   },
   {
     name: 'Soft Skills',
     icon: '◆',
     items: ['Leadership', 'Collaboration', 'Adaptability', 'Problem-solving'],
-    span: 'lg:col-span-3'
+    span: 'sm:col-span-2 lg:col-span-3'
   }
 ];
 
@@ -53,7 +53,7 @@ const cardVariant = (i: number) => ({
 const Skills = () => (
   <motion.section
     id="skills"
-    className="relative mx-auto max-w-container px-6 py-section"
+    className="relative mx-auto max-w-container px-4 sm:px-6 py-section"
     initial="hidden"
     whileInView="visible"
     viewport={{ once: true, amount: 0.15 }}
@@ -61,7 +61,7 @@ const Skills = () => (
     <SectionDecoration className="top-12 right-4" />
     <SectionHeader num="02" title="Skills" />
 
-    <div className="grid gap-4 lg:grid-cols-4">
+    <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       {categories.map((cat, i) => (
         <motion.div
           key={cat.name}

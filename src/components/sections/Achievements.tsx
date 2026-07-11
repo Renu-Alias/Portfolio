@@ -7,22 +7,22 @@ const milestones = [
   {
     title: 'Nexus AI Hackathon Winner',
     date: 'March 2026',
-    description: 'Won third place in a 16-hour hackathon focused on shipping production-ready applications with real-time collaboration and cross-functional team building.'
+    description: 'Secured third place in a 16-hour hackathon, shipping a production-ready application under tight deadlines with real-time collaboration and cross-functional teamwork.'
   },
   {
     title: 'CEFR C2 — Cambridge LinguaSkill Business',
     date: '2024',
-    description: 'Attested CEFR C2 level on the Cambridge LinguaSkill Business examination, demonstrating mastery-level proficiency in professional English communication.'
+    description: 'Attested CEFR C2 proficiency on the Cambridge LinguaSkill Business examination, demonstrating mastery-level command of professional English communication across reading, writing, listening, and speaking.'
   },
   {
     title: "GSSoC '26 Contributor",
     date: '2026',
-    description: 'GirlScript Summer of Code — contributed to open-source projects under the Open Source Track, collaborating with maintainers and shipping real-world features.'
+    description: 'GirlScript Summer of Code — contributed to real-world open-source projects under the Open Source Track, collaborating with maintainers through structured pull requests, code reviews, and feature development.'
   },
   {
     title: "SSoC '26 Contributor",
     date: '2026',
-    description: 'Social Summer of Code — actively contributed to community-driven open-source initiatives, building and improving tools for social impact.'
+    description: 'Social Summer of Code — actively contributed to community-focused open-source initiatives, building tools for social impact and following collaborative development workflows.'
   }
 ];
 
@@ -45,7 +45,7 @@ const Achievements = () => {
   return (
     <motion.section
       id="achievements"
-      className="mx-auto max-w-container px-6 py-section"
+      className="mx-auto max-w-container px-4 sm:px-6 py-section"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}

@@ -19,6 +19,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  body, button, a { cursor: auto; }
+}
+
 #root { min-height: 100vh; }
 
 ::selection {

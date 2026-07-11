@@ -14,35 +14,42 @@ const events = [
     type: 'Coding Contest',
     name: 'DSArena Coding Contest',
     date: '2025',
-    description: 'Competitive debugging event with real-world codebase scenarios, time-constrained regression fixes, and peer review rounds.',
+    description: 'Competitive programming contest featuring algorithmic challenges across data structures and algorithms with time-constrained problem-solving.',
     hasCert: true
   },
   {
     type: 'Coding Contest',
     name: 'Ode to Code',
     date: '2026',
-    description: 'Competitive debugging event with real-world codebase scenarios, time-constrained regression fixes, and peer review rounds.',
+    description: 'Time-bound coding competition that tested algorithmic thinking, problem-solving, and DSA proficiency.',
     hasCert: true
   },
   {
     type: 'Open Source',
     name: 'GirlScript Summer of Code',
     date: '2026',
-    description: 'Attended talks on distributed systems, edge computing, and AI infrastructure from industry leaders across India.',
+    description: 'Contributed to real-world open-source projects, collaborating with mentors and contributors through code reviews and pull requests.',
     hasCert: true
   },
   {
     type: 'Open Source',
     name: 'Social Summer of Code',
     date: '2026',
-    description: 'Attended talks on distributed systems, edge computing, and AI infrastructure from industry leaders across India.',
+    description: 'Actively contributed to community-driven open-source initiatives, following best practices in version control, documentation, and collaborative development.',
+    hasCert: true
+  },
+  {
+    type: 'Program',
+    name: 'Intel AI for All',
+    date: '2026',
+    description: 'Completed Intel\'s AI for All program covering fundamentals of artificial intelligence, AI Aware and AI Appreciation.',
     hasCert: true
   },
   {
     type: 'Event',
-    name: 'IEDC Techxcel',
+    name: 'IEDC Techxcel 2.0',
     date: '2025',
-    description: 'Hands-on workshop covering Docker orchestration, Kubernetes cluster management, and CI/CD pipeline deployment strategies.',
+    description: 'Startup ideation and pitching event focused on innovation, entrepreneurship, and business problem-solving.',
     hasCert: true
   },
   
@@ -50,14 +57,14 @@ const events = [
     type: 'Contest',
     name: 'IEDC OneTank Event - Pre Event',
     date: '2025',
-    description: 'Deep-dive workshop on transformer architectures, fine-tuning LLMs, and deploying models to production endpoints.',
+    description: 'Pre-event competition for the flagship OneTank event, designed to help teams refine their startup pitches through mentor feedback.',
     hasCert: false
   },
   {
     type: 'Event',
     name: 'Dev Summit',
     date: '2026',
-    description: 'Deep-dive workshop on transformer architectures, fine-tuning LLMs, and deploying models to production endpoints.',
+    description: 'Attended deep-dive technical sessions on transformer architectures and fine-tuning large language models.',
     hasCert: true
   }
 ];
@@ -107,7 +114,7 @@ const EventsContests = () => {
   return (
     <motion.section
       id="events"
-      className="mx-auto max-w-container px-6 py-section"
+      className="mx-auto max-w-container px-4 sm:px-6 py-section"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}
@@ -137,10 +144,10 @@ const EventsContests = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
-              className="event-card flex-shrink-0 w-[85vw] max-w-[380px]"
+              className="event-card flex-shrink-0 w-[80vw] sm:w-[70vw] md:w-[55vw] lg:w-[45vw] xl:w-[380px]"
             >
               <div className="group relative h-full rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-white/[0.04] hover:-translate-y-1">
-                <span className="absolute right-5 top-4 font-mono text-[1.25rem] font-bold leading-none text-white/[0.07] select-none pointer-events-none">
+                <span className="absolute right-5 top-4 font-mono text-[2rem] font-bold leading-none text-white/[0.07] select-none pointer-events-none">
                   {event.date}
                 </span>
 
