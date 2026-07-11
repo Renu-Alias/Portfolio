@@ -1,10 +1,41 @@
-import { motion } from 'framer-motion';
-import Card from '../shared/Card';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRef, useState, useCallback, useEffect } from 'react';
 
-const links = [
-  { label: 'Email', value: 'renualiasmeleth@gmail.com', href: 'mailto:renualiasmeleth@gmail.com' },
-  { label: 'GitHub', value: '/Renu-Alias', href: 'https://github.com/Renu-Alias' },
-  { label: 'LinkedIn', value: '/in/renu-alias', href: 'https://www.linkedin.com/in/renu-alias-0022a2329/' }
+const contacts = [
+  {
+    label: 'EMAIL',
+    value: 'renualiasmeleth@gmail.com',
+    href: 'mailto:renualiasmeleth@gmail.com',
+    action: 'copy' as const,
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="M2 4l10 8 10-8" />
+      </svg>
+    )
+  },
+  {
+    label: 'GITHUB',
+    value: '/Renu-Alias',
+    href: 'https://github.com/Renu-Alias',
+    action: 'link' as const,
+    icon: (
+      <svg viewBox="1.5 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+      </svg>
+    )
+  },
+  {
+    label: 'LINKEDIN',
+    value: 'renu-alias',
+    href: 'https://www.linkedin.com/in/renu-alias-0022a2329/',
+    action: 'link' as const,
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+      </svg>
+    )
+  }
 ];
 
 const sectionVariants = {
@@ -12,97 +43,270 @@ const sectionVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
 };
 
-const nodes = [
-  { cx: 180, cy: 100, delay: 0 },
-  { cx: 500, cy: 380, delay: 1.2 },
-  { cx: 820, cy: 100, delay: 2.4 }
-];
+const Footer = () => {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [focused, setFocused] = useState<string | null>(null);
+  const dotRef = useRef<SVGCircleElement>(null);
 
-const lines = [
-  { x1: 180, y1: 100, x2: 500, y2: 380, delay: 0 },
-  { x1: 500, y1: 380, x2: 820, y2: 100, delay: 0.6 },
-  { x1: 180, y1: 100, x2: 820, y2: 100, delay: 1.2 }
-];
+  const active = hovered || focused;
 
-const dashAnim = {
-  animate: { strokeDashoffset: [-24, 0] },
-  transition: { duration: 1.8, repeat: Infinity, ease: 'linear' }
-};
+  const handleCopy = useCallback(async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* fallback */
+    }
+  }, []);
 
-const Footer = () => (
-  <motion.section
-    id="contact"
-    className="relative overflow-hidden mx-auto max-w-container px-6 py-section"
-    variants={sectionVariants}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, amount: 0.15 }}
-  >
-    <motion.div
-      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full"
-      style={{ background: 'radial-gradient(circle,rgba(230,57,70,0.12)_0%,transparent_60%)' }}
-      animate={{ scale: [1, 1.06, 1], opacity: [0.8, 1, 0.8] }}
-      transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-    />
+  const handleClick = useCallback((item: typeof contacts[0]) => {
+    if (item.action === 'copy') {
+      handleCopy(item.value);
+    } else {
+      window.open(item.href, '_blank', 'noopener');
+    }
+  }, [handleCopy]);
 
-    {/* Signal nodes constellation */}
-    <motion.svg
-      className="pointer-events-none absolute inset-0 z-[1] h-full w-full"
-      viewBox="0 0 1000 500"
-      preserveAspectRatio="xMidYMid slice"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, delay: 0.3 }}
+  const handleKeyDown = useCallback((e: React.KeyboardEvent, item: typeof contacts[0]) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick(item);
+    }
+  }, [handleClick]);
+
+  /* Traveling dot animation via rAF */
+  useEffect(() => {
+    let start: number | null = null;
+    const duration = 6000;
+    let raf: number;
+
+    const tick = (ts: number) => {
+      if (!start) start = ts;
+      const elapsed = (ts - start) % duration;
+      const p = elapsed / duration;
+      /* traverse: 0→1 across segments, then reverse 1→0 */
+      const phase = p < 0.5 ? p * 2 : 2 - p * 2;
+      if (dotRef.current) {
+        const cx = 6 + phase * 88;
+        dotRef.current.setAttribute('cx', `${cx}`);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const isActive = (label: string) => active === label;
+  const isSeg0Active = isActive('EMAIL') || isActive('GITHUB');
+  const isSeg1Active = isActive('GITHUB') || isActive('LINKEDIN');
+
+  return (
+    <motion.section
+      id="contact"
+      className="relative overflow-hidden mx-auto max-w-container px-6 py-section"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
     >
-      {lines.map((l, i) => (
-        <motion.line
-          key={i}
-          x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
-          stroke="#F5F5F5" strokeWidth="1" strokeDasharray="3 6"
-          opacity="0.12"
-          {...dashAnim}
-        />
-      ))}
-      {nodes.map((n, i) => (
-        <motion.circle
-          key={i}
-          cx={n.cx} cy={n.cy} r="3.5"
-          fill="#E63946" opacity="0.5"
-          animate={{ r: [3.5, 5, 3.5], opacity: [0.4, 0.75, 0.4] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: n.delay }}
-        />
-      ))}
-    </motion.svg>
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full"
+        style={{ background: 'radial-gradient(circle,rgba(230,57,70,0.12)_0%,transparent_60%)' }}
+        animate={{ scale: [1, 1.06, 1], opacity: [0.8, 1, 0.8] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
-    <div className="relative z-10 mx-auto max-w-4xl text-center">
-      <h2 className="font-display text-display-section font-bold text-primary">
-        LET&apos;S ARCHITECT
-        <br />
-        THE FUTURE.
-      </h2>
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
+        <h2 className="font-display text-display-section font-bold text-primary">
+          LET&apos;S ARCHITECT
+          <br />
+          THE FUTURE.
+        </h2>
 
-      <p className="mt-4 font-mono text-sm text-muted">
-        Based in Kochi, India
-      </p>
+        <p className="mt-4 font-mono text-sm text-muted">
+          Based in Kochi, India
+        </p>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-3">
-        {links.map((link) => (
-          <Card key={link.label}>
-            <a href={link.href} target="_blank" rel="noreferrer" className="block text-left">
-              <p className="font-mono text-label text-accent">{link.label}</p>
-              <p className="mt-2 font-mono text-sm text-accent transition break-all">
-                {link.value}
-              </p>
-            </a>
-          </Card>
-        ))}
+        {/* Nodes container */}
+        <div className="relative mt-16 md:mt-20">
+          {/* === Desktop layout === */}
+          <div className="hidden md:block">
+            {/* Circles row with connector SVG */}
+            <div className="relative h-14">
+              <svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                viewBox="0 0 100 14"
+                preserveAspectRatio="none"
+                style={{ opacity: 0.25 }}
+              >
+                <line x1="6" y1="7" x2="47" y2="7" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" />
+                <line x1="53" y1="7" x2="94" y2="7" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" />
+                <line
+                  x1="6" y1="7" x2="47" y2="7"
+                  stroke="#E63946" strokeWidth="1.5" strokeDasharray="3 4"
+                  className="transition-opacity duration-300"
+                  style={{ opacity: isSeg0Active ? 0.7 : 0 }}
+                />
+                <line
+                  x1="53" y1="7" x2="94" y2="7"
+                  stroke="#E63946" strokeWidth="1.5" strokeDasharray="3 4"
+                  className="transition-opacity duration-300"
+                  style={{ opacity: isSeg1Active ? 0.7 : 0 }}
+                />
+                <circle ref={dotRef} r="1.5" fill="#E63946" opacity="0.5" />
+              </svg>
+
+              <div className="flex flex-row justify-between items-center h-full">
+                {contacts.map((item) => (
+                  <div
+                    key={item.label}
+                    className="relative"
+                    onMouseEnter={() => setHovered(item.label)}
+                    onMouseLeave={() => setHovered(null)}
+                    onFocus={() => setFocused(item.label)}
+                    onBlur={() => setFocused(null)}
+                  >
+                    <button
+                      onClick={() => handleClick(item)}
+                      onKeyDown={(e) => handleKeyDown(e, item)}
+                      aria-label={`${item.label} — ${item.value}`}
+                      tabIndex={0}
+                      className="relative flex items-center justify-center w-14 h-14 rounded-full border outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch"
+                      style={{
+                        borderColor: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.5)',
+                        borderWidth: '1.5px'
+                      }}
+                    >
+                      <span
+                        className="absolute inset-0 rounded-full pointer-events-none"
+                        style={{
+                          border: '1px solid rgba(230,57,70,0.3)',
+                          animation: isActive(item.label) ? 'ping-slow 1.5s ease-out infinite' : 'none',
+                        }}
+                      />
+                      <span
+                        className="absolute inset-0 rounded-full pointer-events-none transition-opacity duration-500"
+                        style={{
+                          background: 'radial-gradient(circle, rgba(230,57,70,0.15) 0%, transparent 70%)',
+                          opacity: isActive(item.label) ? 1 : 0,
+                        }}
+                      />
+                      <span className="relative text-accent" style={{ color: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.7)' }}>
+                        {item.icon}
+                      </span>
+                    </button>
+                    <AnimatePresence mode="wait">
+                      {(isActive(item.label) || (item.action === 'copy' && copied)) && (
+                        <motion.span
+                          key={copied && item.action === 'copy' ? 'copied' : item.value}
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.2 }}
+                          className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-accent/80 absolute top-full mt-1 whitespace-nowrap left-1/2 -translate-x-1/2"
+                        >
+                          {item.action === 'copy' && copied ? 'Copied!' : item.value}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Labels row */}
+            <div className="flex flex-row justify-between mt-4">
+              {contacts.map((item) => (
+                <span key={item.label} className="font-mono text-label text-muted tracking-wider">
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* === Mobile layout === */}
+          <div className="md:hidden relative">
+            {/* Mobile connector SVG */}
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              viewBox="0 0 30 100"
+              preserveAspectRatio="none"
+              style={{ opacity: 0.25 }}
+            >
+              <line x1="15" y1="17" x2="15" y2="83" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" />
+            </svg>
+
+            <div className="flex flex-col items-center justify-center gap-14 relative">
+              {contacts.map((item) => (
+                <div
+                  key={item.label}
+                  className="relative flex flex-col items-center gap-4"
+                  onMouseEnter={() => setHovered(item.label)}
+                  onMouseLeave={() => setHovered(null)}
+                  onFocus={() => setFocused(item.label)}
+                  onBlur={() => setFocused(null)}
+                >
+                  <button
+                    onClick={() => handleClick(item)}
+                    onKeyDown={(e) => handleKeyDown(e, item)}
+                    aria-label={`${item.label} — ${item.value}`}
+                    tabIndex={0}
+                    className="relative flex items-center justify-center w-14 h-14 rounded-full border outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch"
+                    style={{
+                      borderColor: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.5)',
+                      borderWidth: '1.5px'
+                    }}
+                  >
+                    <span
+                      className="absolute inset-0 rounded-full pointer-events-none"
+                      style={{
+                        border: '1px solid rgba(230,57,70,0.3)',
+                        animation: isActive(item.label) ? 'ping-slow 1.5s ease-out infinite' : 'none',
+                      }}
+                    />
+                    <span
+                      className="absolute inset-0 rounded-full pointer-events-none transition-opacity duration-500"
+                      style={{
+                        background: 'radial-gradient(circle, rgba(230,57,70,0.15) 0%, transparent 70%)',
+                        opacity: isActive(item.label) ? 1 : 0,
+                      }}
+                    />
+                    <span className="relative text-accent" style={{ color: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.7)' }}>
+                      {item.icon}
+                    </span>
+                  </button>
+                  <span className="font-mono text-label text-muted tracking-wider">
+                    {item.label}
+                  </span>
+                  <AnimatePresence mode="wait">
+                    {(isActive(item.label) || (item.action === 'copy' && copied)) && (
+                      <motion.span
+                        key={copied && item.action === 'copy' ? 'copied' : item.value}
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.2 }}
+                        className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-accent/80 absolute top-full mt-1 whitespace-nowrap"
+                      >
+                        {item.action === 'copy' && copied ? 'Copied!' : item.value}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-24 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-muted">
+          &copy; {new Date().getFullYear()} Renu Alias
+        </p>
       </div>
-
-      <p className="mt-16 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-muted">
-        &copy; {new Date().getFullYear()} Renu Alias
-      </p>
-    </div>
-  </motion.section>
-);
+    </motion.section>
+  );
+};
 
 export default Footer;
