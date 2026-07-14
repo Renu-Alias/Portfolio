@@ -23,6 +23,7 @@ interface Square {
   size: number;
   phase: number;
   speed: number;
+  vx: number;
 }
 
 interface Ring {
@@ -122,18 +123,27 @@ const CyberBg = () => {
 
       const sqDensity = isMobile ? 35000 : 20000;
       const sqCount = Math.floor((w * h) / sqDensity);
+      const sqMinDist = 12;
       squares = [];
-      for (let i = 0; i < sqCount; i++) {
-        const cl = clusterCenters[Math.floor(Math.random() * clusterCenters.length)];
-        const angle = Math.random() * Math.PI * 2;
-        const dist = Math.random() * w * 0.12;
-        squares.push({
-          x: cl.cx + Math.cos(angle) * dist,
-          y: cl.cy + Math.sin(angle) * dist,
-          size: rand(3, 6),
-          phase: rand(0, Math.PI * 2),
-          speed: rand(0.002, 0.006),
-        });
+      for (let attempt = 0; attempt < sqCount * 8 && squares.length < sqCount; attempt++) {
+        const sx = rand(0, w * 0.4);
+        const sy = rand(0, h);
+        let overlaps = false;
+        for (const existing of squares) {
+          const dx = sx - existing.x;
+          const dy = sy - existing.y;
+          if (dx * dx + dy * dy < sqMinDist * sqMinDist) { overlaps = true; break; }
+        }
+        if (!overlaps) {
+          squares.push({
+            x: sx,
+            y: sy,
+            size: rand(2.5, 5),
+            phase: rand(0, Math.PI * 2),
+            speed: rand(0.0015, 0.006),
+            vx: rand(-0.01, 0.01),
+          });
+        }
       }
 
       rings = [];
@@ -265,30 +275,34 @@ const CyberBg = () => {
         c.fillRect(sx - s.size / 2, sy - s.size / 2, s.size, s.size);
       }
 
-      // Layer 2: Pixel Squares (additive, glow via expanded rect instead of shadowBlur)
+      // Layer 2: Pixel Squares (additive, independent random drift)
       c.save();
       c.globalCompositeOperation = 'lighter';
+      const sqMinDist = 8;
       for (const sq of squares) {
         sq.phase += sq.speed;
-        const sqAlpha = Math.sin(sq.phase) * 0.5 + 0.5;
-        sq.y -= 0.015 + sq.speed * 4;
 
-        if (sq.y < -20) {
-          const cl = clusterCenters[Math.floor(Math.random() * clusterCenters.length)];
-          sq.x = cl.cx + rand(-w * 0.08, w * 0.08);
-          sq.y = cl.cy + rand(-h * 0.04, h * 0.04);
-          sq.phase = 0;
-        }
+        // Gentle random wander — each square drifts independently
+        if (Math.random() < 0.003) sq.vx = rand(-0.012, 0.012);
+        const driftY = Math.sin(sq.phase * 1.7) * 0.012;
+        sq.y += driftY + rand(-0.002, 0.002);
+        sq.x += sq.vx + mx * 0.6;
 
-        const sqx = sq.x + mx * 3;
-        const sqy = sq.y + my * 2;
+        // Wrap instead of reset — seamless loop
+        if (sq.y < -30) sq.y = h + rand(0, 40);
+        if (sq.y > h + 40) sq.y = rand(-30, 10);
+        if (sq.x < -30) sq.x = w * 0.4 + rand(0, 20);
+        if (sq.x > w * 0.45) sq.x = rand(-20, 10);
 
-        const glowSize = sq.size * 3;
-        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.04})`;
-        c.fillRect(sqx - glowSize / 2, sqy - glowSize / 2, glowSize, glowSize);
+        // Mild opacity shimmer (never fully fades)
+        const sqAlpha = 0.25 + Math.sin(sq.phase * 0.6 + sq.size) * 0.08;
 
-        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.4})`;
-        c.fillRect(sqx - sq.size / 2, sqy - sq.size / 2, sq.size, sq.size);
+        const glowSize = sq.size * 2;
+        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.02})`;
+        c.fillRect(sq.x - glowSize / 2, sq.y - glowSize / 2, glowSize, glowSize);
+
+        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.18})`;
+        c.fillRect(sq.x - sq.size / 2, sq.y - sq.size / 2, sq.size, sq.size);
       }
       c.restore();
 

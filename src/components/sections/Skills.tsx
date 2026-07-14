@@ -58,6 +58,7 @@ const Skills = () => (
     whileInView="visible"
     viewport={{ once: true, amount: 0.15 }}
   >
+    <div className="absolute inset-0 -mx-4 sm:-mx-6 bg-gradient-to-b from-pitch/20 via-pitch/10 to-transparent pointer-events-none" />
     <SectionDecoration className="top-12 right-4" />
     <SectionHeader num="02" title="Skills" />
 

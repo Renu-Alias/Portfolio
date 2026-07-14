@@ -1,8 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import SectionHeader from '../shared/SectionHeader';
 
-const events = [
+interface EventItem {
+  type: string;
+  name: string;
+  date: string;
+  description: string;
+  hasCert: boolean;
+  certFiles?: string[];
+}
+
+const events: EventItem[] = [
   {
     type: 'Hackathon',
     name: 'Nexus AI Hackathon',
@@ -23,42 +32,48 @@ const events = [
     name: 'DSArena Coding Contest',
     date: '2025',
     description: 'Competitive programming contest featuring algorithmic challenges across data structures and algorithms with time-constrained problem-solving.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/a.png']
   },
   {
     type: 'Coding Contest',
     name: 'Ode to Code',
     date: '2026',
     description: 'Time-bound coding competition that tested algorithmic thinking, problem-solving, and DSA proficiency.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/b.png']
   },
   {
     type: 'Open Source',
     name: 'GirlScript Summer of Code',
     date: '2026',
     description: 'Contributed to real-world open-source projects, collaborating with mentors and contributors through code reviews and pull requests.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/c.png']
   },
   {
     type: 'Open Source',
     name: 'Social Summer of Code',
     date: '2026',
     description: 'Actively contributed to community-driven open-source initiatives, following best practices in version control, documentation, and collaborative development.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/d.png']
   },
   {
     type: 'Program',
     name: 'Intel AI for All',
     date: '2026',
     description: 'Completed Intel\'s AI for All program covering fundamentals of artificial intelligence, AI Aware and AI Appreciation.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/e.png', '/certificates/f.png']
   },
   {
     type: 'Event',
     name: 'IEDC Techxcel 2.0',
     date: '2025',
     description: 'Startup ideation and pitching event focused on innovation, entrepreneurship, and business problem-solving.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/g.png']
   },
   
   {
@@ -73,7 +88,8 @@ const events = [
     name: 'Dev Summit',
     date: '2026',
     description: 'Attended deep-dive technical sessions on transformer architectures and fine-tuning large language models.',
-    hasCert: true
+    hasCert: true,
+    certFiles: ['/certificates/h.png']
   }
 ];
 
@@ -89,11 +105,23 @@ const allEvents = [...events, ...events];
 const setSize = events.length;
 
 const EventsContests = () => {
-  const [openCert, setOpenCert] = useState<string | null>(null);
+  const [modalId, setModalId] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const rafRef = useRef<number>(0);
   const speedRef = useRef(0.5);
+
+  const handleKey = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') setModalId(null);
+  }, []);
+
+  useEffect(() => {
+    if (modalId) window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [modalId, handleKey]);
+
+  const activeEvent = modalId ? events.find(e => modalId.startsWith(e.name)) : undefined;
 
   /* Continuous smooth auto-scroll with seamless loop */
   useEffect(() => {
@@ -141,7 +169,7 @@ const EventsContests = () => {
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={() => setIsHovered(true)}
           onTouchEnd={() => setIsHovered(false)}
-          className="flex gap-5 overflow-x-auto py-4 snap-x snap-mandatory"
+          className="flex gap-5 overflow-x-auto py-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {allEvents.map((event, i) => (
@@ -152,10 +180,10 @@ const EventsContests = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
-              className="event-card flex-shrink-0 w-[80vw] sm:w-[70vw] md:w-[55vw] lg:w-[42vw] xl:w-[36vw] 2xl:w-[420px] snap-start"
+              className="event-card flex-shrink-0 w-[80vw] sm:w-[70vw] md:w-[55vw] lg:w-[42vw] xl:w-[36vw] 2xl:w-[420px]"
             >
               <div className="group relative h-full rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-white/[0.04] hover:-translate-y-1">
-                <span className="absolute right-5 top-4 font-mono text-[2rem] font-bold leading-none text-white/[0.07] select-none pointer-events-none">
+                <span className="absolute right-5 top-4 font-mono text-[2.75rem] sm:text-[3.25rem] font-bold leading-none text-white/[0.07] select-none pointer-events-none">
                   {event.date}
                 </span>
 
@@ -171,40 +199,20 @@ const EventsContests = () => {
                 {event.hasCert && (
                   <div className="mt-5">
                     <button
-                      onClick={() => setOpenCert(openCert === `${event.name}-${i}` ? null : `${event.name}-${i}`)}
-                      className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-accent transition hover:text-primary"
+                      onClick={() => setModalId(modalId === `${event.name}-${i}` ? null : `${event.name}-${i}`)}
+                      className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-accent transition hover:text-primary group/cta"
                     >
                       <span className="h-px w-4 bg-accent/50" />
-                      {openCert === `${event.name}-${i}` ? 'Hide' : 'Certificate'}
+                      View Certificate
+                      <motion.span
+                        className="inline-block"
+                        initial={false}
+                        whileHover={{ x: 4 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                      >
+                        →
+                      </motion.span>
                     </button>
-
-                    <AnimatePresence>
-                      {openCert === `${event.name}-${i}` && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-                          className="overflow-hidden"
-                        >
-                          <div className="mt-4 flex items-center gap-4 rounded-xl border border-white/10 bg-pitch p-4">
-                            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-accent/10">
-                              <svg viewBox="0 0 24 24" className="h-6 w-6 text-accent" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 2l3 7h7l-5 5 2 7-7-4-7 4 2-7-5-5h7z" />
-                              </svg>
-                            </div>
-                            <div>
-                              <p className="font-mono text-xs font-medium text-primary">
-                                Certificate of Achievement
-                              </p>
-                              <p className="mt-0.5 font-mono text-[0.6rem] text-muted">
-                                {event.name} ({event.date})
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 )}
               </div>
@@ -212,6 +220,58 @@ const EventsContests = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {modalId && activeEvent && activeEvent.certFiles && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-black/70 backdrop-blur-md"
+              onClick={() => setModalId(null)}
+            />
+
+            {/* Modal content */}
+            <motion.div
+              ref={modalRef}
+              className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl border border-white/10 bg-pitch shadow-2xl"
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setModalId(null)}
+                className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-pitch/90 text-muted backdrop-blur-sm transition hover:border-accent/50 hover:text-accent"
+                aria-label="Close"
+              >
+                <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                  <path d="M4 4l8 8M12 4l-8 8" />
+                </svg>
+              </button>
+
+              {/* Certificate display */}
+              <div className="flex flex-col gap-4 p-6 overflow-y-auto max-h-[85vh]">
+                {activeEvent.certFiles.map((src, ci) => (
+                  <img
+                    key={ci}
+                    src={src}
+                    alt={`${activeEvent.name} certificate ${ci + 1}`}
+                    className="w-auto max-h-[70vh] object-contain rounded-lg"
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.section>
   );
 };
