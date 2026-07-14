@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState, useCallback } from 'react';
 
 const contacts = [
@@ -8,9 +8,9 @@ const contacts = [
     href: 'mailto:renualiasmeleth@gmail.com',
     action: 'copy' as const,
     icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="M2 4l10 8 10-8" />
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+        <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
       </svg>
     )
   },
@@ -20,8 +20,8 @@ const contacts = [
     href: 'https://github.com/Renu-Alias',
     action: 'link' as const,
     icon: (
-      <svg viewBox="3.9 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
       </svg>
     )
   },
@@ -31,12 +31,8 @@ const contacts = [
     href: 'https://www.linkedin.com/in/renu-alias-0022a2329/',
     action: 'link' as const,
     icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="3" />
-        <path d="M8 11v5" />
-        <path d="M8 8h.01" />
-        <path d="M12 16v-5" />
-        <path d="M16 16v-3a2 2 0 0 0-4 0" />
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
       </svg>
     )
   }
@@ -79,8 +75,6 @@ const Footer = () => {
     }
   }, [handleClick]);
   const isActive = (label: string) => active === label;
-  const isSeg0Active = isActive('EMAIL') || isActive('GITHUB');
-  const isSeg1Active = isActive('GITHUB') || isActive('LINKEDIN');
 
   return (
     <motion.section
@@ -109,162 +103,40 @@ const Footer = () => {
           Based in Kochi, India
         </p>
 
-        {/* Nodes container */}
-        <div className="relative mt-16 md:mt-20">
-          {/* === Desktop layout === */}
-          <div className="hidden md:block">
-            {/* Circles row with connector SVG */}
-            <div className="relative h-14">
-              <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                viewBox="0 0 100 14"
-                preserveAspectRatio="none"
+        {/* Contact cards */}
+        <div className="mt-16 md:mt-20">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
+            {contacts.map((item) => (
+              <div
+                key={item.label}
+                className="group relative rounded-xl border border-white/10 bg-white/[0.02] p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-white/[0.04] hover:shadow-[0_0_24px_rgba(230,57,70,0.1)] cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch"
+                onClick={() => handleClick(item)}
+                onKeyDown={(e) => handleKeyDown(e, item)}
+                onMouseEnter={() => setHovered(item.label)}
+                onMouseLeave={() => setHovered(null)}
+                onFocus={() => setFocused(item.label)}
+                onBlur={() => setFocused(null)}
+                tabIndex={0}
+                role="button"
+                aria-label={`${item.label} — ${item.value}`}
               >
-                <line x1="6" y1="7" x2="47" y2="7" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" className="transition-opacity duration-300" style={{ opacity: isSeg0Active ? 0.5 : 0.25 }} />
-                <line x1="53" y1="7" x2="94" y2="7" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" className="transition-opacity duration-300" style={{ opacity: isSeg1Active ? 0.5 : 0.25 }} />
-              </svg>
-
-              <div className="flex flex-row justify-between items-center h-full">
-                {contacts.map((item) => (
-                  <div
-                    key={item.label}
-                    className={`relative w-14${item.label !== 'LINKEDIN' ? ' -ml-0.5' : ''}`}
-                    onMouseEnter={() => setHovered(item.label)}
-                    onMouseLeave={() => setHovered(null)}
-                    onFocus={() => setFocused(item.label)}
-                    onBlur={() => setFocused(null)}
-                  >
-                    <button
-                      onClick={() => handleClick(item)}
-                      onKeyDown={(e) => handleKeyDown(e, item)}
-                      aria-label={`${item.label} — ${item.value}`}
-                      tabIndex={0}
-                      className="relative flex items-center justify-center w-14 h-14 rounded-full border outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch"
-                      style={{
-                        borderColor: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.5)',
-                        borderWidth: '1.5px'
-                      }}
-                    >
-                      <span
-                        className="absolute inset-0 rounded-full pointer-events-none"
-                        style={{
-                          border: '1px solid rgba(230,57,70,0.3)',
-                          animation: isActive(item.label) ? 'ping-slow 1.5s ease-out infinite' : 'none',
-                        }}
-                      />
-                      <span
-                        className="absolute inset-0 rounded-full pointer-events-none transition-opacity duration-500"
-                        style={{
-                          background: 'radial-gradient(circle, rgba(230,57,70,0.15) 0%, transparent 70%)',
-                          opacity: isActive(item.label) ? 1 : 0,
-                        }}
-                      />
-                      <span className="relative text-accent" style={{ color: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.7)' }}>
-                        {item.icon}
-                      </span>
-                    </button>
-                    <AnimatePresence>
-                      {(isActive(item.label) || (item.action === 'copy' && copied)) && (
-                        <motion.span
-                          key={copied && item.action === 'copy' ? 'copied' : item.value}
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 6 }}
-                          transition={{ duration: 0.18, ease: 'easeOut' }}
-                          className={`font-mono text-[0.6rem] tracking-[0.2em] text-accent/80 absolute bottom-full mb-3 whitespace-nowrap left-1/2 -translate-x-1/2 pointer-events-none${item.value.includes('@') ? '' : ' uppercase'}`}
-                        >
-                          {item.action === 'copy' && copied ? 'Copied!' : item.value}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Labels row */}
-            <div className="flex flex-row justify-between mt-4">
-              {contacts.map((item) => (
-                <div key={item.label} className={item.label !== 'LINKEDIN' ? '-ml-0.5' : ''}>
-                  <span className="font-mono text-label text-muted tracking-wider">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* === Mobile layout === */}
-          <div className="md:hidden relative">
-            {/* Mobile connector SVG */}
-            <svg
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              viewBox="0 0 30 100"
-              preserveAspectRatio="none"
-              style={{ opacity: 0.25 }}
-            >
-              <line x1="15" y1="17" x2="15" y2="83" stroke="#E63946" strokeWidth="1" strokeDasharray="3 4" />
-            </svg>
-
-            <div className="flex flex-col items-center justify-center gap-10 sm:gap-14 relative">
-              {contacts.map((item) => (
-                <div
-                  key={item.label}
-                  className="relative flex flex-col items-center gap-4"
-                  onMouseEnter={() => setHovered(item.label)}
-                  onMouseLeave={() => setHovered(null)}
-                  onFocus={() => setFocused(item.label)}
-                  onBlur={() => setFocused(null)}
-                >
-                  <button
-                    onClick={() => handleClick(item)}
-                    onKeyDown={(e) => handleKeyDown(e, item)}
-                    aria-label={`${item.label} — ${item.value}`}
-                    tabIndex={0}
-                    className="relative flex items-center justify-center w-14 h-14 rounded-full border outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch"
-                    style={{
-                      borderColor: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.5)',
-                      borderWidth: '1.5px'
-                    }}
-                  >
-                    <span
-                      className="absolute inset-0 rounded-full pointer-events-none"
-                      style={{
-                        border: '1px solid rgba(230,57,70,0.3)',
-                        animation: isActive(item.label) ? 'ping-slow 1.5s ease-out infinite' : 'none',
-                      }}
-                    />
-                    <span
-                      className="absolute inset-0 rounded-full pointer-events-none transition-opacity duration-500"
-                      style={{
-                        background: 'radial-gradient(circle, rgba(230,57,70,0.15) 0%, transparent 70%)',
-                        opacity: isActive(item.label) ? 1 : 0,
-                      }}
-                    />
-                    <span className="relative text-accent" style={{ color: isActive(item.label) ? '#E63946' : 'rgba(230,57,70,0.7)' }}>
+                <div className="flex items-center gap-4 sm:flex-col sm:text-center">
+                  <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-accent/30 shrink-0 transition-all duration-300 group-hover:border-accent group-hover:bg-accent/5">
+                    <span className="text-accent/70 group-hover:text-accent transition-colors duration-300">
                       {item.icon}
                     </span>
-                  </button>
-                  <span className="font-mono text-label text-muted tracking-wider">
-                    {item.label}
-                  </span>
-                  <AnimatePresence>
-                    {(isActive(item.label) || (item.action === 'copy' && copied)) && (
-                      <motion.span
-                        key={copied && item.action === 'copy' ? 'copied' : item.value}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={{ duration: 0.18, ease: 'easeOut' }}
-                        className={`font-mono text-[0.6rem] tracking-[0.2em] text-accent/80 absolute bottom-full mb-3 whitespace-nowrap left-1/2 -translate-x-1/2 pointer-events-none${item.value.includes('@') ? '' : ' uppercase'}`}
-                      >
-                        {item.action === 'copy' && copied ? 'Copied!' : item.value}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  </div>
+                  <div className="min-w-0 sm:text-center">
+                    <p className="font-mono text-label text-accent tracking-wider">
+                      {item.label}
+                    </p>
+                    <p className="mt-0.5 sm:mt-1 font-mono text-xs text-muted truncate">
+                      {item.action === 'copy' && copied ? 'Copied!' : item.value}
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -284,10 +284,10 @@ const CyberBg = () => {
         const sqy = sq.y + my * 2;
 
         const glowSize = sq.size * 3;
-        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.08})`;
+        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.04})`;
         c.fillRect(sqx - glowSize / 2, sqy - glowSize / 2, glowSize, glowSize);
 
-        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.85})`;
+        c.fillStyle = `rgba(255,59,77,${sqAlpha * 0.4})`;
         c.fillRect(sqx - sq.size / 2, sqy - sq.size / 2, sq.size, sq.size);
       }
       c.restore();

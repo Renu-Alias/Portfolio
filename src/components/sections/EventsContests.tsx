@@ -12,6 +12,14 @@ const events = [
   },
   {
     type: 'Coding Contest',
+    name: 'ICPC AlgoQueen 2026',
+    date: '2026',
+    description: 'An algorithmic contest featuring problem-solving under time constraints, with a focus on data structures, algorithms and mathematical optimization.',
+    hasCert: false
+  },
+
+  {
+    type: 'Coding Contest',
     name: 'DSArena Coding Contest',
     date: '2025',
     description: 'Competitive programming contest featuring algorithmic challenges across data structures and algorithms with time-constrained problem-solving.',

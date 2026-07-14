@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const LERP = 0.1;
+const LERP = 0.08;
+const DOT_LERP = 0.18;
 const MAGNET_STRENGTH = 0.35;
 const MAX_PULL = 12;
 const interactiveSelectors = ['a', 'button', 'input', 'textarea', 'select', '[role="button"]', '[data-cursor-text]'];
@@ -72,8 +73,8 @@ const MagneticCursor = () => {
       const mx = mouseX.current + magnetOffset.current.x;
       const my = mouseY.current + magnetOffset.current.y;
 
-      dotX.current += (mx - dotX.current) * 0.35;
-      dotY.current += (my - dotY.current) * 0.35;
+      dotX.current += (mx - dotX.current) * DOT_LERP;
+      dotY.current += (my - dotY.current) * DOT_LERP;
       if (dotRef.current) {
         dotRef.current.style.transform = `translate(${dotX.current}px, ${dotY.current}px)`;
         dotRef.current.style.opacity = labelTarget.current ? '0' : '1';
