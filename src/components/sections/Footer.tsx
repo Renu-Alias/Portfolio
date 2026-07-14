@@ -93,7 +93,7 @@ const Footer = () => {
       />
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
-        <h2 className="font-display text-display-section font-bold text-primary">
+        <h2 className="font-display font-bold text-primary" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4.5rem)', lineHeight: '1.05', letterSpacing: '-0.02em' }}>
           LET&apos;S ARCHITECT
           <br />
           THE FUTURE.
@@ -103,13 +103,13 @@ const Footer = () => {
           Based in Kochi, India
         </p>
 
-        {/* Contact cards */}
+        {/* Contact links */}
         <div className="mt-16 md:mt-20">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
+          <div className="flex flex-col items-center sm:flex-row sm:justify-center sm:items-start gap-10 sm:gap-12 md:gap-20">
             {contacts.map((item) => (
               <div
                 key={item.label}
-                className="group relative rounded-xl border border-white/10 bg-white/[0.02] p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-white/[0.04] hover:shadow-[0_0_24px_rgba(230,57,70,0.1)] cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch"
+                className="flex flex-col items-center gap-3 cursor-pointer outline-none group focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-pitch rounded-lg px-2 py-1"
                 onClick={() => handleClick(item)}
                 onKeyDown={(e) => handleKeyDown(e, item)}
                 onMouseEnter={() => setHovered(item.label)}
@@ -120,21 +120,15 @@ const Footer = () => {
                 role="button"
                 aria-label={`${item.label} — ${item.value}`}
               >
-                <div className="flex items-center gap-4 sm:flex-col sm:text-center">
-                  <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-accent/30 shrink-0 transition-all duration-300 group-hover:border-accent group-hover:bg-accent/5">
-                    <span className="text-accent/70 group-hover:text-accent transition-colors duration-300">
-                      {item.icon}
-                    </span>
-                  </div>
-                  <div className="min-w-0 sm:text-center">
-                    <p className="font-mono text-label text-accent tracking-wider">
-                      {item.label}
-                    </p>
-                    <p className="mt-0.5 sm:mt-1 font-mono text-xs text-muted truncate">
-                      {item.action === 'copy' && copied ? 'Copied!' : item.value}
-                    </p>
-                  </div>
-                </div>
+                <span className="text-accent/60 group-hover:text-accent transition-colors duration-300 h-6 w-6">
+                  {item.icon}
+                </span>
+                <p className="font-mono text-label text-accent tracking-wider">
+                  {item.label}
+                </p>
+                <p className="font-mono text-xs text-muted/60 group-hover:text-muted transition-colors duration-300 text-center">
+                  {item.action === 'copy' && copied ? 'Copied!' : item.value}
+                </p>
               </div>
             ))}
           </div>
