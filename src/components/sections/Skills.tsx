@@ -28,32 +28,32 @@ const skillNodes: SkillNode[] = [
   { name: 'C', category: 'languages', x: 28, y: 14 },
   { name: 'C++', category: 'languages', x: 43, y: 26 },
   { name: 'JavaScript', category: 'languages', x: 61, y: 16 },
-  { name: 'Java', category: 'languages', x: 80, y: 25 },
+  { name: 'Java', category: 'languages', x: 77, y: 24 },
   { name: 'Dart', category: 'languages', x: 18, y: 48 },
   { name: 'HTML', category: 'languages', x: 37, y: 44 },
   { name: 'CSS', category: 'languages', x: 55, y: 43 },
-  { name: 'React', category: 'frameworks', x: 67, y: 47 },
-  { name: 'Flutter', category: 'frameworks', x: 87, y: 38 },
-  { name: 'Node.js', category: 'frameworks', x: 62, y: 68 },
+  { name: 'React', category: 'frameworks', x: 68, y: 46 },
+  { name: 'Flutter', category: 'frameworks', x: 89, y: 36 },
+  { name: 'Node.js', category: 'frameworks', x: 62, y: 70 },
   { name: 'Express.js', category: 'frameworks', x: 76, y: 70 },
-  { name: 'PostgreSQL', category: 'databases', x: 18, y: 73 },
-  { name: 'Oracle', category: 'databases', x: 34, y: 66 },
-  { name: 'MySQL', category: 'databases', x: 47, y: 78 },
-  { name: 'MongoDB', category: 'databases', x: 31, y: 88 },
-  { name: 'Linux', category: 'tools', x: 11, y: 39 },
-  { name: 'Git', category: 'tools', x: 22, y: 33 },
-  { name: 'GitHub', category: 'tools', x: 48, y: 57 },
-  { name: 'Google AI Studio', category: 'tools', x: 60, y: 37 },
-  { name: 'Canva', category: 'tools', x: 73, y: 52 },
-  { name: 'Figma', category: 'tools', x: 85, y: 58 },
-  { name: 'AWS', category: 'infrastructure', x: 56, y: 84 },
-  { name: 'GCP', category: 'infrastructure', x: 67, y: 86 },
-  { name: 'Vercel', category: 'infrastructure', x: 80, y: 87 },
-  { name: 'Claude', category: 'infrastructure', x: 61, y: 61 },
-  { name: 'Leadership', category: 'soft', x: 13, y: 88 },
-  { name: 'Collaboration', category: 'soft', x: 41, y: 10 },
-  { name: 'Adaptability', category: 'soft', x: 56, y: 10 },
-  { name: 'Problem-solving', category: 'soft', x: 82, y: 27 }
+  { name: 'PostgreSQL', category: 'databases', x: 16, y: 76 },
+  { name: 'Oracle', category: 'databases', x: 32, y: 66 },
+  { name: 'MySQL', category: 'databases', x: 46, y: 80 },
+  { name: 'MongoDB', category: 'databases', x: 30, y: 90 },
+  { name: 'Linux', category: 'tools', x: 10, y: 42 },
+  { name: 'Git', category: 'tools', x: 21, y: 32 },
+  { name: 'GitHub', category: 'tools', x: 46, y: 56 },
+  { name: 'Google AI Studio', category: 'tools', x: 62, y: 32 },
+  { name: 'Canva', category: 'tools', x: 75, y: 52 },
+  { name: 'Figma', category: 'tools', x: 88, y: 56 },
+  { name: 'AWS', category: 'infrastructure', x: 57, y: 85 },
+  { name: 'GCP', category: 'infrastructure', x: 69, y: 87 },
+  { name: 'Vercel', category: 'infrastructure', x: 81, y: 88 },
+  { name: 'Claude', category: 'infrastructure', x: 54, y: 62 },
+  { name: 'Leadership', category: 'soft', x: 10, y: 90 },
+  { name: 'Collaboration', category: 'soft', x: 36, y: 8 },
+  { name: 'Adaptability', category: 'soft', x: 58, y: 8 },
+  { name: 'Problem-solving', category: 'soft', x: 90, y: 20 }
 ];
 
 const domainLinks = categoryOrder.flatMap((category) => {
@@ -78,6 +78,7 @@ const ambientLinks: Array<readonly [string, string]> = [
   ['Google AI Studio', 'Claude'],
   ['GCP', 'Claude'],
   ['Leadership', 'Collaboration'],
+  ['Collaboration', 'Adaptability'],
   ['Adaptability', 'Problem-solving'],
   ['Linux', 'Git'],
   ['Oracle', 'Java']
@@ -176,11 +177,8 @@ const SkillLogo = ({ name, active }: { name: string; active: boolean }) => {
       );
     case 'Java':
       return (
-        <svg viewBox="0 0 64 64" className="h-full w-full" fill="none" aria-hidden="true">
-          <path d="M28 10c8 5-6 8 2 14M37 8c8 6-8 10 1 17" stroke="#E76F00" strokeWidth="3" strokeLinecap="round" opacity={muted} />
-          <path d="M21 31h24l-3 13c-.8 3.5-4.2 6-8 6h-4c-3.8 0-7.2-2.5-8-6l-1-13Z" fill="#5382A1" opacity={muted} />
-          <path d="M44 34h5c2.8 0 4 1.8 3.1 4.1-.9 2.5-3.8 4-8 4" stroke="#5382A1" strokeWidth="4" strokeLinecap="round" opacity={muted} />
-          <path d="M19 54c8 2.5 18.2 2.5 26 0" stroke="#E76F00" strokeWidth="3" strokeLinecap="round" opacity={muted} />
+        <svg viewBox="0 0 384 512" className="h-full w-full" fill="#E76F00" fillOpacity={muted} aria-hidden="true">
+          <path d="M277.74 312.9c9.8-6.7 23.4-12.5 23.4-12.5s-38.7 7-77.2 10.2c-47.1 3.9-97.7 4.7-123.1 1.3-60.1-8 33-30.1 33-30.1s-36.1-2.4-80.6 19c-52.5 25.4 130 37 224.5 12.1zm-85.4-32.1c-19-42.7-83.1-80.2 0-145.8C296 53.2 242.84 0 242.84 0c21.5 84.5-75.6 110.1-110.7 162.6-23.9 35.9 11.7 74.4 60.2 118.2zm114.6-176.2c.1 0-175.2 43.8-91.5 140.2 24.7 28.4-6.5 54-6.5 54s62.7-32.4 33.9-72.9c-26.9-37.8-47.5-56.6 64.1-121.3zm-6.1 270.5a12.19 12.19 0 0 1-2 2.6c128.3-33.7 81.1-118.9 19.8-97.3a17.33 17.33 0 0 0-8.2 6.3 70.45 70.45 0 0 1 11-3c31-6.5 75.5 41.5-20.6 91.4zM348 437.4s14.5 11.9-15.9 21.2c-57.9 17.5-240.8 22.8-291.6.7-18.3-7.9 16-19 26.8-21.3 11.2-2.4 17.7-2 17.7-2-20.3-14.3-131.3 28.1-56.4 40.2C232.84 509.4 401 461.3 348 437.4zM124.44 396c-78.7 22 47.9 67.4 148.1 24.5a185.89 185.89 0 0 1-28.2-13.8c-44.7 8.5-65.4 9.1-106 4.5-33.5-3.8-13.9-15.2-13.9-15.2zm179.8 97.2c-78.7 14.8-175.8 13.1-233.3 3.6 0-.1 11.8 9.7 72.4 13.6 92.2 5.9 233.8-3.3 237.1-46.9 0 0-6.4 16.5-76.2 29.7zM260.64 353c-59.2 11.4-93.5 11.1-136.8 6.6-33.5-3.5-11.6-19.7-11.6-19.7-86.8 28.8 48.2 61.4 169.5 25.9a60.37 60.37 0 0 1-21.1-12.8z"/>
         </svg>
       );
     case 'Dart':
@@ -201,9 +199,8 @@ const SkillLogo = ({ name, active }: { name: string; active: boolean }) => {
       );
     case 'Node.js':
       return (
-        <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-          <path fill="#5FA04E" fillOpacity={muted} d="m32 5 23 13.3v27.4L32 59 9 45.7V18.3L32 5Z" />
-          <path fill="#fff" opacity="0.9" d="M24 41V24h4.2l7.6 10.6V24H40v17h-4.2l-7.6-10.6V41H24Z" />
+        <svg viewBox="0 0 24 24" className="h-full w-full" fill="#5FA04E" fillOpacity={muted} aria-hidden="true">
+          <path d="M12 24c-.321 0-.641-.084-.922-.247l-2.936-1.737c-.438-.245-.224-.332-.08-.383.585-.203.703-.25 1.328-.604.065-.037.151-.023.218.017l2.256 1.339c.082.045.197.045.272 0l8.795-5.076c.082-.047.134-.141.134-.238V6.921c0-.099-.053-.192-.137-.242l-8.791-5.072c-.081-.047-.189-.047-.271 0L3.075 6.68c-.085.049-.139.145-.139.241v10.15c0 .097.054.189.139.235l2.409 1.392c1.307.654 2.108-.116 2.108-.89V7.787c0-.142.114-.253.256-.253h1.115c.139 0 .255.112.255.253v10.021c0 1.745-.95 2.745-2.604 2.745-.508 0-.909 0-.2026-.551L2.28 18.675c-.57-.329-.922-.945-.922-1.604V6.921c0-.659.353-1.275.916-1.604L11.077.246c.565-.328 1.279-.328 1.844 0l8.796 5.071c.565.329.918.945.918 1.604v10.15c0 .659-.353 1.275-.918 1.604l-8.796 5.076c-.28.163-.601.247-.921.247z" />
         </svg>
       );
     case 'Linux':
@@ -214,10 +211,8 @@ const SkillLogo = ({ name, active }: { name: string; active: boolean }) => {
       );
     case 'Git':
       return (
-        <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-          <rect x="13" y="13" width="38" height="38" rx="6" fill="#F05032" opacity={muted} transform="rotate(45 32 32)" />
-          <path d="M25 22v14m0-14 14 14m0 0v7" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
-          <circle cx="25" cy="22" r="4" fill="#fff" /><circle cx="25" cy="36" r="4" fill="#fff" /><circle cx="39" cy="43" r="4" fill="#fff" />
+        <svg viewBox="0 0 24 24" className="h-full w-full" fill="#F05032" fillOpacity={muted} aria-hidden="true">
+          <path d="M23.546 10.93L13.07.455a1.503 1.503 0 0 0-2.13 0L8.757 2.63l3.372 3.372c.29-.1.64 0 .89.25.29.29.33.73.18 1.1l3.07 3.07c.37-.15.81-.11 1.1.18.37.37.37.97 0 1.35-.37.37-.97.37-1.35 0-.29-.29-.33-.73-.18-1.1l-3.07-3.07a1.442 1.442 0 0 1-1.11.18l-2.68 2.68c.15.37.11.81-.18 1.1-.37.37-.97.37-1.35 0-.37-.37-.37-.97 0-1.35.29-.29.73-.33 1.1-.18l2.68-2.68v-2.93L1.504 10.93a1.503 1.503 0 0 0 0 2.13l10.477 10.475a1.503 1.503 0 0 0 2.13 0l10.475-10.476a1.502 1.502 0 0 0 0-2.13z" />
         </svg>
       );
     case 'GitHub':
@@ -242,10 +237,8 @@ const SkillLogo = ({ name, active }: { name: string; active: boolean }) => {
       );
     case 'MySQL':
       return (
-        <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-          <path fill="#4479A1" fillOpacity={muted} d="M9 40c8.7-13.7 23.6-19 45-15-6.4 2.2-10.8 6.9-13.3 14.1-8.9-2.9-19.4-2.6-31.7.9Z" />
-          <path fill="#F29111" fillOpacity={muted} d="M41 25c3.9-7.6 8.1-11.7 12.7-12.2-2 4.2-2.5 8.4-1.5 12.7-3.5-.7-7.2-.9-11.2-.5Z" />
-          <path fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" opacity="0.8" d="M18 38c7.3-3.2 15.8-3.4 25.5-.6" />
+        <svg viewBox="0 0 128 128" className="h-full w-full" fillOpacity={muted} aria-hidden="true">
+          <path fill="#00618A" d="M117.688 98.242c-6.973-.191-12.297.461-16.852 2.379-1.293.547-3.355.559-3.566 2.18.711.746.82 1.859 1.387 2.777 1.086 1.754 2.922 4.113 4.559 5.352 1.789 1.348 3.633 2.793 5.551 3.961 3.414 2.082 7.223 3.27 10.504 5.352 1.938 1.23 3.859 2.777 5.75 4.164.934.684 1.563 1.75 2.773 2.18v-.195c-.637-.812-.801-1.93-1.387-2.777l-2.578-2.578c-2.52-3.344-5.719-6.281-9.117-8.719-2.711-1.949-8.781-4.578-9.91-7.73l-.199-.199c1.922-.219 4.172-.914 5.949-1.391 2.98-.797 5.645-.59 8.719-1.387l4.164-1.187v-.793c-1.555-1.594-2.664-3.707-4.359-5.152-4.441-3.781-9.285-7.555-14.273-10.703-2.766-1.746-6.184-2.883-9.117-4.363-.988-.496-2.719-.758-3.371-1.586-1.539-1.961-2.379-4.449-3.566-6.738-2.488-4.793-4.93-10.023-7.137-15.066-1.504-3.437-2.484-6.828-4.359-9.91-9-14.797-18.687-23.73-33.695-32.508-3.195-1.867-7.039-2.605-11.102-3.57l-6.543-.395c-1.332-.555-2.715-2.184-3.965-2.977C16.977 3.52 4.223-3.312.539 5.672-1.785 11.34 4.016 16.871 6.09 19.746c1.457 2.012 3.32 4.273 4.359 6.539.688 1.492.805 2.984 1.391 4.559 1.438 3.883 2.695 8.109 4.559 11.695.941 1.816 1.98 3.727 3.172 5.352.727.996 1.98 1.438 2.18 2.973-1.227 1.715-1.297 4.375-1.984 6.543-3.098 9.77-1.926 21.91 2.578 29.137 1.383 2.223 4.641 6.98 9.117 5.156 3.918-1.598 3.043-6.539 4.164-10.902.254-.988.098-1.715.594-2.379v.199l3.57 7.133c2.641 4.254 7.324 8.699 11.297 11.699 2.059 1.555 3.68 4.242 6.344 5.152v-.199h-.199c-.516-.805-1.324-1.137-1.98-1.781-1.551-1.523-3.277-3.414-4.559-5.156-3.613-4.902-6.805-10.27-9.711-15.855-1.391-2.668-2.598-5.609-3.77-8.324-.453-1.047-.445-2.633-1.387-3.172-1.281 1.988-3.172 3.598-4.164 5.945-1.582 3.754-1.789 8.336-2.375 13.082-.348.125-.195.039-.398.199-2.762-.668-3.73-3.508-4.758-5.949-2.594-6.164-3.078-16.09-.793-23.191.59-1.836 3.262-7.617 2.18-9.316-.516-1.691-2.219-2.672-3.172-3.965-1.18-1.598-2.355-3.703-3.172-5.551-2.125-4.805-3.113-10.203-5.352-15.062-1.07-2.324-2.875-4.676-4.359-6.738-1.645-2.289-3.484-3.977-4.758-6.742-.453-.984-1.066-2.559-.398-3.566.215-.684.516-.969 1.191-1.191 1.148-.887 4.352.297 5.547.793 3.18 1.32 5.832 2.578 8.527 4.363 1.289.855 2.598 2.512 4.16 2.973h1.785c2.789.641 5.914.195 8.523.988 4.609 1.402 8.738 3.582 12.488 5.949 11.422 7.215 20.766 17.48 27.156 29.734 1.027 1.973 1.473 3.852 2.379 5.945 1.824 4.219 4.125 8.559 5.941 12.688 1.816 4.113 3.582 8.27 6.148 11.695 1.348 1.801 6.551 2.766 8.918 3.766 1.66.699 4.379 1.43 5.949 2.379 3 1.809 5.906 3.965 8.723 5.945 1.402.992 5.73 3.168 5.945 4.957zm-88.605-75.52c-1.453-.027-2.48.156-3.566.395v.199h.195c.695 1.422 1.918 2.34 2.777 3.566l1.98 4.164.199-.195c1.227-.867 1.789-2.25 1.781-4.363-.492-.52-.562-1.164-.992-1.785-.562-.824-1.66-1.289-2.375-1.98zm0 0" />
         </svg>
       );
     case 'Figma':
@@ -287,16 +280,8 @@ const SkillLogo = ({ name, active }: { name: string; active: boolean }) => {
       );
     case 'Canva':
       return (
-        <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-          <defs>
-            <linearGradient id="canvaGradient" x1="10" y1="12" x2="54" y2="54">
-              <stop stopColor="#00C4CC" />
-              <stop offset="0.48" stopColor="#7D2AE8" />
-              <stop offset="1" stopColor="#00C4CC" />
-            </linearGradient>
-          </defs>
-          <circle cx="32" cy="32" r="25" fill="url(#canvaGradient)" opacity={muted} />
-          <path fill="#fff" opacity="0.95" d="M39.9 40.4c-2.2 2.3-5 3.7-8.1 3.7-6.2 0-10.4-4.7-10.4-11.2 0-7.4 5.4-13 12.6-13 3.5 0 6.2 1.4 7.4 3.6.8 1.5.3 3.1-1.1 3.7-1.3.5-2.4-.1-3.2-1.4-.6-1-1.7-1.6-3.2-1.6-4 0-7.2 3.8-7.2 8.5 0 4.1 2.4 6.9 5.9 6.9 1.8 0 3.2-.7 4.6-2.1.9-.9 2.1-1.1 3.1-.3 1 .8.9 2.1-.4 3.2Z" />
+        <svg viewBox="0 0 128 128" className="h-full w-full" fillOpacity={muted} aria-hidden="true">
+          <g fill="#00c4cc"><path d="M59.39.152c-.484.051-1.995.23-3.328.387-5.374.613-11.468 2.227-16.816 4.48C19.891 13.106 5.324 30.849 1.305 51.2.359 56.04.129 58.418.129 64c0 7.195.715 12.16 2.61 18.434 6.195 20.53 22.323 36.632 42.906 42.851 6.195 1.871 11.187 2.586 18.355 2.586 7.195 0 12.16-.715 18.434-2.61 20.53-6.195 36.632-22.323 42.851-42.906 1.871-6.195 2.586-11.187 2.586-18.355 0-3.047-.152-6.527-.332-7.809-2.074-14.796-8.168-27.238-18.328-37.402C99.07 8.703 86.68 2.586 72.19.512c-1.996-.282-11.238-.54-12.8-.36zm-20.863 40.32c1.36.41 1.996.794 2.918 1.715 1.793 1.82 2.203 2.817 2.203 5.555 0 2.051-.078 2.434-.691 3.508-1.18 1.996-3.918 3.84-5.812 3.89-1.333.028-1.278-.562.18-2.097 1.945-2.023 2.226-2.79 2.226-5.813-.024-2.917-.383-3.914-1.739-4.734-1.128-.691-2.355-.64-4.148.203-4.66 2.23-9.703 9.653-11.672 17.258-2.613 10.137 2.02 18.25 9.649 16.867 2.226-.41 6.425-2.558 8.246-4.25 1.508-1.379 1.508-1.406 1.66-3.12.336-3.587 2.867-7.169 6.25-8.833 1.558-.77 1.945-.844 4.043-.844 1.996 0 2.457.102 3.43.637 3.097 1.77 2.457 5.89-.895 5.89-1.945 0-2.945-1-1.535-1.534 1.383-.512.867-2.434-.742-2.868-1.895-.488-4.047.793-5.403 3.25-1.64 2.97-1.715 6.504-.156 8.114 1.512 1.613 3.406.336 4.867-3.329.766-1.867 1.867-2.867 3.149-2.867 1.125 0 1.332.692.843 2.793-.718 3.25-.23 4.094 1.793 3.098.664-.309 1.766-1.023 2.43-1.535l1.254-1 .848-4.43c.922-4.965 1.277-5.633 3.172-5.988 1.82-.336 2.23.562 1.562 3.402l-.36 1.59 1.333-1.36c3.148-3.226 7.015-4.812 8.347-3.48.715.715.637 1.613-.386 4.785-.485 1.512-1.153 3.895-1.457 5.25-.461 2.047-.489 2.535-.23 2.868.82.972 3.327-.028 5.554-2.204l1.305-1.277.156-2.844c.152-3.277.457-4.453 1.328-5.504.82-.972 2.305-1.687 3.098-1.484.793.207.793.973.078 3.227-1 3.097-.895 10.238.129 10.238.41 0 2.507-2.2 3.84-4.043l.996-1.36-.793-.816c-1.383-1.46-1.715-2.406-1.715-4.789 0-1.738.129-2.379.562-3.227.719-1.328 1.844-2.3 3.176-2.687 1.406-.434 3.148.281 3.863 1.562.719 1.305.54 4.223-.383 6.223l-.664 1.457h.895c1.23 0 1.715-.305 3.918-2.379 1.152-1.101 2.484-2.05 3.48-2.511 3.918-1.84 8.528-.895 9.293 1.921.64 2.254-.765 3.84-3.226 3.66-1.766-.128-2.098-.59-1.074-1.456 1.843-1.54 0-3.508-2.637-2.793-1.434.386-3.047 1.996-3.89 3.867-1.692 3.738-.794 8.14 1.636 8.14.973 0 2.691-1.921 3.355-3.789.793-2.152 2.457-3.507 3.711-3.02.692.255.743.946.309 3.122-.488 2.383-.563 4.61-.18 5.633.153.382.614 1.101 1.051 1.586.816.921.844 1.254.152 1.691-.332.23-.77.129-1.843-.46-1.485-.77-2.766-2.153-3.227-3.458l-.281-.766-1.024.766c-.59.41-1.511.871-2.047 1.023-2.125.563-4.738-.894-5.964-3.351-.489-.95-.641-3.738-.282-4.813.204-.59.204-.59-.617-.18-.433.231-1.355.485-2.07.563-1.18.13-1.36.258-2.535 1.742-1.664 2.07-4.61 4.864-5.813 5.454-2.558 1.277-3.402.918-4.07-1.72l-.461-1.765-1.102.973c-1.406 1.23-4.222 2.715-5.836 3.074-1.535.332-3.175-.156-3.84-1.18-.995-1.535-.663-4.785.922-9.164 1.176-3.25.333-3.3-2.636-.203-2.203 2.328-3.149 3.992-3.762 6.578-.64 2.688-1.41 3.66-3.148 4.07-1.051.231-1.54-.41-1.332-1.816l.152-1.129-.973.668c-1.383.946-3.125 1.817-4.328 2.149-1.203.332-2.789-.024-3.172-.692-.691-1.175-.691-1.175-1.765-.332-2.332 1.895-5.66 1.356-7.348-1.152l-.54-.793-1.687 1.562c-4.867 4.454-10.957 6.45-15.464 5.067-5.735-1.738-8.907-6.656-8.856-13.746.024-7.117 3.172-14.617 8.473-20.172 2.996-3.125 5.812-4.969 8.68-5.66 2.07-.512 3.328-.485 5.296.129zm0 0"/><path d="M90.418 58.676c-.563.562-.356 2.816.36 4.25.359.742.742 1.332.87 1.332.102 0 .332-.59.512-1.309.64-2.66-.512-5.504-1.742-4.273zm0 0"/></g>
         </svg>
       );
     case 'Claude':
@@ -324,7 +309,7 @@ const SkillLogo = ({ name, active }: { name: string; active: boolean }) => {
     case 'Problem-solving':
       return (
         <svg viewBox="0 0 132 32" className="h-full w-full" aria-hidden="true">
-          <text x="66" y="19" textAnchor="middle" fill={color} className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]" opacity={muted}>
+          <text x="66" y="20" textAnchor="middle" fill={color} className="font-mono text-[10.5px] font-black uppercase tracking-[0.14em]" opacity={muted}>
             {name}
           </text>
         </svg>
@@ -377,7 +362,7 @@ const Skills = () => {
       viewport={{ once: true, amount: 0.12 }}
     >
       <div className="absolute inset-0 -mx-4 bg-gradient-to-b from-pitch/20 via-pitch/10 to-transparent pointer-events-none sm:-mx-6" />
-      <div className="skill-dot-matrix absolute inset-x-0 top-24 h-[34rem] opacity-70 pointer-events-none" />
+      <div className="skill-dot-matrix absolute inset-x-0 top-24 h-[34rem] opacity-40 pointer-events-none" />
       <SectionDecoration className="top-12 right-4" />
       <SectionHeader num="02" title="Skills" />
 
@@ -418,7 +403,7 @@ const Skills = () => {
           ))}
         </div>
 
-        <div className="relative z-10 overflow-x-auto">
+        <div className="relative z-10">
           <div className="relative h-[42rem] min-w-[52rem] overflow-visible rounded-xl bg-transparent sm:h-[36rem] lg:min-w-0">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_52%,rgba(255,26,60,0.08)_0%,rgba(18,18,18,0.18)_32%,rgba(5,5,5,0)_72%)]" />
             <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -495,9 +480,19 @@ const Skills = () => {
                   key={node.name}
                   type="button"
                   aria-label={`${node.name}, ${categories[node.category].label}`}
-                  className={`group skill-node absolute flex flex-col items-center gap-2 text-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  className={`group skill-node absolute flex flex-col items-center gap-2 text-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                     selected ? 'z-30 skill-node-hot' : connected || hovered ? 'z-20' : 'z-10'
-                  } ${dimmed ? 'opacity-15 grayscale' : ambient ? 'opacity-80' : 'opacity-55'}`}
+                  } ${
+                    hovered
+                      ? 'opacity-100 grayscale-0'
+                      : dimmed
+                      ? 'opacity-15 grayscale'
+                      : selected
+                      ? 'opacity-100'
+                      : ambient
+                      ? 'opacity-85'
+                      : 'opacity-60'
+                  }`}
                   style={{
                     left: `${node.x}%`,
                     top: `${node.y}%`,
@@ -510,26 +505,26 @@ const Skills = () => {
                   whileTap={{ scale: 0.96 }}
                 >
                     <span
-                      className={`skill-logo-shell relative grid h-12 w-12 place-items-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:h-14 sm:w-14 ${
-                        selected
-                        ? 'drop-shadow-[0_0_8px_rgba(255,26,60,0.28)]'
-                        : connected || hovered
-                          ? 'drop-shadow-[0_0_4px_rgba(255,26,60,0.08)]'
-                        : 'drop-shadow-[0_0_10px_rgba(245,245,245,0.08)]'
-                    } ${isSoftSkill ? 'w-32 sm:w-36' : ''}`}
+                      className={`skill-logo-shell relative grid h-12 w-12 place-items-center transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:h-14 sm:w-14 rounded-full ${
+                        hovered
+                        ? 'drop-shadow-[0_0_12px_rgba(255,26,60,0.45)] border border-[#FF1A3C]/35 bg-white/[0.04]'
+                        : selected
+                          ? 'drop-shadow-[0_0_8px_rgba(255,26,60,0.25)] border border-[#FF1A3C]/15 bg-white/[0.02]'
+                        : 'drop-shadow-[0_0_4px_rgba(245,245,245,0.03)] border border-transparent'
+                    } ${isSoftSkill ? 'w-32 sm:w-36 rounded-md' : ''}`}
                   >
                     <span
-                      className={`absolute inset-[-0.65rem] rounded-full bg-[#FF1A3C] blur-xl transition-opacity duration-700 ${
-                        selected ? 'opacity-10' : connected || hovered ? 'opacity-[0.025]' : 'opacity-0'
+                      className={`absolute inset-[-1.2rem] rounded-full bg-[#FF1A3C]/25 blur-xl transition-all duration-500 ease-out ${
+                        hovered ? 'opacity-100 scale-110' : selected ? 'opacity-40 scale-100' : 'opacity-0 scale-75'
                       }`}
                     />
                     <span className={`relative ${isSoftSkill ? 'h-8 w-32 sm:w-36' : 'h-9 w-9 sm:h-11 sm:w-11'}`}>
-                      <SkillLogo name={node.name} active={!dimmed} />
+                      <SkillLogo name={node.name} active={!dimmed || hovered} />
                     </span>
                   </span>
                   <span
-                    className={`pointer-events-none min-h-[1.2rem] whitespace-nowrap font-mono text-[0.72rem] uppercase tracking-[0.2em] text-[#FF2E4D] drop-shadow-[0_0_8px_rgba(255,26,60,0.35)] transition-all duration-500 ${
-                      showLabel ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'
+                    className={`pointer-events-none min-h-[1rem] whitespace-nowrap font-mono text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white drop-shadow-[0_0_10px_rgba(255,26,60,0.95)] transition-all duration-500 ${
+                      showLabel ? 'translate-y-0 opacity-100 scale-105' : '-translate-y-1 opacity-0 scale-95'
                     }`}
                   >
                     {node.name}
