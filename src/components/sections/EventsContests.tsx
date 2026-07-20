@@ -17,7 +17,8 @@ const events: EventItem[] = [
     name: 'Nexus AI Hackathon',
     date: '2026',
     description: 'A 16-hour hackathon focused on shipping production-ready applications with real-time collaboration and cross-functional team building.',
-    hasCert: false
+    hasCert: true,
+    certFiles: ['/certificates/i.png']
   },
   {
     type: 'Coding Contest',
