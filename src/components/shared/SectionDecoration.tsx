@@ -1,11 +1,10 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 interface SectionDecorationProps {
   className?: string;
 }
 
-const SectionDecoration = React.memo(({ className = '' }: SectionDecorationProps) => (
+const SectionDecoration = ({ className = '' }: SectionDecorationProps) => (
   <motion.div
     className={`pointer-events-none absolute opacity-[0.035] ${className}`}
     animate={{ y: [0, -6, 0], rotate: [0, 1.5, 0] }}
@@ -21,8 +20,6 @@ const SectionDecoration = React.memo(({ className = '' }: SectionDecorationProps
       <line x1="28" y1="172" x2="172" y2="28" stroke="#E63946" strokeWidth="0.3" />
     </svg>
   </motion.div>
-));
-
-SectionDecoration.displayName = 'SectionDecoration';
+);
 
 export default SectionDecoration;

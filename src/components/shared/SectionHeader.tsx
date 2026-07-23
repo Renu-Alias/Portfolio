@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 interface SectionHeaderProps {
@@ -6,7 +5,7 @@ interface SectionHeaderProps {
   title: string;
 }
 
-const SectionHeader = React.memo(({ num, title }: SectionHeaderProps) => (
+const SectionHeader = ({ num, title }: SectionHeaderProps) => (
   <motion.div
     className="mb-8 sm:mb-12 lg:mb-16"
     variants={{
@@ -45,8 +44,6 @@ const SectionHeader = React.memo(({ num, title }: SectionHeaderProps) => (
       {title}
     </motion.h2>
   </motion.div>
-));
-
-SectionHeader.displayName = 'SectionHeader';
+);
 
 export default SectionHeader;
