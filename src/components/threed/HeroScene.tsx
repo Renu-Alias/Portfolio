@@ -27,7 +27,6 @@ function DotField({ count = 400 }) {
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
-    if (Math.floor(clock.getElapsedTime() * 30) % 2 !== 0) return;
     const attr = ref.current.geometry.attributes.position;
     const arr = attr.array as Float32Array;
     const t = clock.getElapsedTime();
@@ -71,7 +70,7 @@ const HeroScene = () => (
     gl={{ antialias: true, alpha: true }}
     style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
   >
-    <DotField count={800} />
+    <DotField count={500} />
   </Canvas>
 );
 

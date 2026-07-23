@@ -3,8 +3,8 @@ import { useRef, useMemo, useEffect, type RefObject } from 'react';
 import * as THREE from 'three';
 import { mouse, scrollState } from './shared';
 
-const WHITE_COUNT = 1200;
-const RED_COUNT = 200;
+const WHITE_COUNT = 800;
+const RED_COUNT = 120;
 
 /* ---- White particles (background atmosphere) ---- */
 function WhiteParticles() {
@@ -25,7 +25,6 @@ function WhiteParticles() {
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
-    if (Math.floor(clock.getElapsedTime() * 30) % 2 !== 0) return;
     const attr = ref.current.geometry.attributes.position;
     const array = attr.array as Float32Array;
     const progress = scrollState.progress;
@@ -76,7 +75,6 @@ function RedParticles() {
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
-    if (Math.floor(clock.getElapsedTime() * 30) % 2 !== 0) return;
     const attr = ref.current.geometry.attributes.position;
     const array = attr.array as Float32Array;
     const progress = scrollState.progress;

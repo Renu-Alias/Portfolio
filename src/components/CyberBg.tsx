@@ -72,7 +72,9 @@ const CyberBg = () => {
     let running = true;
     let time = 0;
     let mouseX = 0, mouseY = 0;
+    let smoothMX = 0, smoothMY = 0;
     let frameCount = 0;
+    let lastTime = 0;
 
     const isMobile = window.innerWidth < 768;
     const frameSkip = isMobile ? 3 : 1;
@@ -218,6 +220,8 @@ const CyberBg = () => {
 
     function frame(now: number) {
       if (!running) return;
+      const delta = lastTime ? (now - lastTime) / 1000 : 0.016;
+      lastTime = now;
       frameCount++;
       if (frameCount % (frameSkip + 1) !== 0) {
         animId = requestAnimationFrame(frame);
@@ -230,18 +234,19 @@ const CyberBg = () => {
       }
       lastFrameTime = now - (elapsed % frameInterval);
 
-      time += 0.001;
+      time += delta * 0.06;
+      const mx = mouseX || 0;
+      const my = mouseY || 0;
+      smoothMX += (mx - smoothMX) * 0.08;
+      smoothMY += (my - smoothMY) * 0.08;
 
       c.fillStyle = BG;
       c.fillRect(0, 0, w, h);
 
-      const mx = mouseX || 0;
-      const my = mouseY || 0;
-
       // Layer 4: Nebula
       for (const n of nebulas) {
-        n.x += n.vx + mx * 0.25;
-        n.y += n.vy + my * 0.12;
+        n.x += n.vx + smoothMX * 0.18;
+        n.y += n.vy + smoothMY * 0.10;
         const nr = n.radius;
         if (n.x < -nr) n.x = w + nr;
         if (n.x > w + nr) n.x = -nr;
@@ -259,8 +264,8 @@ const CyberBg = () => {
       // Layer 3: Orbit Rings
       for (const ring of rings) {
         ring.angle += ring.speed;
-        const rcx = ring.cx + mx * 2;
-        const rcy = ring.cy + my * 1.5;
+        const rcx = ring.cx + smoothMX * 1.5;
+        const rcy = ring.cy + smoothMY * 1.0;
 
         for (let i = 0; i < ring.dotCount; i++) {
           const a = (i / ring.dotCount) * Math.PI * 2 + ring.angle;
@@ -281,8 +286,8 @@ const CyberBg = () => {
 
       // Layer 1: Stars (fillRect instead of arc for speed)
       for (const s of stars) {
-        const sx = s.x + s.vx + mx * 0.5 * s.weight;
-        const sy = s.y + s.vy + my * 0.3 * s.weight;
+        const sx = s.x + s.vx + smoothMX * 0.3 * s.weight;
+        const sy = s.y + s.vy + smoothMY * 0.2 * s.weight;
         const flicker = 0.7 + 0.3 * Math.sin(time * 0.5 + s.phase);
         const alpha = s.baseAlpha * flicker;
         if (alpha < 0.003) continue;
@@ -296,7 +301,6 @@ const CyberBg = () => {
       // Layer 2: Pixel Squares (additive, independent random drift)
       c.save();
       c.globalCompositeOperation = 'lighter';
-      const sqMinDist = 8;
       for (const sq of squares) {
         sq.phase += sq.speed;
 
@@ -305,8 +309,8 @@ const CyberBg = () => {
         if (Math.random() < 0.006) sq.vy = rand(-0.018, 0.018);
         const driftX = Math.cos(sq.phase * sq.drift) * 0.024;
         const driftY = Math.sin(sq.phase * (sq.drift + 0.7)) * 0.024;
-        sq.y += sq.vy + driftY + rand(-0.004, 0.004) + my * sq.mouseWeight * 0.15;
-        sq.x += sq.vx + driftX + mx * sq.mouseWeight * 1.3;
+        sq.y += sq.vy + driftY + rand(-0.004, 0.004) + smoothMY * sq.mouseWeight * 0.10;
+        sq.x += sq.vx + driftX + smoothMX * sq.mouseWeight * 0.8;
 
         // Wrap instead of reset — seamless loop
         if (sq.y < -30) sq.y = h + rand(0, 40);
@@ -334,7 +338,7 @@ const CyberBg = () => {
         const emAlpha = (Math.sin(em.phase) * 0.5 + 0.5) * 0.12;
         em.y -= 0.02 + em.speed * 2.5;
         // Organic horizontal swaying + random mouse response
-        em.x += em.vx + Math.sin(em.phase * em.driftFreq) * 0.08 + mx * em.mouseWeight;
+        em.x += em.vx + Math.sin(em.phase * em.driftFreq) * 0.08 + smoothMX * em.mouseWeight * 0.6;
 
         if (em.y < -30) {
           em.x = rand(0, w * 0.35);
