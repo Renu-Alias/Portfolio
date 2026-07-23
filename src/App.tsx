@@ -30,11 +30,18 @@ function App() {
     window.addEventListener('resize', checkWidth);
 
     /* Scroll tracking for 3D scene */
+    let scrollTicking = false;
     const handleScroll = () => {
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      scrollState.progress = docHeight > 0 ? window.scrollY / docHeight : 0;
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          const docHeight = document.body.scrollHeight - window.innerHeight;
+          scrollState.progress = docHeight > 0 ? window.scrollY / docHeight : 0;
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       cancelAnimationFrame(id);

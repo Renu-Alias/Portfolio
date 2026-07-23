@@ -75,7 +75,10 @@ const CyberBg = () => {
     let frameCount = 0;
 
     const isMobile = window.innerWidth < 768;
-    const frameSkip = isMobile ? 2 : 0;
+    const frameSkip = isMobile ? 3 : 1;
+    let lastFrameTime = 0;
+    const targetFPS = isMobile ? 24 : 40;
+    const frameInterval = 1000 / targetFPS;
 
     let vignette: CanvasGradient | null = null;
 
@@ -107,7 +110,7 @@ const CyberBg = () => {
       clusterCenters[2] = { cx: w * 0.25, cy: h * 0.5 };
       clusterCenters[3] = { cx: w * 0.05, cy: h * 0.4 };
 
-      const density = isMobile ? 2000 : 1400;
+      const density = isMobile ? 3500 : 2200;
       const starCount = Math.floor((w * h) / density);
       stars = [];
       for (let i = 0; i < starCount; i++) {
@@ -126,7 +129,7 @@ const CyberBg = () => {
         });
       }
 
-      const sqDensity = isMobile ? 35000 : 20000;
+      const sqDensity = isMobile ? 55000 : 35000;
       const sqCount = Math.floor((w * h) / sqDensity);
       const sqMinDist = 12;
       squares = [];
@@ -169,7 +172,7 @@ const CyberBg = () => {
           radius: r,
           angle: rand(0, Math.PI * 2),
           speed: rand(0.00008, 0.00025) * (Math.random() < 0.5 ? 1 : -1),
-          dotCount: Math.floor(r * (isMobile ? 0.12 : 0.2)),
+          dotCount: Math.floor(r * (isMobile ? 0.06 : 0.1)),
           alpha: rand(0.015, 0.05),
           color: Math.random() < 0.2 ? RED : DARK,
         });
@@ -178,10 +181,9 @@ const CyberBg = () => {
       nebulas = [
         { x: w * 0.1, y: h * 0.3, radius: rand(250, 400), alpha: rand(0.025, 0.06), vx: rand(-0.015, 0.015), vy: rand(-0.01, 0.01) },
         { x: w * 0.05, y: h * 0.6, radius: rand(300, 500), alpha: rand(0.015, 0.04), vx: rand(0.01, 0.025), vy: rand(-0.012, 0.005) },
-        { x: w * 0.2, y: h * 0.8, radius: rand(200, 350), alpha: rand(0.015, 0.035), vx: rand(-0.01, 0.01), vy: rand(-0.015, 0) },
       ];
 
-      const emDensity = isMobile ? 70000 : 40000;
+      const emDensity = isMobile ? 110000 : 70000;
       const emberCount = Math.floor((w * h) / emDensity);
       embers = [];
       for (let i = 0; i < emberCount; i++) {
@@ -221,6 +223,12 @@ const CyberBg = () => {
         animId = requestAnimationFrame(frame);
         return;
       }
+      const elapsed = now - lastFrameTime;
+      if (elapsed < frameInterval) {
+        animId = requestAnimationFrame(frame);
+        return;
+      }
+      lastFrameTime = now - (elapsed % frameInterval);
 
       time += 0.001;
 
@@ -373,6 +381,7 @@ const CyberBg = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none select-none"
+      style={{ willChange: 'transform' }}
     />
   );
 };

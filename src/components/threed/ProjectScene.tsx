@@ -16,7 +16,7 @@ function TorusKnot() {
   });
   return (
     <mesh ref={ref}>
-      <torusKnotGeometry args={[1, 0.3, 64, 8]} />
+      <torusKnotGeometry args={[1, 0.3, 32, 8]} />
       <meshBasicMaterial color="#E63946" wireframe transparent opacity={0.25} />
     </mesh>
   );
@@ -46,7 +46,7 @@ function SphereWireframe() {
   });
   return (
     <mesh ref={ref}>
-      <sphereGeometry args={[1, 12, 12]} />
+      <sphereGeometry args={[1, 8, 8]} />
       <meshBasicMaterial color="#E63946" wireframe transparent opacity={0.15} />
     </mesh>
   );
@@ -61,7 +61,7 @@ function HeavyCage() {
   });
   return (
     <mesh ref={ref}>
-      <boxGeometry args={[1.5, 1.5, 1.5, 5, 5, 5]} />
+      <boxGeometry args={[1.5, 1.5, 1.5, 3, 3, 3]} />
       <meshBasicMaterial color="#E63946" wireframe transparent opacity={0.3} />
     </mesh>
   );
@@ -76,7 +76,7 @@ function HeavyTorus() {
   });
   return (
     <mesh ref={ref}>
-      <torusGeometry args={[0.8, 0.35, 24, 20]} />
+      <torusGeometry args={[0.8, 0.35, 12, 16]} />
       <meshBasicMaterial color="#E63946" wireframe transparent opacity={0.25} />
     </mesh>
   );

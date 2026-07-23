@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const STAR_COUNT = 300;
+const STAR_COUNT = 150;
 const DEFAULT_RADIUS = 260;
 const HOVER_RADIUS = 380;
 const LERP_SPEED = 0.06;
@@ -56,6 +56,7 @@ const Spotlight = () => {
   useEffect(() => {
     const onOver = () => { targetRadiusRef.current = HOVER_RADIUS; };
     const onOut = () => { targetRadiusRef.current = DEFAULT_RADIUS; };
+    let debounceTimer: ReturnType<typeof setTimeout>;
 
     const attach = () => {
       document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
@@ -65,11 +66,15 @@ const Spotlight = () => {
     };
     attach();
 
-    const observer = new MutationObserver(attach);
+    const observer = new MutationObserver(() => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(attach, 100);
+    });
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       observer.disconnect();
+      clearTimeout(debounceTimer);
       document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
         el.removeEventListener('mouseover', onOver);
         el.removeEventListener('mouseout', onOut);

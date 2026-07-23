@@ -91,3 +91,23 @@ body {
   height: 44px;
   object-fit: contain;
 }
+
+/* Performance optimizations */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+img {
+  content-visibility: auto;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
