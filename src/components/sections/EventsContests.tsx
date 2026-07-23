@@ -166,7 +166,11 @@ const EventsContests = () => {
         {/* Carousel track */}
         <div
           ref={scrollRef}
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseEnter={() => {
+            if (window.matchMedia('(hover: hover)').matches) {
+              setIsHovered(true);
+            }
+          }}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={() => setIsHovered(true)}
           onTouchEnd={() => setIsHovered(false)}

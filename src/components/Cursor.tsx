@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-const LERP = 0.08;
-const DOT_LERP = 0.18;
+const LERP = 0.22;
+const DOT_LERP = 0.45;
 const MAGNET_STRENGTH = 0.35;
 const MAX_PULL = 12;
 const interactiveSelectors = ['a', 'button', 'input', 'textarea', 'select', '[role="button"]', '[data-cursor-text]'];
@@ -110,39 +110,49 @@ const MagneticCursor = () => {
   }, []);
 
   useEffect(() => {
-    const onOver = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
-      const text = el.getAttribute('data-cursor-text') || 'GO';
-      labelTarget.current = text;
-      hoverTarget.current = el;
-      isHover.current = true;
-      setLabelText(text);
-      setShowLabel(true);
-    };
-    const onOut = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
-      el.classList.remove('magnet-active');
-      labelTarget.current = '';
-      hoverTarget.current = null;
-      isHover.current = false;
-      setShowLabel(false);
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const el = target.closest(interactiveSelectors.join(',')) as HTMLElement | null;
+      if (el) {
+        if (hoverTarget.current === el) return;
+        if (hoverTarget.current && hoverTarget.current !== el) {
+          hoverTarget.current.classList.remove('magnet-active');
+        }
+        const text = el.getAttribute('data-cursor-text') || 'GO';
+        labelTarget.current = text;
+        hoverTarget.current = el;
+        isHover.current = true;
+        setLabelText(text);
+        setShowLabel(true);
+      }
     };
 
-    const attach = () => {
-      document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
-        el.addEventListener('mouseover', onOver);
-        el.addEventListener('mouseout', onOut);
-      });
+    const handleMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const el = target.closest(interactiveSelectors.join(',')) as HTMLElement | null;
+      if (el && hoverTarget.current === el) {
+        const related = e.relatedTarget as HTMLElement | null;
+        if (related && el.contains(related)) {
+          return;
+        }
+        el.classList.remove('magnet-active');
+        labelTarget.current = '';
+        hoverTarget.current = null;
+        isHover.current = false;
+        setShowLabel(false);
+      }
     };
-    attach();
-    const observer = new MutationObserver(attach);
-    observer.observe(document.body, { childList: true, subtree: true });
+
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
     return () => {
-      observer.disconnect();
-      document.querySelectorAll(interactiveSelectors.join(',')).forEach((el) => {
-        el.removeEventListener('mouseover', onOver);
-        el.removeEventListener('mouseout', onOut);
-      });
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
+      if (hoverTarget.current) {
+        hoverTarget.current.classList.remove('magnet-active');
+      }
     };
   }, []);
 

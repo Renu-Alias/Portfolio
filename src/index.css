@@ -85,3 +85,9 @@ body {
     animation: none;
   }
 }
+
+.skill-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
