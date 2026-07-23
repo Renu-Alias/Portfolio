@@ -93,11 +93,6 @@ body {
 }
 
 /* Performance optimizations */
-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
-}
-
 img {
   content-visibility: auto;
 }
