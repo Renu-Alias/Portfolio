@@ -3,7 +3,7 @@ import { Suspense, lazy } from 'react';
 
 const HeroScene = lazy(() => import('../threed/HeroScene'));
 
-const nameLetters = 'RENU ALIA'.split('');
+const nameLetters = 'RENU ALIAS'.split('');
 
 const container = {
   hidden: {},
