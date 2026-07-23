@@ -85,7 +85,6 @@ const Footer = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.015] to-white/[0.025] pointer-events-none" />
       <motion.div
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[250px] w-[250px] sm:h-[350px] sm:w-[350px] md:h-[500px] md:w-[500px] rounded-full"
         style={{ background: 'radial-gradient(circle,rgba(230,57,70,0.12)_0%,transparent_60%)' }}
