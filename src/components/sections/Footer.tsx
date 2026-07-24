@@ -79,7 +79,7 @@ const Footer = () => {
   return (
     <motion.section
       id="contact"
-      className="relative mx-auto flex min-h-screen w-full max-w-container flex-col items-center justify-center px-4 sm:px-6"
+      className="relative w-full overflow-hidden px-4 sm:px-6"
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
@@ -92,7 +92,7 @@ const Footer = () => {
         transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="pointer-events-none absolute left-[15%] top-[65%] h-[180px] w-[180px] sm:h-[240px] sm:w-[240px] md:h-[300px] md:w-[300px] rounded-full"
+        className="pointer-events-none absolute left-[20%] top-[65%] h-[180px] w-[180px] sm:h-[240px] sm:w-[240px] md:h-[300px] md:w-[300px] rounded-full"
         style={{ background: 'radial-gradient(circle,rgba(230,57,70,0.06)_0%,transparent_60%)' }}
         animate={{ x: [0, 15, -8, 0], y: [0, -10, 8, 0], opacity: [0.4, 0.7, 0.4] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
@@ -104,7 +104,7 @@ const Footer = () => {
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      <div className="relative z-10 mx-auto max-w-4xl text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center justify-center text-center">
         <h2 className="font-display font-bold text-primary" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4.5rem)', lineHeight: '1.05', letterSpacing: '-0.02em' }}>
           LET&apos;S ARCHITECT
           <br />
